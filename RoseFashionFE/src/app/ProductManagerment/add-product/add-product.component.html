@@ -1,0 +1,44 @@
+<p>Thêm sản phẩm mới</p>
+<!--<p>Tên sản phẩm</p>
+<input type="text">
+<P>Màu sắc</P>
+<input type="color">
+<button>Thêm</button>
+<p>Kích thước</p>
+<input type="checkbox" name="sizeS" value="S">S
+<input type="checkbox" name="sizeM" value="M">M
+<input type="checkbox" name="sizeL" value="L">L
+<input type="checkbox" name="sizeXL" value="XL">XL
+<input type="checkbox" name="sizeXXL" value="XXL">XXL
+<p>Loại sản phẩm</p>
+<select name="category">
+        <option value="" selected>Hãy chọn 1 loại</option>
+        <option value="Áo sơ mi">Áo sơ mi</option>
+        <option value="Áo khoác">Áo khoác</option>
+        <option value="Áo thun">Áo thun</option>
+        <option value="Quần đùi">Quần đùi</option>
+        <option value="Quần tây">Quần tây</option>
+</select>
+<p>Mô tả</p>
+<textarea></textarea>
+<p>Giá</p>
+<input type="number" max="10">
+<p>Số lượng</p>
+<input type="number">-->
+<p>Ảnh</p>
+<input type="file" (change)="onSelectFile($event)">
+{{category.Name}}
+<button (click)="SaveImage()">Lưu ảnh</button>
+<p>Ảnh vừa thêm</p>
+<button (click)="GetImage()">Hiện ảnh</button>
+<img [src]="imgurl" height="200">
+
+<!--<select name="size">
+    <option value="" selected>Hãy chọn 1 size</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+    <option value="XXL">XXL</option>
+</select>
+<button>Thêm</button>-->

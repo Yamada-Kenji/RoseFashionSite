@@ -1,17 +1,21 @@
 <p>Thêm sản phẩm mới</p>
-<!--<p>Tên sản phẩm</p>
-<input type="text">
+<p>Tên sản phẩm</p>
+<input type="text" [(ngModel)]="newproduct.Name">
 <P>Màu sắc</P>
-<input type="color">
-<button>Thêm</button>
+<input type="color" [(ngModel)]="newproduct.Color">
 <p>Kích thước</p>
 <input type="checkbox" name="sizeS" value="S">S
 <input type="checkbox" name="sizeM" value="M">M
 <input type="checkbox" name="sizeL" value="L">L
 <input type="checkbox" name="sizeXL" value="XL">XL
 <input type="checkbox" name="sizeXXL" value="XXL">XXL
+<p>Loại khách hàng</p>
+<select name="maincategory">
+    <option>Nam</option>
+    <option>Nữ</option>
+</select>
 <p>Loại sản phẩm</p>
-<select name="category">
+<select name="category" [(ngModel)]="newproduct.CategoryID">
         <option value="" selected>Hãy chọn 1 loại</option>
         <option value="Áo sơ mi">Áo sơ mi</option>
         <option value="Áo khoác">Áo khoác</option>
@@ -20,18 +24,17 @@
         <option value="Quần tây">Quần tây</option>
 </select>
 <p>Mô tả</p>
-<textarea></textarea>
+<textarea [(ngModel)]="newproduct.Description"></textarea>
 <p>Giá</p>
-<input type="number" max="10">
+<input type="number" [(ngModel)]="newproduct.Price">
 <p>Số lượng</p>
-<input type="number">-->
+<input type="number" [(ngModel)]="newproduct.Quantity">
 <p>Ảnh</p>
 <input type="file" (change)="onSelectFile($event)">
-{{category.Name}}
-<button (click)="SaveImage()">Lưu ảnh</button>
-<p>Ảnh vừa thêm</p>
+<button (click)="show()">Lưu</button>
+<!--<p>Ảnh vừa thêm</p>
 <button (click)="GetImage()">Hiện ảnh</button>
-<img [src]="imgurl" height="200">
+<img [src]="imgurl" height="200">-->
 
 <!--<select name="size">
     <option value="" selected>Hãy chọn 1 size</option>
@@ -40,5 +43,4 @@
     <option value="L">L</option>
     <option value="XL">XL</option>
     <option value="XXL">XXL</option>
-</select>
-<button>Thêm</button>-->
+</select>-->

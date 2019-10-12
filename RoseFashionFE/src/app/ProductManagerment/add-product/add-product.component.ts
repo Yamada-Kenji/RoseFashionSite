@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
-import { CategoryModel } from 'src/app/model';
+import { CategoryModel, ProductModel } from 'src/app/model';
 
 @Component({
   selector: 'app-add-product',
@@ -9,11 +9,13 @@ import { CategoryModel } from 'src/app/model';
 })
 export class AddProductComponent implements OnInit {
 
+  newproduct: ProductModel = new ProductModel();
   category: CategoryModel = new CategoryModel();
   imgurl='';
   constructor(private productService: ProductService) { }
 
   ngOnInit() {
+
   }
 
   //nguồn tham khảo https://stackblitz.com/edit/angular-file-upload-preview?file=app%2Fapp.component.html
@@ -24,9 +26,15 @@ export class AddProductComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]); // read file as data url
 
       reader.onload = (event) => { // called once readAsDataURL is completed
-        this.category.Name = event.target.result.toString();
+        this.newproduct.Image = reader.result.toString();
       }
     }
+  }
+
+  
+
+  show(){
+    console.log(this.newproduct);
   }
 
   async SaveImage(){

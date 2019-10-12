@@ -35,5 +35,43 @@ namespace RoseFashionBE.Controllers
                 return Ok(entity.Categories.Where(c => c.CategoryID == id).Select(c => c.Name).FirstOrDefault());
             }
         }
+
+        [HttpPost]
+        public IHttpActionResult AddProduct(ProductModel newproduct)
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    for (int i = 0; i < newproduct.Size.Count(); i++)
+                    {
+                        entity.Products.Add(new Product
+                        {
+                            ProductID = "PR-" + (entity.Products.Count() + 1),
+                            Name = newproduct.Name,
+                            Color = newproduct.Color,
+                            Size = newproduct.Size[i],
+                            CategoryID = newproduct.CategoryID,
+                            Description = newproduct.Description,
+                            Quantity = newproduct.Quantity,
+                            Image = newproduct.Image,
+                            Price = newproduct.Prices
+                        });
+                    }
+                    entity.SaveChanges();
+                    return Ok("Add new product successfully.");
+                }                
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetProductDetail()
+        {
+            return Ok();
+        }
     }
 }

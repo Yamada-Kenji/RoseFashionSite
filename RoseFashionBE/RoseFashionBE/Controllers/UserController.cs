@@ -24,6 +24,7 @@ namespace RoseFashionBE.Controllers
                 }).ToList());          
             }
         }
+
         [HttpPost]
         public IHttpActionResult Register(UserModel user)
         {
@@ -46,8 +47,8 @@ namespace RoseFashionBE.Controllers
                         Role = user.Role,
                     });
                     entity.SaveChanges();
+                    return Ok("Register successfully.");
                 }
-                return Ok("Register successfully.");
             }
             catch(Exception ex)
             {

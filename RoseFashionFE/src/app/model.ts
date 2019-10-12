@@ -10,6 +10,18 @@ export class UserModel{
     Role: string;
 }
 
+export class ProductModel{
+    ProductID: string;
+    Name: string;
+    Color: string;
+    Size: string[];
+    CategoryID: string;
+    Description: string;
+    Quantity: number;
+    Image: string;
+    Price: number;
+}
+
 export class CategoryModel{
     CategoryID: string;
     Name: string;

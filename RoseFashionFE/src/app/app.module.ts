@@ -5,11 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './UserManagerment/register/register.component';
 import { LoginComponent } from './UserManagerment/login/login.component';
-import { UserService } from './UserManagerment/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AddProductComponent } from './ProductManagerment/add-product/add-product.component';
-import { ProductService } from './ProductManagerment/product.service';
+import { UserService, ProductService, CategoryService } from './services';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,7 @@ import { ProductService } from './ProductManagerment/product.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [UserService, ProductService],
+  providers: [UserService, ProductService, CategoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

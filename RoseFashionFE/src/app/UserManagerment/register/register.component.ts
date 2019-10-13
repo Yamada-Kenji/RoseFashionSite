@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserModel } from 'src/app/model';
-import { UserService } from '../user.service';
+import { UserService } from 'src/app/services';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register(){
-    this.userService.register(this.newuser);
+    this.userService.Register(this.newuser);
   }
   asd(){
     console.log(this.newuser);

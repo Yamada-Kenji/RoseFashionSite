@@ -4,24 +4,20 @@
 <P>Màu sắc</P>
 <input type="color" [(ngModel)]="newproduct.Color">
 <p>Kích thước</p>
-<input type="checkbox" name="sizeS" value="S">S
-<input type="checkbox" name="sizeM" value="M">M
-<input type="checkbox" name="sizeL" value="L">L
-<input type="checkbox" name="sizeXL" value="XL">XL
-<input type="checkbox" name="sizeXXL" value="XXL">XXL
+<div *ngFor="let opt of sizes" style="display: inline;">
+    <input type="checkbox" value="{{opt.name}}" [(ngModel)]="opt.checked">{{opt.name}}
+</div>
 <p>Loại khách hàng</p>
-<select name="maincategory">
-    <option>Nam</option>
-    <option>Nữ</option>
+<select [(ngModel)]="selectedmaincategory">
+    <ng-container *ngFor="let category of categorylist">
+        <option *ngIf="category.MainCategory==null" value="{{category.CategoryID}}">{{category.Name}}</option>
+    </ng-container>
 </select>
 <p>Loại sản phẩm</p>
 <select name="category" [(ngModel)]="newproduct.CategoryID">
-        <option value="" selected>Hãy chọn 1 loại</option>
-        <option value="Áo sơ mi">Áo sơ mi</option>
-        <option value="Áo khoác">Áo khoác</option>
-        <option value="Áo thun">Áo thun</option>
-        <option value="Quần đùi">Quần đùi</option>
-        <option value="Quần tây">Quần tây</option>
+    <ng-container *ngFor="let category of categorylist">
+        <option *ngIf="category.MainCategory==selectedmaincategory" value="{{category.CategoryID}}">{{category.Name}}</option>
+    </ng-container>
 </select>
 <p>Mô tả</p>
 <textarea [(ngModel)]="newproduct.Description"></textarea>
@@ -31,7 +27,7 @@
 <input type="number" [(ngModel)]="newproduct.Quantity">
 <p>Ảnh</p>
 <input type="file" (change)="onSelectFile($event)">
-<button (click)="show()">Lưu</button>
+<button (click)="GetSelectedSize()">Lưu</button>
 <!--<p>Ảnh vừa thêm</p>
 <button (click)="GetImage()">Hiện ảnh</button>
 <img [src]="imgurl" height="200">-->

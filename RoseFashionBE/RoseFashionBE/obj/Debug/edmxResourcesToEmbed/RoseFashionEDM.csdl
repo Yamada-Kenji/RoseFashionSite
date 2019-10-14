@@ -63,7 +63,7 @@
     <Property Name="CategoryID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Quantity" Type="Int32" Nullable="false" />
-    <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Price" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Cart_Product" Relationship="Self.FK_Cart_Product_Product" FromRole="Product" ToRole="Cart_Product" />
     <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />

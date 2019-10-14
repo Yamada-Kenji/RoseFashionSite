@@ -9,7 +9,7 @@ import { ProductService, CategoryService } from 'src/app/services';
 })
 export class AddProductComponent implements OnInit {
 
-  newproduct: ProductModel = new ProductModel();
+  product: ProductModel = {ProductID:'', Name:'', Color:'#000000', Size:[]=[], CategoryID:'', Description:'', Quantity:0, Image:'https://cdn1.iconfinder.com/data/icons/social-17/48/photos2-512.png', Price:0};
   categorylist: CategoryModel[] = [];
   selectedmaincategory: string;
   sizes = [
@@ -36,7 +36,7 @@ export class AddProductComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]); // read file as data url
 
       reader.onload = (event) => { // called once readAsDataURL is completed
-        this.newproduct.Image = reader.result.toString();
+        this.product.Image = reader.result.toString();
       }
     }
   }
@@ -44,11 +44,13 @@ export class AddProductComponent implements OnInit {
   
 
   show(){
-    console.log(this.newproduct);
+    console.log(this.product);
   }
 
   async AddProduct(){
-    await this.productService.AddProduct(this.newproduct).toPromise();
+    this.GetSelectedSize();
+    console.log(this.product);
+    await this.productService.AddProduct(this.product).toPromise();
   }
 
   async GetAllCategory(){
@@ -56,7 +58,7 @@ export class AddProductComponent implements OnInit {
   }
 
   GetSelectedSize(){
-    this.newproduct.Size = this.sizes.filter(opt => opt.checked).map(opt => opt.name);
-    console.log(this.newproduct);
+    this.product.Size = this.sizes.filter(opt => opt.checked).map(opt => opt.name);
+    console.log(this.product);
   }
 }

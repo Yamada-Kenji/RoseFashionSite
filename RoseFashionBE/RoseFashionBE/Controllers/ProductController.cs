@@ -13,30 +13,6 @@ namespace RoseFashionBE.Controllers
     public class ProductController : ApiController
     {
         [HttpPost]
-        public IHttpActionResult SaveImage(CategoryModel category)
-        {
-            using(var entity = new RoseFashionDBEntities())
-            {
-                entity.Categories.Add(new Category()
-                {
-                    CategoryID = (entity.Categories.Count() + 1).ToString(),
-                    Name = category.Name
-                });
-                entity.SaveChanges();
-                return Ok("Save image successfully.");
-            }            
-        }
-
-        [HttpGet]
-        public IHttpActionResult GetImage(string id)
-        {
-            using (var entity = new RoseFashionDBEntities())
-            {
-                return Ok(entity.Categories.Where(c => c.CategoryID == id).Select(c => c.Name).FirstOrDefault());
-            }
-        }
-
-        [HttpPost]
         public IHttpActionResult AddProduct(ProductModel newproduct)
         {
             try
@@ -55,10 +31,10 @@ namespace RoseFashionBE.Controllers
                             Description = newproduct.Description,
                             Quantity = newproduct.Quantity,
                             Image = newproduct.Image,
-                            Price = newproduct.Prices
+                            Price = newproduct.Price
                         });
+                        entity.SaveChanges();
                     }
-                    entity.SaveChanges();
                     return Ok("Add new product successfully.");
                 }                
             }

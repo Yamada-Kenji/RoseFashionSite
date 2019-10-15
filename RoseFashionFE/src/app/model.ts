@@ -17,7 +17,7 @@ export class ProductModel{
     Size: string[] = [];
     CategoryID: string;
     Description: string;
-    Quantity: number;
+    Quantity: number[] = [];
     Image: string;
     Price: number;
 }

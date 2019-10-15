@@ -29,7 +29,7 @@ namespace RoseFashionBE.Controllers
                             Size = newproduct.Size[i],
                             CategoryID = newproduct.CategoryID,
                             Description = newproduct.Description,
-                            Quantity = newproduct.Quantity,
+                            //Quantity = newproduct.Quantity,
                             Image = newproduct.Image,
                             Price = newproduct.Price
                         });
@@ -45,9 +45,42 @@ namespace RoseFashionBE.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetProductDetail()
+        public IHttpActionResult GetProductDetail(string pid)
         {
-            return Ok();
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    string[] a = new string[] { "a","b" };
+                    ProductModel result = null;
+                    result = entity.Products.Where(p => p.ProductID == pid)
+                        .Select(p => new ProductModel()
+                        {
+                            ProductID = p.ProductID,
+                            Name = p.Name,
+                            Color = p.Color,
+                            CategoryID = p.CategoryID,
+                            Description = p.Description,
+                            Price = p.Price,
+                    }).FirstOrDefault();
+                    if (result == null) return BadRequest("Product not found.");
+                    else
+                    {
+                        result.Size = entity.Products.Where(p => p.Name == result.Name && p.Color == result.Color).Select(p => p.Size).ToArray();
+                        result.Quantity = new int[result.Size.Count()];
+                        for (int i = 0; i < result.Size.Count(); i++)
+                        {
+                            string size = result.Size[i];
+                            result.Quantity[i] = entity.Products.Where(p => p.Name == result.Name && p.Color == result.Color && p.Size == size).Select(p => p.Quantity).FirstOrDefault();
+                        }
+                        return Ok(result);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
     }
 }

@@ -9,15 +9,15 @@ import { ProductService, CategoryService } from 'src/app/services';
 })
 export class AddProductComponent implements OnInit {
 
-  product: ProductModel = {ProductID:'', Name:'', Color:'#000000', Size:[]=[], CategoryID:'', Description:'', Quantity:0, Image:'https://cdn1.iconfinder.com/data/icons/social-17/48/photos2-512.png', Price:0};
+  product: ProductModel = {ProductID:'', Name:'', Color:'#000000', Size:[]=[], CategoryID:'', Description:'', Quantity:[]=[], Image:'', Price:0};
   categorylist: CategoryModel[] = [];
-  selectedmaincategory: string;
+  selectedmaincategory: string="";
   sizes = [
-    {name:'S', checked:false},
-    {name:'M', checked:false},
-    {name:'L', checked:false},
-    {name:'XL', checked:false},
-    {name:'XXL', checked:false}
+    {name:'S', quantity: 0, checked:false},
+    {name:'M', quantity: 0, checked:false},
+    {name:'L', quantity: 0, checked:false},
+    {name:'XL', quantity: 0, checked:false},
+    {name:'XXL', quantity: 0, checked:false}
   ]
 
   constructor(private productService: ProductService, private categoryService: CategoryService) { }
@@ -39,6 +39,9 @@ export class AddProductComponent implements OnInit {
         this.product.Image = reader.result.toString();
       }
     }
+    else{
+      this.product.Image='';
+    }
   }
 
   
@@ -48,17 +51,18 @@ export class AddProductComponent implements OnInit {
   }
 
   async AddProduct(){
-    this.GetSelectedSize();
+    this.GetSelectedSizeAndQuantity();
     console.log(this.product);
-    await this.productService.AddProduct(this.product).toPromise();
+    //await this.productService.AddProduct(this.product).toPromise();
   }
 
   async GetAllCategory(){
     await this.categoryService.GetAllCategory().toPromise().then(result => this.categorylist = result);
   }
 
-  GetSelectedSize(){
+  GetSelectedSizeAndQuantity(){
     this.product.Size = this.sizes.filter(opt => opt.checked).map(opt => opt.name);
+    this.product.Quantity = this.sizes.filter(opt => opt.checked).map(opt => opt.quantity);
     console.log(this.product);
   }
 }

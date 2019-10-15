@@ -1,0 +1,11 @@
+label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+  }
+input[type=checkbox] {
+    width: 35px; 
+    height: 35px;
+    vertical-align: middle;
+    position: relative;
+  }

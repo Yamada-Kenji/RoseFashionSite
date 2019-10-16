@@ -126,7 +126,7 @@ namespace RoseFashionBE.Controllers
             }
         }
 
-        /*[HttpGet]
+        [HttpGet]
         public IHttpActionResult GetProductDetail(string pid)
         {
             try
@@ -140,6 +140,7 @@ namespace RoseFashionBE.Controllers
                             ProductID = p.ProductID,
                             Name = p.Name,
                             Color = p.Color,
+                            Image = p.Image,
                             CategoryID = p.CategoryID,
                             Description = p.Description,
                             Price = p.Price,
@@ -147,14 +148,37 @@ namespace RoseFashionBE.Controllers
                     if (result == null) return BadRequest("Product not found.");
                     else
                     {
+                        //mảng dùng để sắp xếp size và số lượng
+                        string[] sizeorder = new string[] { "S", "M", "L", "XL", "XXL" };
+
                         //tìm các size của sản phẩm và số lượng tương ứng với mỗi size 
-                        result.Size = entity.Products.Where(p => p.Name == result.Name && p.Color == result.Color).Select(p => p.Size).ToArray();
-                        result.Quantity = new int[result.Size.Count()];
-                        for (int i = 0; i < result.Size.Count(); i++)
-                        {
-                            string size = result.Size[i];
-                            result.Quantity[i] = entity.Products.Where(p => p.Name == result.Name && p.Color == result.Color && p.Size == size).Select(p => p.Quantity).FirstOrDefault();
+                        result.Size = entity.Product_Size_Quantity.Where(p => p.ProductID == pid)
+                            .Select(p => p.Size).ToArray();
+                        result.Quantity = entity.Product_Size_Quantity.Where(p => p.ProductID == pid)                          
+                            .Select(p => p.Quantity).ToArray();
+
+                        //tạo list lưu vị trí của từng phần tử của mảng sizeorder trong mảng product.Size vừa tìm được
+                        //vd: product.Size = [M, L, S, X, XXL] thì phần tử sizeorder[0] = S sẽ có index là 2 
+                        //==> indexarr     = [2, 0, 1, 3, 4]
+                        List<int> indexarr = new List<int>();
+                        for (int i = 0; i < sizeorder.Count(); i++)
+                        {                            
+                            indexarr.Add(Array.IndexOf(sizeorder, result.Size[i]));
                         }
+
+                        //tạo mảng tạm để lưu giá trị hiện tại của mảng product.Size 
+                        int[] temp = new int[sizeorder.Count()];
+                        Array.Copy(result.Quantity, temp, sizeorder.Count());
+                        //sắp xếp lại giá trị quantity theo thứ tự của mảng indexarr
+                        //result.Quantity[0] sẽ chứa số lượng của size S 
+                        //nhưng theo indexarr thì vị trí chứa số lượng của size S hiện tại đang nằm ở index = 2
+                        //==> result.Quantity[0] = temp[2]
+                        for (int i = 0; i < temp.Count(); i++)
+                        {
+                            result.Quantity[i] = temp[indexarr[i]];
+                        }
+                        //sắp xếp giá trị của mảng product.Size theo mảng sizeorder
+                        result.Size = result.Size.OrderBy(s => Array.IndexOf(sizeorder, s)).ToArray();
                         return Ok(result);
                     }
                 }
@@ -163,6 +187,6 @@ namespace RoseFashionBE.Controllers
             {
                 return InternalServerError(ex);
             }
-        }*/
+        }
     }
 }

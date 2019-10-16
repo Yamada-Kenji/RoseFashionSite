@@ -23,6 +23,11 @@ export class ProductService{
     AddProduct(newproduct: ProductModel): Observable<any>{
         return this.http.post(this.producturl, newproduct, httpOptions);
     }
+
+    GetProductDetail(id: string): Observable<ProductModel>{
+        const editedurl = `${this.producturl}?pid=${id}`;
+        return this.http.get<ProductModel>(editedurl);
+    } 
 }
 
 export class CategoryService{

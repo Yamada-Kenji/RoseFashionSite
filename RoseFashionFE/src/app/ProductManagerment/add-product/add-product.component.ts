@@ -24,7 +24,15 @@ export class AddProductComponent implements OnInit {
 
   async ngOnInit() {
     await this.GetAllCategory();
-    console.log(this.categorylist);
+    await this.productService.GetProductDetail('PR-2').toPromise().then(p => this.product=p);
+
+    var i:number=0;
+    for(i;i<this.categorylist.length;i++){
+      if(this.categorylist[i].CategoryID==this.product.CategoryID){
+        this.selectedmaincategory = this.categorylist[i].MainCategory; break;
+      }
+    }
+    console.log(this.selectedmaincategory);
   }
 
   // đọc dữ liệu file ảnh sang dạng url

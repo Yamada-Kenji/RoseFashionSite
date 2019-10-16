@@ -9,7 +9,7 @@ import { ProductService, CategoryService } from 'src/app/services';
 })
 export class AddProductComponent implements OnInit {
 
-  product: ProductModel = {ProductID:'', Name:'', Color:'#000000', Size:[]=[], CategoryID:'', Description:'', Quantity:[]=[], Image:'', Price:0};
+  product: ProductModel = {ProductID:'', Name:'', Color:'#000000', Size:[]=['S','M','L','XL','XXL'], CategoryID:'', Description:'', Quantity:[]=[0,0,0,0,0], Image:'', Price:0};
   categorylist: CategoryModel[] = [];
   selectedmaincategory: string="";
   sizes = [
@@ -51,9 +51,8 @@ export class AddProductComponent implements OnInit {
   }
 
   async AddProduct(){
-    this.GetSelectedSizeAndQuantity();
     console.log(this.product);
-    //await this.productService.AddProduct(this.product).toPromise();
+    await this.productService.AddProduct(this.product).toPromise().then(m => console.log(m));
   }
 
   async GetAllCategory(){

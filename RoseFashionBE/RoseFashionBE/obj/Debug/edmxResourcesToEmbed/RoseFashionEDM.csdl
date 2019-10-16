@@ -59,15 +59,25 @@
     <Property Name="ProductID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="CategoryID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Quantity" Type="Int32" Nullable="false" />
     <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="Available" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Cart_Product" Relationship="Self.FK_Cart_Product_Product" FromRole="Product" ToRole="Cart_Product" />
     <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="Product_Size_Quantity" Relationship="Self.FK_Product_Size_Quantity_Product" FromRole="Product" ToRole="Product_Size_Quantity" />
     <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_Product" FromRole="Product" ToRole="Rating" />
+  </EntityType>
+  <EntityType Name="Product_Size_Quantity">
+    <Key>
+      <PropertyRef Name="ProductID" />
+      <PropertyRef Name="Size" />
+    </Key>
+    <Property Name="ProductID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Product_Size_Quantity_Product" FromRole="Product_Size_Quantity" ToRole="Product" />
   </EntityType>
   <EntityType Name="Rating">
     <Key>
@@ -178,6 +188,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Product_Size_Quantity_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Product_Size_Quantity" Type="Self.Product_Size_Quantity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Product_Size_Quantity">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Rating_Product">
     <End Role="Product" Type="Self.Product" Multiplicity="1" />
     <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
@@ -209,6 +231,7 @@
     <EntitySet Name="Categories" EntityType="Self.Category" />
     <EntitySet Name="Discounts" EntityType="Self.Discount" />
     <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Product_Size_Quantity" EntityType="Self.Product_Size_Quantity" />
     <EntitySet Name="Ratings" EntityType="Self.Rating" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="Users" EntityType="Self.User" />
@@ -235,6 +258,10 @@
     <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
       <End Role="Category" EntitySet="Categories" />
       <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Size_Quantity_Product" Association="Self.FK_Product_Size_Quantity_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Product_Size_Quantity" EntitySet="Product_Size_Quantity" />
     </AssociationSet>
     <AssociationSet Name="FK_Rating_Product" Association="Self.FK_Rating_Product">
       <End Role="Product" EntitySet="Products" />

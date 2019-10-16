@@ -54,12 +54,20 @@
           <ScalarProperty Name="ProductID" ColumnName="ProductID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Color" ColumnName="Color" />
-          <ScalarProperty Name="Size" ColumnName="Size" />
           <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
           <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="Image" ColumnName="Image" />
           <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Available" ColumnName="Available" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product_Size_Quantity">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Product_Size_Quantity">
+        <MappingFragment StoreEntitySet="Product_Size_Quantity">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

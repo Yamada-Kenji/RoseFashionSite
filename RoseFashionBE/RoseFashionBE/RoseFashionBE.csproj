@@ -132,8 +132,8 @@
     <Content Include="Global.asax" />
     <Content Include="RoseFashionEDM.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>RoseFashionEDM.Context.cs</LastGenOutput>
       <DependentUpon>RoseFashionEDM.edmx</DependentUpon>
+      <LastGenOutput>RoseFashionEDM.Context.cs</LastGenOutput>
     </Content>
     <Content Include="RoseFashionEDM.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -171,6 +171,9 @@
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Product.cs">
+      <DependentUpon>RoseFashionEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Product_Size_Quantity.cs">
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryModel, ProductModel } from 'src/app/model';
+import { ProductModel, CategoryModel } from 'src/app/model';
 import { ProductService, CategoryService } from 'src/app/services';
-import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-add-product',
-  templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.css']
+  selector: 'app-add-product-to-cart',
+  templateUrl: './add-product-to-cart.component.html',
+  styleUrls: ['./add-product-to-cart.component.css']
 })
-export class AddProductComponent implements OnInit {
-
+export class AddProductToCartComponent implements OnInit {
   product: ProductModel = {ProductID:'', Name:'', Color:'#000000', Size:[]=['S','M','L','XL','XXL'], CategoryID:'', Description:'', Quantity:[]=[0,0,0,0,0], Image:'', Price:0};
   categorylist: CategoryModel[] = [];
   selectedmaincategory: string="";
@@ -23,16 +22,23 @@ export class AddProductComponent implements OnInit {
 
   constructor(private productService: ProductService, 
     private categoryService: CategoryService,
+    private route: ActivatedRoute,
     private location: Location) { }
 
   ngOnInit() {
+    var productid = this.route.snapshot.paramMap.get('productid');
     this.GetAllCategory();
+    this.productService.GetProductDetail(productid).toPromise().then(p =>{
+      this.product = p;
+      this.SetCategory();
+    });
   }
 
   // đọc dữ liệu file ảnh sang dạng url
   //nguồn tham khảo https://stackblitz.com/edit/angular-file-upload-preview?file=app%2Fapp.component.html
   onSelectFile(event) {
     if (event.target.files && event.target.files[0]) {
+      console.log('adafafafafa');
       var reader = new FileReader();
 
       reader.readAsDataURL(event.target.files[0]); // read file as data url
@@ -41,36 +47,18 @@ export class AddProductComponent implements OnInit {
         this.product.Image = reader.result.toString();
       }
     }
-    else{
-      this.product.Image='';
-    }
-  }
-
-  
-
-  show(){
-    console.log(this.product);
-  }
-
-  Cancel(){
-    if(confirm('Bạn có muốn hủy toàn bộ thay đổi đã thực hiện tại trang này không?')){
-      this.location.back();
-    }
-  }
-
-  async AddProduct(){
-    await this.productService.AddProduct(this.product).toPromise().then(msg => alert(msg));
-    this.location.back();
   }
 
   async GetAllCategory(){
     await this.categoryService.GetAllCategory().toPromise().then(result => this.categorylist = result);
   }
 
-  GetSelectedSizeAndQuantity(){
-    this.product.Size = this.sizes.filter(opt => opt.checked).map(opt => opt.name);
-    this.product.Quantity = this.sizes.filter(opt => opt.checked).map(opt => opt.quantity);
+  SetCategory(){
+    var i:number=0;
+    for(i;i<this.categorylist.length;i++){
+      if(this.categorylist[i].CategoryID==this.product.CategoryID){
+        this.selectedmaincategory = this.categorylist[i].MainCategory; break;
+      }
+    }
   }
-
-
 }

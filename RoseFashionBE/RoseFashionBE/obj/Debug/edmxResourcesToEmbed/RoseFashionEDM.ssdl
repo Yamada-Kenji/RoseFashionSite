@@ -54,7 +54,7 @@
     <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="Image" Type="varchar(max)" Nullable="false" />
     <Property Name="Price" Type="int" Nullable="false" />
-    <Property Name="Available" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Product_Size_Quantity">
     <Key>

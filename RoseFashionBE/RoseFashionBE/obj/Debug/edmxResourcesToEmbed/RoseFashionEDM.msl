@@ -1,111 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="RoseFashionDBModelStoreContainer" CdmEntityContainer="RoseFashionDBEntities">
-    <EntitySetMapping Name="Bills">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Bill">
-        <MappingFragment StoreEntitySet="Bill">
-          <ScalarProperty Name="BillID" ColumnName="BillID" />
-          <ScalarProperty Name="CartID" ColumnName="CartID" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
-          <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Carts">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Cart">
-        <MappingFragment StoreEntitySet="Cart">
-          <ScalarProperty Name="CartID" ColumnName="CartID" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="IsUsing" ColumnName="IsUsing" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Cart_Product">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Cart_Product">
-        <MappingFragment StoreEntitySet="Cart_Product">
-          <ScalarProperty Name="CartID" ColumnName="CartID" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="Amount" ColumnName="Amount" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Categories">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Category">
-        <MappingFragment StoreEntitySet="Category">
-          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="MainCategory" ColumnName="MainCategory" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Discounts">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Discount">
-        <MappingFragment StoreEntitySet="Discount">
-          <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
-          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-          <ScalarProperty Name="Value" ColumnName="Value" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Products">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
-        <MappingFragment StoreEntitySet="Product">
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Color" ColumnName="Color" />
-          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Image" ColumnName="Image" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="Available" ColumnName="Available" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Product_Size_Quantity">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Product_Size_Quantity">
-        <MappingFragment StoreEntitySet="Product_Size_Quantity">
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="Size" ColumnName="Size" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Ratings">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Rating">
-        <MappingFragment StoreEntitySet="Rating">
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="Comment" ColumnName="Comment" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.sysdiagram">
-        <MappingFragment StoreEntitySet="sysdiagrams">
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="definition" ColumnName="definition" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Users">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.User">
-        <MappingFragment StoreEntitySet="User">
-          <ScalarProperty Name="Username" ColumnName="Username" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="FullName" ColumnName="FullName" />
-          <ScalarProperty Name="Gender" ColumnName="Gender" />
-          <ScalarProperty Name="DOB" ColumnName="DOB" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="Role" ColumnName="Role" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="RoseFashionDBModel.Store.sp_alterdiagram" />
     <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="RoseFashionDBModel.Store.sp_creatediagram" />
     <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="RoseFashionDBModel.Store.sp_dropdiagram" />
@@ -130,5 +25,110 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="RoseFashionDBModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="RoseFashionDBModel.Store.sp_upgraddiagrams" />
+    <EntitySetMapping Name="Bills">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Bill">
+        <MappingFragment StoreEntitySet="Bill">
+          <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+          <ScalarProperty Name="BillID" ColumnName="BillID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Carts">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Cart">
+        <MappingFragment StoreEntitySet="Cart">
+          <ScalarProperty Name="IsUsing" ColumnName="IsUsing" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cart_Product">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Cart_Product">
+        <MappingFragment StoreEntitySet="Cart_Product">
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="MainCategory" ColumnName="MainCategory" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Discounts">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Discount">
+        <MappingFragment StoreEntitySet="Discount">
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product_Size_Quantity">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Product_Size_Quantity">
+        <MappingFragment StoreEntitySet="Product_Size_Quantity">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ratings">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Rating">
+        <MappingFragment StoreEntitySet="Rating">
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

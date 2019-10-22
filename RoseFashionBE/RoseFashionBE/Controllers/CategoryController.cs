@@ -9,7 +9,7 @@ using System.Web.Http.Cors;
 
 namespace RoseFashionBE.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]  
     public class CategoryController : ApiController
     {
         [HttpGet]
@@ -41,5 +41,51 @@ namespace RoseFashionBE.Controllers
                 return Ok(result);
             }
         }
+
+        [HttpPost]
+        public IHttpActionResult AddCategory(CategoryModel newcategory)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    entity.Categories.Add(new Category()
+                    {
+                        CategoryID = "Cata" + (entity.Categories.Count() + 1),
+                        Name = newcategory.Name,
+                        MainCategory = newcategory.MainCategory
+                    });
+                    entity.SaveChanges();
+                    return Ok("Add new category successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPut]
+        public IHttpActionResult EditCategory(CategoryModel updatecategory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data.");
+            }
+            using (var entity = new RoseFashionDBEntities())
+            {
+                var IDCategory = entity.Categories.Where(c => c.CategoryID.Equals(updatecategory.CategoryID)).FirstOrDefault();
+                if (IDCategory != null)
+                {
+                    IDCategory.Name = updatecategory.Name;
+                    IDCategory.MainCategory = updatecategory.MainCategory;
+                    entity.SaveChanges();
+                    return Ok("Edit category successfully!");
+                }
+                return NotFound();
+
+            }
+        }
+
     }
 }

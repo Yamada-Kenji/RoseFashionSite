@@ -14,10 +14,10 @@ export class ProductModel{
     ProductID: string;
     Name: string;
     Color: string;
-    Size: string[];
+    Size: string[] = [];
     CategoryID: string;
     Description: string;
-    Quantity: number;
+    Quantity: number[] = [];
     Image: string;
     Price: number;
 }

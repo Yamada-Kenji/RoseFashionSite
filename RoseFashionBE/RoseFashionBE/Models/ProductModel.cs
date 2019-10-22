@@ -13,8 +13,8 @@ namespace RoseFashionBE.Models
         public string[] Size;
         public string CategoryID;
         public string Description;
-        public int Quantity;
+        public int[] Quantity;
         public string Image;
-        public int Prices;
+        public int Price;
     }
 }

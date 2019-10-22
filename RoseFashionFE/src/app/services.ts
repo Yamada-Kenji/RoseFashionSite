@@ -26,6 +26,25 @@ export class ProductService{
     AddProduct(newproduct: ProductModel): Observable<any>{
         return this.http.post(this.producturl, newproduct, httpOptions);
     }
+
+    UpdateProduct(editedproduct: ProductModel): Observable<any>{
+        return this.http.put(this.producturl, editedproduct, httpOptions);
+    }
+
+    DeleteProduct(productid: string): Observable<any>{
+        const editedurl = `${this.producturl}?productid=${productid}`;
+        return this.http.delete(editedurl);
+    }
+
+    GetProductDetail(id: string): Observable<ProductModel>{
+        const editedurl = `${this.producturl}?pid=${id}`;
+        return this.http.get<ProductModel>(editedurl);
+    }
+
+    GetProductListForAdmin(): Observable<ProductModel[]>{
+        return this.http.get<ProductModel[]>(this.producturl);
+    }
+    
 }
 
 export class CategoryService{

@@ -33,6 +33,7 @@ namespace RoseFashionBE
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Discount> Discounts { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Product_Size_Quantity> Product_Size_Quantity { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }

@@ -8,6 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   </head>
   <body>
       
@@ -32,6 +33,7 @@
                 <th>Category ID</th>
                 <th>Name</th>
                 <th>MainCategory</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -40,6 +42,10 @@
                 <td>{{each.CategoryID}}</td>
                 <td>{{each.Name}}</td>
                 <td>{{each.MainCategory}}</td> 
+                <td>
+                  <i class="fas fa-edit" style="margin-right: 5px;" title="Edit"></i>
+                  <i class="fas fa-trash" (click)= "delete(each.CategoryID)" title="Delete"></i>
+                </td>
             </tr>
         </tbody>
     </table>

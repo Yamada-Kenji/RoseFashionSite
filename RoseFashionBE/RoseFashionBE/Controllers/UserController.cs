@@ -7,9 +7,11 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace RoseFashionBE.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UserController : ApiController
     {
         [HttpGet]
@@ -37,14 +39,10 @@ namespace RoseFashionBE.Controllers
                     entity.Users.Add(new User()
                     {
                         Username = user.Username,
-                        Password = Md5Encryption(user.Password),
                         FullName = user.FullName,
-                        Gender = user.Gender,
-                        DOB = user.DOB,
                         Email = user.Email,
-                        Address = user.Address,
-                        Phone = user.Phone,
-                        Role = user.Role,
+                        Password = Md5Encryption(user.Password),
+                        Role = "User"
                     });
                     entity.SaveChanges();
                     return Ok("Register successfully.");

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
+<div class="container" style="max-width: 350px;width: device-width;">
+
+    <div *ngIf="showMessage" class="alert alert-success">
+    {{showMessage}}
+    </div>
+    <div>
+        <h2 style="text-align: center;">Create Account</h2>
+    </div>
+  <form [formGroup]="classForm" #formDir="ngForm">
+    <div [hidden]="!!classForm.submitted">
+    <div class="cross-validation" [class.cross-validation-error]="!!classForm.errors?.identityRevealed
+    && (classForm.touched || classForm.dirty)">
+      <div >
+      <label>UserName</label>
+      <input #classname type="text" class="form-control" placeholder="Class Name" formControlName="username" required>
+      <div *ngIf="username.invalid && (username.dirty || username.touched)"
+              class="alert alert-danger">
+            <div *ngIf="!!username.errors.required">
+              User name is required.
+            </div>
+          </div>
+      </div>
+  
+      <div >
+        <label>Full Name</label>
+        <input #classname type="text" class="form-control" placeholder="Name" formControlName="fullname" required>
+        <div *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)"
+                class="alert alert-danger">
+              <div *ngIf="!!fullname.errors.required">
+                fullname is required.
+              </div>
+            </div>
+     </div>
+
+     <div >
+        <label>Email</label>
+        <input #classname type="email" class="form-control" placeholder="Email" formControlName="email" required>
+        <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                class="alert alert-danger">
+              <div *ngIf="!!email.errors.required">
+                email is required.
+              </div>
+              <div *ngIf="!!email.errors.email">
+                Email must be a valid email address.
+              </div>
+            </div>
+     </div>
+
+     <div >
+        <label>Password</label>
+        <input #classname type="password" class="form-control" placeholder="Password" formControlName="passwork" required>
+        <div *ngIf="passwork.invalid && (passwork.dirty || passwork.touched)"
+                class="alert alert-danger">
+              <div *ngIf="!!passwork.errors.required">
+                password is required.
+              </div>
+              <div *ngIf="!!passwork.errors.minlength">
+                  Password must be at least 6 characters</div>
+            </div>
+     </div>
+
+     <div >
+            <label>Confirm Password</label>
+            <input #classname type="password" class="form-control" placeholder="Confirm" formControlName="confirmpass" required>
+            <div *ngIf="confirmpass.invalid && (confirmpass.dirty || confirmpass.touched)"
+                    class="alert alert-danger">
+                  <div *ngIf="!!confirmpass.errors.required">
+                    password is required.
+                  </div>
+                  <!-- <div *ngIf="!!confirmpass.errors.identityRevealedValidator ">
+                      Passwords must match
+                    </div>  
+              </div>  -->
+         </div>   
+        
+      
+         <div *ngIf="classForm.errors?.identityRevealed && (confirmpass.touched || confirmpass.dirty)" class="cross-validation-error-message alert alert-danger">
+          Name cannot match alter ego.
+      </div>
+    </div>   
+
+      <div style="margin-top: 10px;">
+        <button class="btn btn-dark float-right" (click)="creatAccount(username.value , fullname.value, email.value, passwork.value)" title="Add" type="submit" [disabled]="classForm.invalid">Save </button>
+        <button type="button" class="btn btn-outline-dark float-right" style="margin-right: 5px;"
+            [routerLink]="['/feclass']" routerLinkActive="active">Back</button>
+      </div>
+    </div>
+  </div>
+  </form>
+  </div>
+  
+  

@@ -1,6 +1,10 @@
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+
 import { UserModel, CategoryModel, ProductModel, CartModel } from './model';
+import { HttpClient, HttpHeaders, HttpParams, HttpHeaderResponse, HttpErrorResponse} from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -56,6 +60,16 @@ export class CategoryService{
     GetAllCategory(): Observable<CategoryModel[]>{
         return this.http.get<CategoryModel[]>(this.categoryurl);
     }
+    
+    addCategory (category: CategoryModel): Observable<CategoryModel> {
+        return this.http.post<CategoryModel>(this.categoryurl, category)
+                               .pipe(catchError(this.errorHandler));
+     }
+     errorHandler(error: HttpErrorResponse){
+     
+        return throwError('Error...Please try again!');
+      
+    }
 }
 
 export class CartService{
@@ -87,3 +101,4 @@ export class CartService{
         return JSON.parse(localStorage.getItem('MyCart'));
     }
 }
+

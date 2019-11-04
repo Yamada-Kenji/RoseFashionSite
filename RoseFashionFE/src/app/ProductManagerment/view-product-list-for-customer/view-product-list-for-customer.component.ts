@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductModel, CategoryModel } from 'src/app/model';
 import { ProductService, CategoryService } from 'src/app/services';
+import { AddProductToCartComponent } from '../add-product-to-cart/add-product-to-cart.component';
 
 @Component({
   selector: 'app-view-product-list-for-customer',

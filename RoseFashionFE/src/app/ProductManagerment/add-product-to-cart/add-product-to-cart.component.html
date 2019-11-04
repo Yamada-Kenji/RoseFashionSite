@@ -1,63 +1,29 @@
-<h2 class="d-flex justify-content-center">Thêm sản phẩm</h2>
-<div class="table-responsive">
-    <table class="table table-borderless" style="width: 99%;">
-        <tr class="row">
-            <td class="col">
-                <div style="margin-left: 20px;">
-                    <p>Hình ảnh</p>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <img [src]="product.Image" class="img-fluid" style="min-width: 300px;" *ngIf="product.Image!=''">
+        </div>
+        <div class="col">
+            <p>{{product.Name}}</p>
+            <P>Kích thước</P>
+            <div class="sizes" *ngFor="let size of product.Size; let i = index" style="display: inline; margin-right: 10px;">
+                <button for="selectedsize" *ngIf="product.Quantity[i]>0;else soldout">{{size}}</button>
+                <ng-template #soldout>
+                    <button disabled>{{size}}</button>
+                </ng-template>
+            </div>
+            <div *ngFor="let size of product.Size; let i = index">
+                <div *ngIf="product.Quantity[i]>0" #qwe>
+                    <input type="radio" name="sizeoption" value="size" (change)="OnSizeChange(size)">{{size}}
                 </div>
-                <input type="file" (change)="onSelectFile($event)" id="file" style="visibility: hidden;">
-                <div><label for="file" class="btn btn-dark" style="margin-left: 20px; margin-top: -40px;"> Chọn ảnh</label></div>
-                <div class="d-flex justify-content-center">
-                    <img [src]="product.Image" style="width:300px;height:500px;" *ngIf="product.Image!=''">
-                </div>
-            </td>
-            <td class="col">
-                <div style="margin-left: 20px;">
-                    <p>Tên sản phẩm</p>
-                    <input type="text" [(ngModel)]="product.Name" class="form-control" style="width: 310px;">
-                    <p></p>
-                    <P>Màu sắc</P>
-                    <input type="color" [(ngModel)]="product.Color">
-
-                    <table style="margin-left: -10px;">
-                        <tr>
-                            <td>Kích thước</td>
-                            <td>Số lượng</td>
-                        </tr>
-                        <tbody *ngFor="let opt of product.Size; let i = index">
-                            <tr>
-                                <td>{{opt}}</td>
-                                <td><input type="number" [(ngModel)]="product.Quantity[i]" class="form-control"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p>Danh mục chính</p>
-                    <select [(ngModel)]="selectedmaincategory" style="width: 310px;">
-                        <option value="">Hãy chọn 1 loại</option>
-                        <ng-container *ngFor="let category of categorylist">
-                            <option *ngIf="category.MainCategory==null" value="{{category.CategoryID}}">
-                                {{category.Name}}
-                            </option>
-                        </ng-container>
-                    </select>
-                    <p></p>
-                    <p>Danh mục phụ</p>
-                    <select name="category" [(ngModel)]="product.CategoryID" style="width: 310px;">
-                        <option value="">Hãy chọn 1 loại</option>
-                        <ng-container *ngFor="let category of categorylist">
-                            <option *ngIf="category.MainCategory==selectedmaincategory" value="{{category.CategoryID}}">
-                                {{category.Name}}</option>
-                        </ng-container>
-                    </select>
-                    <p></p>
-                    <p>Giá</p>
-                    <input type="number" [(ngModel)]="product.Price" class="form-control" style="width: 310px;">
-                    <p></p>
-                    <button class="btn btn-dark" (click)="AddProduct()">Lưu</button>
-                    <button class="btn btn-secondary" (click)="Cancel()" style="margin-left: 10px;">Hủy</button>
-                </div>
-            </td>
-        </tr>
-    </table>
+            </div>
+            <p>Số lượng</p>
+            <input type="number" #amount>
+            <p></p>
+            <p>Giá</p>
+            <input type="number" [(ngModel)]="product.Price" class="form-control" style="width: 310px;" disabled>
+            <p></p>
+            <button class="btn btn-dark" (click)="AddToCart(amount.value)">Thêm vào giỏ</button>
+        </div>
+    </div>
 </div>

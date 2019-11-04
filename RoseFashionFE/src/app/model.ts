@@ -27,3 +27,11 @@ export class CategoryModel{
     Name: string;
     MainCategory: string;
 }
+
+export class CartModel{
+    CartID: string;
+    UserID: string;
+    ProductID: string;
+    Size: string;
+    Amount: number;
+}

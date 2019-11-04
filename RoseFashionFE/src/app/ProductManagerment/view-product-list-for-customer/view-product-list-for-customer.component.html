@@ -8,13 +8,14 @@
         </ul>
     </li>
 </ul>
-<table *ngFor="let item of productlist; let i = index" style="width: 100%;">
+<table *ngFor="let item of productlist; let i = index">
     <tr *ngIf="i % 4 == 0" class="row">
         <td class="col">
             <div>
                 <img class="img-fluid" [src]="item.Image" style="width: 142px;height: 182px;">
                 <p>{{item.Name}}</p>
                 <p>{{item.Price}}</p>
+                <button [routerLink]="['/add-product-to-cart', item.ProductID]" routerLinkActive="router-link-active" >Add to cart</button>
             </div>
         </td>
         <td class="col" *ngIf="productlist[i+1]!=undefine;else emptycol">

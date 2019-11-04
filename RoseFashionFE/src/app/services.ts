@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-import { UserModel, CategoryModel, ProductModel } from './model';
+import { UserModel, CategoryModel, ProductModel, CartModel } from './model';
 import { Observable } from 'rxjs';
 
 const httpOptions = {
@@ -55,5 +55,35 @@ export class CategoryService{
 
     GetAllCategory(): Observable<CategoryModel[]>{
         return this.http.get<CategoryModel[]>(this.categoryurl);
+    }
+}
+
+export class CartService{
+    AddToCart(productid: string, size: string, amount: number){
+        const newitem: CartModel = {CartID: '', UserID: '', ProductID: productid, Size: size, Amount: amount};
+        var mycart: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
+        if(mycart){
+            var i=0;
+            while(i<mycart.length) {
+                if(mycart[i].ProductID==newitem.ProductID && mycart[i].Size==newitem.Size) break;
+                else i++;
+            }
+            if(i>=mycart.length){
+                mycart.push(newitem);
+            }
+            else{
+                var newamount = +mycart[i].Amount + +newitem.Amount;
+                mycart[i].Amount = newamount;
+            }
+            localStorage.setItem('MyCart', JSON.stringify(mycart));
+        }
+        else{
+            mycart = [];
+            mycart.push(newitem);
+            localStorage.setItem('MyCart', JSON.stringify(mycart));
+        }
+    }
+    ViewProductInCart(){
+        return JSON.parse(localStorage.getItem('MyCart'));
     }
 }

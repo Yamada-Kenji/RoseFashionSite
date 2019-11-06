@@ -73,8 +73,8 @@ export class CategoryService{
 }
 
 export class CartService{
-    AddToCart(productid: string, size: string, amount: number){
-        const newitem: CartModel = {CartID: '', UserID: '', ProductID: productid, Size: size, Amount: amount};
+    AddToCart(productid: string, image: string, name: string, size: string, amount: number, price: number){
+        const newitem: CartModel = {CartID: '', UserID: '', ProductID: productid, Image: image, Name: name, Size: size, Amount: amount, Price: price};
         var mycart: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
         if(mycart){
             var i=0;

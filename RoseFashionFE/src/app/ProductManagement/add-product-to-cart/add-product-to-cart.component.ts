@@ -26,7 +26,7 @@ export class AddProductToCartComponent implements OnInit {
   }
 
   AddToCart(amount: number){
-    this.cartService.AddToCart(this.product.ProductID, this.selectedsize, amount);
+    this.cartService.AddToCart(this.product.ProductID, this.product.Image, this.product.Name, this.selectedsize, amount, this.product.Price);
   }
 
   OnSizeChange(size){

@@ -32,6 +32,9 @@ export class CartModel{
     CartID: string;
     UserID: string;
     ProductID: string;
+    Image: string;
+    Name: string;
     Size: string;
     Amount: number;
+    Price: number;
 }

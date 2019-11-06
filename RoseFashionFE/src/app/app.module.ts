@@ -4,11 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './UserManagerment/register/register.component';
-import { LoginComponent } from './UserManagerment/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { AddProductComponent } from './ProductManagerment/add-product/add-product.component';
+import { AddProductComponent } from './ProductManagement/add-product/add-product.component';
 
 import { UserService, ProductService, CategoryService, CartService } from './services';
 
@@ -16,22 +14,24 @@ import { AddcategoryComponent } from './CategoryManagerment/addcategory/addcateg
 import { EditcategoryComponent } from './CategoryManagerment/editcategory/editcategory.component';
 import { ShowcategoryComponent } from './CategoryManagerment/showcategory/showcategory.component';
 
-import { ViewProductListComponent } from './ProductManagerment/view-product-list/view-product-list.component';
-import { UpdateProductComponent } from './ProductManagerment/update-product/update-product.component';
-import { AddProductToCartComponent } from './ProductManagerment/add-product-to-cart/add-product-to-cart.component';
-import { ViewProductListForCustomerComponent } from './ProductManagerment/view-product-list-for-customer/view-product-list-for-customer.component';
+import { ViewProductListComponent } from './ProductManagement/view-product-list/view-product-list.component';
+import { UpdateProductComponent } from './ProductManagement/update-product/update-product.component';
+import { AddProductToCartComponent } from './ProductManagement/add-product-to-cart/add-product-to-cart.component';
+import { ViewProductListForCustomerComponent } from './ProductManagement/view-product-list-for-customer/view-product-list-for-customer.component';
 
 import { ViewCartComponent } from './CartManagement/view-cart/view-cart.component';
 import { CreateAccountComponent } from './AccountManagerment/create-account/create-account.component';
 import { EditAccountComponent } from './AccountManagerment/edit-account/edit-account.component';
 
-import { NgxPaginationModule } from 'ngx-pagination'; 
+import { NgxPaginationModule } from 'ngx-pagination';
+import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatGridListModule} from '@angular/material/grid-list';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
-    LoginComponent,
     AddProductComponent,
 
     AddcategoryComponent,
@@ -44,7 +44,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ViewProductListForCustomerComponent,
     ViewCartComponent,
     CreateAccountComponent,
-    EditAccountComponent
+    EditAccountComponent,
+    AddBillComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +53,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    BrowserAnimationsModule,
+    MatGridListModule
   ],
   providers: [UserService, ProductService, CategoryService, CartService],
   bootstrap: [AppComponent]

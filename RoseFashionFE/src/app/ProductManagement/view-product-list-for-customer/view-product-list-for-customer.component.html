@@ -13,6 +13,22 @@
     </div>
 
     <div class="col-sm-10">
+    <mat-grid-list [cols]="recol" rowHeight="fit" (window:resize)="onResize($event)">
+            <mat-grid-tile *ngFor="let item of productlist | paginate: pageconfig; let i = index">
+                <div>
+                <img class="img-fluid" [src]="item.Image" style="width: 142px;height: 182px;">
+                    <p>{{item.Name}}</p>
+                    <p>{{item.Price}}</p>
+                    <button [routerLink]="['/add-product-to-cart', item.ProductID]"
+                        routerLinkActive="router-link-active">Add to cart</button>
+                    </div>
+                    </mat-grid-tile>
+    </mat-grid-list>
+    <div class="d-flex justify-content-center">
+            <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+        </div>
+    </div>
+    <!--<div class="col-sm-10">
         <table *ngFor="let item of productlist | paginate: pageconfig; let i = index">
             <tr *ngIf="i % 4 == 0" class="row">
                 <td class="col">
@@ -45,13 +61,6 @@
                         <p>{{productlist[i+3].Price}}</p>
                     </div>
                 </td>
-                <!--<td class="col" *ngIf="productlist[i+4]!=undefine;else emptycol">
-            <div>
-                <img class="img-fluid" src="productlist[i+4].Image" style="width: 142px;height: 182px;">
-                <p>{{productlist[i+4].Name}}</p>
-                <p>{{productlist[i+4].Price}}</p>
-            </div>
-        </td>-->
                 <ng-template #emptycol>
                     <td class="col"></td>
                 </ng-template>
@@ -60,5 +69,5 @@
         <div class="d-flex justify-content-center">
             <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
         </div>
-    </div>
+    </div>-->
 </div>

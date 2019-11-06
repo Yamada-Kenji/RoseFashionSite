@@ -1,4 +1,6 @@
 <p>Giỏ hàng của bạn</p>
-<div *ngFor="let item of mycart">
-    {{item.ProductID}} {{item.Size}}
+<div class="row" *ngFor="let item of mycart">
+    <div class="col">{{item.ProductID}} {{item.Size}}</div>
 </div>
+
+<button [routerLink]="['/add-bill']" routerLinkActive="router-link-active" >Thanh toán</button>

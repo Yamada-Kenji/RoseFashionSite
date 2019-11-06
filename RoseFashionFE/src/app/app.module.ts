@@ -25,6 +25,7 @@ import { ViewCartComponent } from './CartManagement/view-cart/view-cart.componen
 import { CreateAccountComponent } from './AccountManagerment/create-account/create-account.component';
 import { EditAccountComponent } from './AccountManagerment/edit-account/edit-account.component';
 
+import { NgxPaginationModule } from 'ngx-pagination'; 
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { EditAccountComponent } from './AccountManagerment/edit-account/edit-acc
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
   providers: [UserService, ProductService, CategoryService, CartService],
   bootstrap: [AppComponent]

@@ -12,13 +12,23 @@ export class ViewProductListForCustomerComponent implements OnInit {
 
   productlist: ProductModel[] = [];
   categorylist: CategoryModel[] = [];
+  pageconfig: any;
   
   constructor(private productService: ProductService,
-    private categoryService: CategoryService) { }
+    private categoryService: CategoryService) { 
+      this.pageconfig = {
+        itemsPerPage: 8,
+        currentPage: 1
+      };
+    }
 
   ngOnInit() {
     this.GetProductList();
     this.GetAllCategory();
+  }
+
+  pageChanged(event) {
+    this.pageconfig.currentPage = event;
   }
 
   async GetAllCategory(){

@@ -10,10 +10,21 @@ import { ProductModel } from 'src/app/model';
 export class ViewProductListComponent implements OnInit {
 
   productlist: ProductModel[] = [];
-  constructor(private productService: ProductService) { }
+  pageconfig: any;
+
+  constructor(private productService: ProductService) {
+    this.pageconfig = {
+      itemsPerPage: 3,
+      currentPage: 1
+    };
+  }
 
   async ngOnInit() {
     await this.GetProductList();
+  }
+
+  pageChanged(event) {
+    this.pageconfig.currentPage = event;
   }
 
   async GetProductList() {

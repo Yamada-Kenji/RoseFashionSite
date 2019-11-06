@@ -245,5 +245,30 @@ namespace RoseFashionBE.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [HttpGet] IHttpActionResult GetProductByCategory(string categoryid)
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    var result = entity.Products.Where(p => (p.CategoryID == categoryid || 
+                    p.Category.MainCategory == categoryid) && p.IsDeleted == false)
+                        .Select(p => new ProductModel
+                        {
+                            ProductID = p.ProductID,
+                            Name = p.Name,
+                            Image = p.Image,
+                            Color = p.Color,
+                            Price = p.Price
+                        }).ToList();
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

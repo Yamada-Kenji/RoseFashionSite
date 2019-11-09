@@ -42,6 +42,30 @@ namespace RoseFashionBE.Controllers
             }
         }
 
+        public IHttpActionResult GetCategoryIDById(string categoryId)
+        {
+            CategoryModel type = null;
+
+            using (var db = new RoseFashionDBEntities())
+            {
+                type = db.Categories.Where(r => r.CategoryID == categoryId )
+                    .Select(r => new CategoryModel
+                    {
+                        CategoryID  = r.CategoryID,
+                        MainCategory = r.MainCategory,
+                        Name = r.Name
+              
+                    }).FirstOrDefault<CategoryModel>();
+            }
+
+            if (type == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(type);
+        }
+
         [HttpPost]
         public IHttpActionResult AddCategory(CategoryModel newcategory)
         {

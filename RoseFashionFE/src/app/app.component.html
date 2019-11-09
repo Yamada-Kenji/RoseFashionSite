@@ -1,6 +1,84 @@
 
-<!--<app-register></app-register>-->
+<!-- <app-register></app-register> -->
+
 <!-- <app-add-product></app-add-product> -->
  <!-- <app-addcategory></app-addcategory>  -->
- <app-showcategory></app-showcategory> 
-<!-- <app-create-account></app-create-account> -->
+ <!-- <app-showcategory></app-showcategory>    -->
+
+ <app-login></app-login> 
+ <!-- <app-create-account></app-create-account> -->
+
+
+ <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <i class="fa fa-bars" aria-hidden="true"></i>
+  </button>
+   <!-- Brand/logo -->
+   <a class="navbar-brand" href="#">Logo</a>
+   <div class="collapse navbar-collapse" id="collapsibleNavbar">
+   <!-- Links -->
+   <ul class="navbar-nav">
+    <!-- Narbar for Admin -->
+     <li class="nav-item">
+       <a class="nav-link"  [routerLink]="['/feedbacktrainee']">Sản phẩm</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link"  [routerLink]="['/showcategory']">Loại sản phẩm</a>
+     </li>
+     <!-- Narbar for user -->
+     <li class="nav-item" >
+            <a class="nav-link float-right"  [routerLink]="['/feedbacktrainee']">Đăng nhập</a>
+            
+     </li>
+     <li class="nav-item" >
+            <a class="nav-link float-right" style="margin-right: 5px;"  [routerLink]="['/feedbacktrainee']">Đăng kí</a>
+     </li>
+    
+
+   </ul>
+   </div>
+ </nav>
+ 
+ 
+ <!-- <ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cancel click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        <div class="input-group">
+          <input [(ngModel)]="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cancel click')">Cancel</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('saved')">Save</button>
+  </div>
+</ng-template>
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Input your birth date</button>
+
+<hr>
+
+<pre>{{closeResult}}</pre>
+
+<pre>{{dateOfBirth | json}}</pre> -->
+
+
+ 
+      <router-outlet></router-outlet>
+
+ 
+
+  
+ 

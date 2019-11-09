@@ -43,7 +43,7 @@
                 <td>{{each.Name}}</td>
                 <td>{{each.MainCategory}}</td> 
                 <td>
-                  <i class="fas fa-edit" style="margin-right: 5px;" title="Edit"></i>
+                  <i class="fas fa-edit" style="margin-right: 5px;" routerLink="/editcategory/{{each.CategoryID}}" title="Edit"></i>
                   <i class="fas fa-trash" (click)= "delete(each.CategoryID)" title="Delete"></i>
                 </td>
             </tr>

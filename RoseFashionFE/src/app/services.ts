@@ -69,5 +69,13 @@ export class CategoryService{
         return throwError('Error...Please try again!');
       
     }
+    editCategory(categories: CategoryModel): Observable<any> {
+        return this.http.put<CategoryModel>(this.categoryurl, categories , httpOptions).pipe();
+      }
+    getCategoryID(id: string): Observable<CategoryModel> {
+        const url = `${this.categoryurl}?categoryId=${id}`;
+        return this.http.get<CategoryModel>(url).pipe();
+      }
+    
 }
 

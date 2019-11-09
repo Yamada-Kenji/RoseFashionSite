@@ -1,6 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatSliderModule } from '@angular/material/slider';
+
+
+import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +27,7 @@ import { AddProductToCartComponent } from './ProductManagerment/add-product-to-c
 import { ViewProductListForCustomerComponent } from './ProductManagerment/view-product-list-for-customer/view-product-list-for-customer.component';
 import { CreateAccountComponent } from './AccountManagerment/create-account/create-account.component';
 import { EditAccountComponent } from './AccountManagerment/edit-account/edit-account.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -47,9 +54,13 @@ import { EditAccountComponent } from './AccountManagerment/edit-account/edit-acc
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule,
+    MDBBootstrapModule,
+    BrowserAnimationsModule,
+    MatSliderModule
   ],
-  providers: [UserService, ProductService, CategoryService],
+  providers: [UserService, ProductService, CategoryService,ComponentLoaderFactory],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

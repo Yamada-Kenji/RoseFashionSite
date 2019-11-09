@@ -2,18 +2,51 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
+using System.Net;
 using System.Web.Http;
+using System.Net.Http;
 using System.Web.Http.Cors;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace RoseFashionBE.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UserController : ApiController
     {
+        public IHttpActionResult GetLogin(string username, string password)
+        {
+            //nếu có truyền vào model thì thêm
+            //if (!ModelState.IsValid) return BadRequest("Invalid data.");
+            try
+            {
+                int result = 0;
+                string pwrHash = Md5Encryption(password);
+
+                using (var ctx = new RoseFashionDBEntities())
+                {
+                   
+                            result = ctx.Users
+                                .Count(s => s.Username.ToLower().Equals(username.ToLower()) && s.Password.Equals(pwrHash));
+                           
+                }
+
+                if (result == 1)
+                {
+                    return Ok(GenerateJwtToken(username));
+                }
+                return BadRequest("Login Failed");
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+    
         [HttpGet]
         public IHttpActionResult ShowAllUser()
         {
@@ -53,7 +86,33 @@ namespace RoseFashionBE.Controllers
                 return InternalServerError(ex);
             }
         }
+        private string GenerateJwtToken(string username)
+        {
+            string serectKey = "ZmVlZGJhY2stc3lzdGVtLVNIQS0yNTYtc2VyZWN0LWtleQ=="; 
+            int expireMinutes = 30;
+            var symmetricKey = Convert.FromBase64String(serectKey);
+            var tokenHandler = new JwtSecurityTokenHandler();
 
+            var now = DateTime.UtcNow;
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Name, username)
+                }),
+
+                Expires = now.AddMinutes(Convert.ToInt32(expireMinutes)),
+
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(symmetricKey),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var stoken = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.WriteToken(stoken);
+
+            return token;
+        }
         string Md5Encryption(string password) //from docs.microsoft.com
         {
             MD5 md5hash = MD5.Create();
@@ -73,5 +132,7 @@ namespace RoseFashionBE.Controllers
             // Return the hexadecimal string.
             return stringbuilder.ToString();
         }
+
+
     }
 }

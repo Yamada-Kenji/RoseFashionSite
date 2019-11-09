@@ -25,8 +25,6 @@ import { EditAccountComponent } from './AccountManagerment/edit-account/edit-acc
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
@@ -53,9 +51,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxPaginationModule,
-    BrowserAnimationsModule,
-    MatGridListModule
+    NgxPaginationModule
   ],
   providers: [UserService, ProductService, CategoryService, CartService],
   bootstrap: [AppComponent]

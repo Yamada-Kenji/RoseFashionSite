@@ -18,7 +18,7 @@ export class ViewProductListForCustomerComponent implements OnInit {
   constructor(private productService: ProductService,
     private categoryService: CategoryService) { 
       this.pageconfig = {
-        itemsPerPage: 4,
+        itemsPerPage: 5,
         currentPage: 1
       };
     }
@@ -26,11 +26,11 @@ export class ViewProductListForCustomerComponent implements OnInit {
   ngOnInit() {
     this.GetProductList();
     this.GetAllCategory();
-    this.recol = (window.innerWidth <= 420) ? 2 : 3;
+    this.recol = (window.innerWidth <= 420) ? 2 : 6;
   }
 
   onResize(event) {
-    this.recol = (event.target.innerWidth <= 420) ? 2 : 3;
+    this.recol = (event.target.innerWidth <= 420) ? 2 : 6;
   }
 
   pageChanged(event) {

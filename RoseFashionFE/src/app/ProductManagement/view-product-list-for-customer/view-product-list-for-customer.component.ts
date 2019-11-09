@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductModel, CategoryModel } from 'src/app/model';
 import { ProductService, CategoryService } from 'src/app/services';
 import { AddProductToCartComponent } from '../add-product-to-cart/add-product-to-cart.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-view-product-list-for-customer',
@@ -45,10 +46,18 @@ export class ViewProductListForCustomerComponent implements OnInit {
     await this.productService.GetProductListForAdmin().toPromise().then(result => this.productlist = result);
   }
 
+  async GetProductByCategory(categoryid){
+    await this.productService.GetProductByCategory(categoryid).toPromise().then(result => this.productlist = result);
+  }
+
   async DeleteProduct(productid: string) {
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
       await this.productService.DeleteProduct(productid).toPromise().then(result => console.log(result));
       this.GetProductList();
     }
+  }
+
+  async onSelectCategory(categoryid){
+    await this.GetProductByCategory(categoryid);
   }
 }

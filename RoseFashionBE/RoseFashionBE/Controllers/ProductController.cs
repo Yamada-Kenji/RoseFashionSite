@@ -246,7 +246,8 @@ namespace RoseFashionBE.Controllers
             }
         }
 
-        [HttpGet] IHttpActionResult GetProductByCategory(string categoryid)
+        [HttpGet]
+        public IHttpActionResult GetProductByCategory(string categoryid)
         {
             try
             {
@@ -260,7 +261,8 @@ namespace RoseFashionBE.Controllers
                             Name = p.Name,
                             Image = p.Image,
                             Color = p.Color,
-                            Price = p.Price
+                            Price = p.Price,
+                            CategoryID = p.CategoryID
                         }).ToList();
                     return Ok(result);
                 }

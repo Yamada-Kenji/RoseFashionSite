@@ -31,11 +31,9 @@ import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
   declarations: [
     AppComponent,
     AddProductComponent,
-
     AddcategoryComponent,
     EditcategoryComponent,
     ShowcategoryComponent,
-
     ViewProductListComponent,
     UpdateProductComponent,
     AddProductToCartComponent,

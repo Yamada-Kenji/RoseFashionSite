@@ -17,5 +17,4 @@ export class ViewCartComponent implements OnInit {
     this.mycart = this.cartService.ViewProductInCart();
   }
 
-
 }

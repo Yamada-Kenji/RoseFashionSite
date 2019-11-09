@@ -46,6 +46,10 @@ export class ProductService{
         return this.http.get<ProductModel[]>(this.producturl);
     }
     
+    GetProductByCategory(categoryid: string): Observable<ProductModel[]>{
+        const editedurl = `${this.producturl}?categoryid=${categoryid}`;
+        return this.http.get<ProductModel[]>(editedurl);
+    }
 }
 
 export class CategoryService{

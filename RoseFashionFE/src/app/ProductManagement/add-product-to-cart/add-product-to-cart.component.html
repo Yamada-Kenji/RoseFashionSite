@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <img [src]="product.Image" class="img-fluid" style="min-width: 300px;" *ngIf="product.Image!=''">
+        </div>
+        <div class="col">
+            <h1>{{product.Name}}</h1>
+            <P>Kích thước</P>
+            <!--<div class="sizes" *ngFor="let size of product.Size; let i = index" style="display: inline; margin-right: 10px;">
+                <button for="selectedsize" *ngIf="product.Quantity[i]>0;else soldout">{{size}}</button>
+                <ng-template #soldout>
+                    <button disabled>{{size}}</button>
+                </ng-template>
+            </div>-->
+            <div class="row">
+            <div class="col-sm-2" *ngFor="let size of product.Size; let i = index">
+                <div *ngIf="product.Quantity[i]>0">
+                    <input type="radio" name="sizeoption" value="size" (change)="OnSizeChange(size)">{{size}}
+                </div>
+            </div>
+            </div>
+            <p>Số lượng</p>
+            <input type="number" #amount>
+            <p></p>
+            <p>Giá</p>
+            <h1>{{product.Price}} VNĐ</h1>
+            <!--<input type="number" [(ngModel)]="product.Price" class="form-control" style="width: 310px;" disabled>-->
+            <p></p>
+            <button class="btn btn-dark" (click)="AddToCart(amount.value)">Thêm vào giỏ</button>
+        </div>
+    </div>
+</div>

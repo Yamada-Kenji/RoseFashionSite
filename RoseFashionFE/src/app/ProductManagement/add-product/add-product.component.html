@@ -1,4 +1,4 @@
-<h2 class="d-flex justify-content-center">Chỉnh sửa sản phẩm</h2>
+<h2 class="d-flex justify-content-center">Thêm sản phẩm</h2>
 <div class="table-responsive">
     <table class="table table-borderless" style="width: 99%;">
         <tr class="row">
@@ -17,8 +17,8 @@
                     <p>Tên sản phẩm</p>
                     <input type="text" [(ngModel)]="product.Name" class="form-control" style="width: 310px;">
                     <p></p>
-                    <P>Màu sắc</P>
-                    <input type="color" [(ngModel)]="product.Color">
+                    <!--<P>Màu sắc</P>
+                    <input type="color" [(ngModel)]="product.Color">-->
 
                     <table style="margin-left: -10px;">
                         <tr>
@@ -54,7 +54,7 @@
                     <p>Giá</p>
                     <input type="number" [(ngModel)]="product.Price" class="form-control" style="width: 310px;">
                     <p></p>
-                    <button class="btn btn-dark" (click)="UpdateProduct()">Lưu</button>
+                    <button class="btn btn-dark" (click)="AddProduct()">Lưu</button>
                     <button class="btn btn-secondary" (click)="Cancel()" style="margin-left: 10px;">Hủy</button>
                 </div>
             </td>

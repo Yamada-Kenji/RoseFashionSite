@@ -1,5 +1,6 @@
-import { HttpClient, HttpHeaders,HttpParams, HttpHeaderResponse, HttpErrorResponse} from '@angular/common/http';
-import { UserModel, CategoryModel, ProductModel } from './model';
+
+import { UserModel, CategoryModel, ProductModel, CartModel } from './model';
+import { HttpClient, HttpHeaders, HttpParams, HttpHeaderResponse, HttpErrorResponse} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -45,6 +46,10 @@ export class ProductService{
         return this.http.get<ProductModel[]>(this.producturl);
     }
     
+    GetProductByCategory(categoryid: string): Observable<ProductModel[]>{
+        const editedurl = `${this.producturl}?categoryid=${categoryid}`;
+        return this.http.get<ProductModel[]>(editedurl);
+    }
 }
 
 export class CategoryService{
@@ -59,7 +64,7 @@ export class CategoryService{
     GetAllCategory(): Observable<CategoryModel[]>{
         return this.http.get<CategoryModel[]>(this.categoryurl);
     }
-
+    
     addCategory (category: CategoryModel): Observable<CategoryModel> {
         return this.http.post<CategoryModel>(this.categoryurl, category)
                                .pipe(catchError(this.errorHandler));
@@ -77,5 +82,35 @@ export class CategoryService{
         return this.http.get<CategoryModel>(url).pipe();
       }
     
+}
+
+export class CartService{
+    AddToCart(productid: string, image: string, name: string, size: string, amount: number, price: number){
+        const newitem: CartModel = {CartID: '', UserID: '', ProductID: productid, Image: image, Name: name, Size: size, Amount: amount, Price: price};
+        var mycart: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
+        if(mycart){
+            var i=0;
+            while(i<mycart.length) {
+                if(mycart[i].ProductID==newitem.ProductID && mycart[i].Size==newitem.Size) break;
+                else i++;
+            }
+            if(i>=mycart.length){
+                mycart.push(newitem);
+            }
+            else{
+                var newamount = +mycart[i].Amount + +newitem.Amount;
+                mycart[i].Amount = newamount;
+            }
+            localStorage.setItem('MyCart', JSON.stringify(mycart));
+        }
+        else{
+            mycart = [];
+            mycart.push(newitem);
+            localStorage.setItem('MyCart', JSON.stringify(mycart));
+        }
+    }
+    ViewProductInCart(){
+        return JSON.parse(localStorage.getItem('MyCart'));
+    }
 }
 

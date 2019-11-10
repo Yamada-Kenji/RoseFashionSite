@@ -1,0 +1,19 @@
+<p>Giỏ hàng của bạn</p>
+
+<div class="row">
+    <div class="col-sm-7">
+        <div class="row" *ngFor="let item of mycart">
+            <div class="col-sm-2">
+               <img class="img-fluid" [src]="item.Image">
+           </div>
+           <div class="col-sm-2">{{item.Name}}</div>
+           <div class="col-sm-2">Size: {{item.Size}}</div>
+           <div class="col-sm-2">x {{item.Amount}}</div>
+           <div class="col-sm-2">{{item.Price}} VNĐ</div>
+           <div class="col-sm-2"><Button class="btn btn-dark">Xóa</Button></div>
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <button class="btn btn-dark" [routerLink]="['/add-bill']" routerLinkActive="router-link-active" >Thanh toán</button>
+    </div>
+

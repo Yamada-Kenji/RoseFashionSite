@@ -1,0 +1,13 @@
+.sizes button{
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+.sizes button {
+    text-align: center;
+    width: 40px;
+    height: 40px;
+}
+.sizes button:hover {
+    border-color: green;
+}

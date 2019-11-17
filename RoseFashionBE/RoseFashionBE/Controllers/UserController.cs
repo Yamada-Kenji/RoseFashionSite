@@ -13,6 +13,7 @@ using System.Security.Claims;
 namespace RoseFashionBE.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [RoutePrefix("api/user")]
     public class UserController : ApiController
     {
         public IHttpActionResult GetLogin(string username, string password)
@@ -34,7 +35,7 @@ namespace RoseFashionBE.Controllers
 
                 if (result == 1)
                 {
-                    return Ok(GenerateJwtToken(username));
+                    return Ok();
                 }
                 return BadRequest("Login Failed");
             }
@@ -55,6 +56,32 @@ namespace RoseFashionBE.Controllers
                     FullName = u.FullName,
                     Password = u.Password
                 }).ToList());          
+            }
+        }
+
+        [HttpGet]
+        [Route("guest")]
+        public IHttpActionResult CreateGuestUser()
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    string guestname = "GUEST-" + (entity.Users.Count(u => u.Username.Contains("GUEST")) + 1);
+                    entity.Users.Add(new User()
+                    {
+                        Username = guestname,
+                        FullName = guestname,
+                        Password = Md5Encryption(guestname),
+                        Role = "User"
+                    });
+                    entity.SaveChanges();
+                    return Ok(guestname);
+                }
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
             }
         }
 
@@ -84,7 +111,7 @@ namespace RoseFashionBE.Controllers
                 return InternalServerError(ex);
             }
         }
-        private string GenerateJwtToken(string username)
+        /*private string GenerateJwtToken(string username)
         {
             string serectKey = "ZmVlZGJhY2stc3lzdGVtLVNIQS0yNTYtc2VyZWN0LWtleQ=="; 
             int expireMinutes = 30;
@@ -110,7 +137,7 @@ namespace RoseFashionBE.Controllers
             var token = tokenHandler.WriteToken(stoken);
 
             return token;
-        }
+        }*/
         string Md5Encryption(string password) //from docs.microsoft.com
         {
             MD5 md5hash = MD5.Create();

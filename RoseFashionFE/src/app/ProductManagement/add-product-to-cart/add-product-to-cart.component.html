@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
-        <div class="col">
-            <img [src]="product.Image" class="img-fluid" style="min-width: 300px;" *ngIf="product.Image!=''">
+        <div class="col-sm-6">
+            <img [src]="product.Image" class="img-fluid" style="min-width: 300px;">
         </div>
         <div class="col">
             <h1>{{product.Name}}</h1>
@@ -13,17 +13,19 @@
                 </ng-template>
             </div>-->
             <div class="row">
-            <div class="col-sm-2" *ngFor="let size of product.Size; let i = index">
+            <div class="col-sm-6">
+            <div *ngFor="let size of product.Size; let i = index">
                 <div *ngIf="product.Quantity[i]>0">
-                    <input type="radio" name="sizeoption" value="size" (change)="OnSizeChange(size)">{{size}}
+                    <input type="radio" name="sizeoption" value="size" (change)="OnSizeChange(size, i)">{{size}}
+                </div>
                 </div>
             </div>
             </div>
             <p>Số lượng</p>
-            <input type="number" #amount>
+            <input class="form-control" type="number" min="1" max="{{maxamount}}" #amount value="1">
             <p></p>
             <p>Giá</p>
-            <h1>{{product.Price}} VNĐ</h1>
+            <h1>{{product.Price | number}} VNĐ</h1>
             <!--<input type="number" [(ngModel)]="product.Price" class="form-control" style="width: 310px;" disabled>-->
             <p></p>
             <button class="btn btn-dark" (click)="AddToCart(amount.value)">Thêm vào giỏ</button>

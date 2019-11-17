@@ -14,7 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AddProductComponent } from './ProductManagement/add-product/add-product.component';
 
-import { UserService, ProductService, CategoryService, CartService } from './services';
+import { UserService, ProductService, CategoryService, CartService, BillService } from './services';
 
 import { AddcategoryComponent } from './CategoryManagerment/addcategory/addcategory.component';
 import { EditcategoryComponent } from './CategoryManagerment/editcategory/editcategory.component';
@@ -56,13 +56,20 @@ import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-
+    NgxPaginationModule,
     NgbModule,
     MDBBootstrapModule,
     BrowserAnimationsModule,
     MatSliderModule
   ],
-  providers: [UserService, ProductService, CategoryService,ComponentLoaderFactory,NgxPaginationModule,CartService],
+  providers: [
+    UserService, 
+    ProductService, 
+    CategoryService,
+    ComponentLoaderFactory,
+    CartService,
+    BillService
+  ],
 
 
   bootstrap: [AppComponent]

@@ -1,17 +1,17 @@
-<h1>Thanh toán giỏ hàng</h1>
+<h2>Thanh toán giỏ hàng</h2>
 <div class="container">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <p>Họ và tên</p>
-            <input type="text">
+            <input class="form-control" type="text">
             <p>Email</p>
-            <input type="text">
+            <input class="form-control" type="text">
             <p>SDT</p>
-            <input type="text">
+            <input class="form-control" type="text">
             <p>Địa chỉ giao hàng</p>
-            <input type="text">
+            <textarea class="form-control"></textarea>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <p>Thông tin giỏ hàng</p>
             <div class="row">
                 <div class="col">Tên sản phẩm</div>
@@ -20,10 +20,15 @@
                 <div class="col">Giá</div>
             </div>
             <div class="row" *ngFor="let item of mycart">
-                <div class="col">{{item.ProductID}}</div>
+                <div class="col">{{item.Name}}</div>
                 <div class="col">{{item.Size}}</div>
                 <div class="col">{{item.Amount}}</div>
-                <div class="col">{{item.Price}}</div>
+                <div class="col">{{item.Price | number}} VNĐ</div>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-right">
+                    <button class="btn btn-dark" (click)="AddBill()">Xác nhận thanh toán</button>
+                </div>
             </div>
         </div>
     </div>

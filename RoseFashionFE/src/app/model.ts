@@ -36,5 +36,6 @@ export class CartModel{
     Name: string;
     Size: string;
     Amount: number;
+    Quantity: number;
     Price: number;
 }

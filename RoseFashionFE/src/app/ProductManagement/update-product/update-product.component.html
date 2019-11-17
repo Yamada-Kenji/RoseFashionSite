@@ -28,7 +28,7 @@
                         <tbody *ngFor="let opt of product.Size; let i = index">
                             <tr>
                                 <td>{{opt}}</td>
-                                <td><input type="number" [(ngModel)]="product.Quantity[i]" class="form-control"></td>
+                                <td><input type="number" [(ngModel)]="product.Quantity[i]" class="form-control" min="0"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -51,11 +51,11 @@
                         </ng-container>
                     </select>
                     <p></p>
-                    <p>Giá</p>
-                    <input type="number" [(ngModel)]="product.Price" class="form-control" style="width: 310px;">
+                    <p>Giá (VNĐ)</p>
+                    <input type="number" [(ngModel)]="product.Price" class="form-control" style="width: 310px;" min="0">
                     <p></p>
                     <button class="btn btn-dark" (click)="UpdateProduct()">Lưu</button>
-                    <button class="btn btn-secondary" (click)="Cancel()" style="margin-left: 10px;">Hủy</button>
+                    <button class="btn btn-dark" (click)="Cancel()" style="margin-left: 10px;">Hủy</button>
                 </div>
             </td>
         </tr>

@@ -17,8 +17,9 @@
             <td>{{item.ProductID}}</td>
             <td>{{item.Name}}</td>
 
-            
-            <td>{{item.Price}}</td>
+            <!--<td><input type="color" [(ngModel)]="item.Color" disabled></td>-->
+            <td>{{item.Price | number}}</td>
+
             <td><button class="btn btn-dark" style="margin-left: 5px" [routerLink]="['/update-product', item.ProductID]" routerLinkActive="router-link-active" >Sửa</button>
                 <button class="btn btn-dark" style="margin-left: 5px;" (click)="DeleteProduct(item.ProductID)">Xóa</button>
             </td>

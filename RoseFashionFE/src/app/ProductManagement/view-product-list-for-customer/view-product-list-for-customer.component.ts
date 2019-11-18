@@ -19,7 +19,7 @@ export class ViewProductListForCustomerComponent implements OnInit {
   constructor(private productService: ProductService,
     private categoryService: CategoryService) { 
       this.pageconfig = {
-        itemsPerPage: 5,
+        itemsPerPage: 7,
         currentPage: 1
       };
     }

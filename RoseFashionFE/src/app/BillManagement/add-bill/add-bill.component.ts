@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartModel } from 'src/app/model';
-import { CartService } from 'src/app/services';
+import { CartService, BillService, UserService } from 'src/app/services';
 
 @Component({
   selector: 'app-add-bill',
@@ -11,10 +11,17 @@ export class AddBillComponent implements OnInit {
 
   mycart: CartModel[] = [];
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService,
+    private billService: BillService,
+    private userService: UserService) { }
 
   ngOnInit() {
     this.mycart = this.cartService.ViewProductInCart();
   }
   
+  AddBill(){
+    var userid = this.userService.GetCurrentUser();
+    console.log(userid);
+    this.billService.AddBill(this.mycart, userid).toPromise();
+  }
 }

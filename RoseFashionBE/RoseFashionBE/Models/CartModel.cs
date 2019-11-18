@@ -12,6 +12,7 @@ namespace RoseFashionBE.Models
         public string ProductID;
         public string Size;
         public int Amount;
+        public int Quantity;
         public bool IsUsing;
     }
 }

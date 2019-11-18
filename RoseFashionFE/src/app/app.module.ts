@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AddProductComponent } from './ProductManagement/add-product/add-product.component';
 
-import { UserService, ProductService, CategoryService, CartService } from './services';
+import { UserService, ProductService, CategoryService, CartService, BillService } from './services';
 
 import { AddcategoryComponent } from './CategoryManagerment/addcategory/addcategory.component';
 import { EditcategoryComponent } from './CategoryManagerment/editcategory/editcategory.component';
@@ -60,10 +60,20 @@ import { DetailhistoryComponent } from './UserManagerment/detailhistory/detailhi
     ReactiveFormsModule,
     NgxPaginationModule,
 
+
     BrowserAnimationsModule
   
   ],
-  providers: [UserService, ProductService, CategoryService,CartService],
+
+  providers: [
+    UserService, 
+    ProductService, 
+    CategoryService,
+    
+    CartService,
+    BillService
+  ],
+
 
 
   bootstrap: [AppComponent]

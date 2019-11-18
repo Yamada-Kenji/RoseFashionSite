@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+
 import { UserModel } from 'src/app/model';
 import { UserService } from 'src/app/services';
 import { RouterModule, Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-root',
@@ -10,6 +13,7 @@ import { RouterModule, Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
 
   loginmessage: string;
   currentUser: UserModel;
@@ -76,4 +80,14 @@ setRole(rolename: string){
   this.islogon = true;
 }
   
+
+  // constructor(private userService: UserService) {}
+
+  // ngOnInit() {
+  //   var userid = this.userService.GetCurrentUser();
+  //   if(userid == undefined) {
+  //     this.userService.CreateGuestID().toPromise().then(result => localStorage.setItem('GuestID', result));
+  //   }
+  // }
+
 }

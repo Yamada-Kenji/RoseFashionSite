@@ -25,6 +25,7 @@ export class UserService{
     Register(newuser: UserModel): Observable<any>{
         return this.http.post(this.userurl, newuser);
     }
+
     
     public get currentUserValue(): UserModel {
         return this.currentUserSubject.value;
@@ -57,6 +58,19 @@ export class UserService{
     //update account
     UpdateAccount(editedaccount: UserModel): Observable<any>{
         return this.http.put(this.userurl, editedaccount, httpOptions);
+    }
+
+
+
+    CreateGuestID(): Observable<any>{
+        const editedurl = `${this.userurl}/guest`;
+        return this.http.get<any>(editedurl);
+    }
+
+    GetCurrentUser(){
+        var userid = localStorage.getItem('UserID');
+        if(userid) return userid;
+        else return localStorage.getItem('GuestID');
     }
 
 }
@@ -126,8 +140,18 @@ export class CategoryService{
 }
 
 export class CartService{
-    AddToCart(productid: string, image: string, name: string, size: string, amount: number, price: number){
-        const newitem: CartModel = {CartID: '', UserID: '', ProductID: productid, Image: image, Name: name, Size: size, Amount: amount, Price: price};
+    AddToCart(productid: string, image: string, name: string, size: string, amount: number, quantity: number, price: number){
+        const newitem: CartModel = {
+            CartID: '', 
+            UserID: '', 
+            ProductID: productid, 
+            Image: image, 
+            Name: name, 
+            Size: size, 
+            Amount: amount,
+            Quantity: quantity,
+            Price: price
+        };
         var mycart: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
         if(mycart){
             var i=0;
@@ -153,6 +177,31 @@ export class CartService{
     ViewProductInCart(){
         return JSON.parse(localStorage.getItem('MyCart'));
     }
-    
+
+
+    UpdateItemAmount(productid, amount){
+        var mycart: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
+        var updateditem = mycart.find(item => item.ProductID == productid);
+        updateditem.Amount = amount;
+        localStorage.setItem('MyCart', JSON.stringify(mycart));
+    }
+
+    DeleteItem(productid){
+        var mycart: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
+        const index = mycart.indexOf(mycart.find(item => item.ProductID == productid));
+        mycart.splice(index, 1);
+        localStorage.setItem('MyCart', JSON.stringify(mycart));
+    }
+}
+
+export class BillService{
+    constructor(private http: HttpClient){}
+    private billurl = 'http://localhost:62098/api/bill';
+
+    AddBill(items: CartModel[], userid: string): Observable<any>{
+        const editedurl = `${this.billurl}?userid=${userid}`;
+        return this.http.post(editedurl, items, httpOptions);
+    }
+
 }
 

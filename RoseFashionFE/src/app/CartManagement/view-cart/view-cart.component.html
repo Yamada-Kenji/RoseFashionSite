@@ -1,19 +1,56 @@
-<p>Giỏ hàng của bạn</p>
+<h2>Giỏ hàng của bạn</h2>
 
-<div class="row">
-    <div class="col-sm-7">
-        <div class="row" *ngFor="let item of mycart">
-            <div class="col-sm-2">
-               <img class="img-fluid" [src]="item.Image">
-           </div>
-           <div class="col-sm-2">{{item.Name}}</div>
-           <div class="col-sm-2">Size: {{item.Size}}</div>
-           <div class="col-sm-2">x {{item.Amount}}</div>
-           <div class="col-sm-2">{{item.Price}} VNĐ</div>
-           <div class="col-sm-2"><Button class="btn btn-dark">Xóa</Button></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="row" *ngFor="let item of mycart | paginate: pageconfig" style="margin-bottom: 10px;">
+                <div class="col-sm-2">
+                    <img class="img-fluid" [src]="item.Image">
+                </div>
+                <div class="col-sm-2">{{item.Name}}</div>
+                <div class="col-sm-2">Size: {{item.Size}}</div>
+                <div class="col-sm-2"><input type="number" [(ngModel)]="item.Amount" class="form-control"
+                        (change)="UpdateItemAmount(item.ProductID, item.Amount)" min="1" max="{{item.Quantity}}"></div>
+                <div class="col-sm-2">{{item.Price | number}} VNĐ</div>
+                <div class="col-sm-2"><Button class="btn btn-dark" data-toggle="modal" data-target="#myModal"
+                        (click)="SelectItem(item.ProductID)">Xóa</Button></div>
+            </div>
+            <div class="d-flex justify-content-center" *ngIf="mycart.lenght>3">
+                <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="sticky-top" style="background-color: #f2f2f2;">
+                <p>Tổng cộng: {{totalprice | number}} VNĐ</p>
+                <button class="btn btn-dark" [routerLink]="['/add-bill']" routerLinkActive="router-link-active">Thanh
+                    toán</button>
+            </div>
         </div>
     </div>
-    <div class="col-sm-5">
-        <button class="btn btn-dark" [routerLink]="['/add-bill']" routerLinkActive="router-link-active" >Thanh toán</button>
-    </div>
+</div>
 
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Cảnh báo!</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Quý khách có chắc chắn muốn xóa sản phẩm này không?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="RemoveItem()">Có</button>
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Không</button>
+            </div>
+
+        </div>
+    </div>
+</div>

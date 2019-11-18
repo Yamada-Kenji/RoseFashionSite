@@ -8,7 +8,6 @@ using System.Net;
 using System.Web.Http;
 using System.Net.Http;
 using System.Web.Http.Cors;
-using System.Security.Claims;
 
 namespace RoseFashionBE.Controllers
 {
@@ -131,7 +130,7 @@ namespace RoseFashionBE.Controllers
                         Username = guestname,
                         FullName = guestname,
                         Password = Md5Encryption(guestname),
-                        Role = "User"
+                        Role = "user"
                     });
                     entity.SaveChanges();
                     return Ok(guestname);

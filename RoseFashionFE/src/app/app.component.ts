@@ -58,7 +58,7 @@ export class AppComponent {
         this.router.navigate(['/view-product-list']); break;
       }
       case 'user': {
-        this.router.navigate(['/showcategory']); break;
+        this.router.navigate(['/home']); break;
       }
       default: break;
     }
@@ -74,6 +74,7 @@ logout() {
   this.islogon = false;
   this.email = null;
   this.role = null;
+  this.router.navigate(['/home']);
 }
 setRole(rolename: string){
   this.role = rolename;

@@ -17,6 +17,7 @@ namespace RoseFashionBE.Controllers
     public class UserController : ApiController
     {
         [HttpPost]
+        [Route("login")]
         public IHttpActionResult LoginWithModel(UserModel acc)
         {
             //nếu có truyền vào model thì thêm

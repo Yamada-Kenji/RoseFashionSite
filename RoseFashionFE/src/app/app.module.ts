@@ -32,6 +32,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
 import { PurchasehistoryComponent } from './UserManagerment/purchasehistory/purchasehistory.component';
 import { DetailhistoryComponent } from './UserManagerment/detailhistory/detailhistory.component';
+import { HomepageComponent } from './Others/homepage/homepage.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { DetailhistoryComponent } from './UserManagerment/detailhistory/detailhi
     EditAccountComponent,
     AddBillComponent,
     PurchasehistoryComponent,
-    DetailhistoryComponent
+    DetailhistoryComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,

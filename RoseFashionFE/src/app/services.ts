@@ -31,8 +31,9 @@ export class UserService{
         return this.currentUserSubject.value;
     }
     login(Email: string, Password: string): Observable<UserModel> {
+        const editedurl = `${this.userurl}/login`;
         const account: UserModel = { Email, Password} as UserModel;
-        return this.http.post<UserModel>(this.userurl, account, httpOptions)
+        return this.http.post<UserModel>(editedurl, account, httpOptions)
             .pipe(map(user => {
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);

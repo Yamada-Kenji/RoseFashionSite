@@ -12,19 +12,18 @@ import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
 import { ViewProductListComponent } from './ProductManagement/view-product-list/view-product-list.component';
 import { UpdateProductComponent } from './ProductManagement/update-product/update-product.component';
 import { AddProductToCartComponent } from './ProductManagement/add-product-to-cart/add-product-to-cart.component';
+import { HomepageComponent } from './Others/homepage/homepage.component';
 
 
 
 const routes: Routes = [
-  {path:'add-product', component: AddProductComponent},
-  {path:'view-product-list', component: ViewProductListComponent},
-  {path:'update-product/:productid', component: UpdateProductComponent},
-  {path:'add-product-to-cart/:productid', component: AddProductToCartComponent},
-
-  {path:'add-product', component: AddProductComponent},
-  {path:'editcategory/:id', component: EditcategoryComponent},
-  {path:'showcategory', component: ShowcategoryComponent},
-
+  {path: 'home', component: HomepageComponent},
+  {path: 'add-product', component: AddProductComponent},
+  {path: 'view-product-list', component: ViewProductListComponent},
+  {path: 'update-product/:productid', component: UpdateProductComponent},
+  {path: 'add-product-to-cart/:productid', component: AddProductToCartComponent},
+  {path: 'editcategory/:id', component: EditcategoryComponent},
+  {path: 'showcategory', component: ShowcategoryComponent},
   {path: 'view-cart', component: ViewCartComponent},
   {path: 'view-product-list-for-customer', component: ViewProductListForCustomerComponent},
   {path: 'add-bill', component: AddBillComponent}

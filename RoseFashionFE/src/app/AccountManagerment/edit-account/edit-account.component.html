@@ -1,1 +1,45 @@
-<p>edit-account works!</p>
+<div  class="container" style="max-width: 350px; width:device-width;">
+  <!-- 
+      
+   -->
+    <div>
+        <label>Email</label>
+      <input class="form-control" [(ngModel)]="users.Email"  disabled>
+    </div>
+  
+    <div>
+        <label>User Name</label>
+      <input class="form-control" [(ngModel)]="users.Username" >
+      <div class="alert alert-danger" *ngIf="users.Username == '' ">
+        <div >
+          It's required.
+        </div>
+  </div>
+    </div>
+
+    <div>
+      <label>Full Name</label>
+    <input class="form-control" [(ngModel)]="users.FullName" >
+    <div class="alert alert-danger" *ngIf="users.FullName == '' ">
+      <div >
+        It's required.
+      </div>
+  </div>
+  </div>
+
+  <div>
+    <label>Address</label>
+  <input class="form-control" [(ngModel)]="users.Address"  >
+</div>
+
+<div>
+    <label>Phone</label>
+  <input class="form-control" [(ngModel)]="users.Phone"  >
+</div>
+
+  
+    <button  type="button" class="btn btn-success float-right" (click)="save()" >Save</button>
+    <button type="button" class="btn btn-success float-right"  routerLink="/fecourse" style="margin-right: 5px;">Back</button>
+  </div>
+  
+

@@ -7,7 +7,7 @@
         <tr>
             <th>Mã sản phẩm</th>
             <th>Tên sản phẩm</th>
-            <!--<th>Màu sắc</th>-->
+         
             <th>Giá (VNĐ)</th>
             <th>Tùy chọn</th>
         </tr>
@@ -16,7 +16,8 @@
         <tr>
             <td>{{item.ProductID}}</td>
             <td>{{item.Name}}</td>
-            <!--<td><input type="color" [(ngModel)]="item.Color" disabled></td>-->
+
+            
             <td>{{item.Price}}</td>
             <td><button class="btn btn-dark" style="margin-left: 5px" [routerLink]="['/update-product', item.ProductID]" routerLinkActive="router-link-active" >Sửa</button>
                 <button class="btn btn-dark" style="margin-left: 5px;" (click)="DeleteProduct(item.ProductID)">Xóa</button>

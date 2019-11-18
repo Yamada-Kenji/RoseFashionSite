@@ -15,28 +15,51 @@ namespace RoseFashionBE.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UserController : ApiController
     {
-        public IHttpActionResult GetLogin(string username, string password)
+        [HttpPost]
+        public IHttpActionResult LoginWithModel(UserModel acc)
         {
             //nếu có truyền vào model thì thêm
-            //if (!ModelState.IsValid) return BadRequest("Invalid data.");
+            if (!ModelState.IsValid) return BadRequest("Invalid data.");
             try
             {
-                int result = 0;
-                string pwrHash = Md5Encryption(password);
+                var result = new UserModel();
+                string pwrHash = GetMd5Hash(acc.Password);
 
                 using (var ctx = new RoseFashionDBEntities())
                 {
-                   
+                    switch (acc.Role.ToLower())
+                    {
+                        case "admin":
                             result = ctx.Users
-                                .Count(s => s.Username.ToLower().Equals(username.ToLower()) && s.Password.Equals(pwrHash));
-                           
+                                .Where(s => s.Username.ToLower().Equals(acc.Username.ToLower()) && s.Password.Equals(pwrHash))
+                                .Select(s => new UserModel()
+                                {
+                                    Username = s.Username,
+                                    Email = s.Email,
+                                    Role = "admin"
+                                }).FirstOrDefault();
+                            break;
+                        case "user":
+                            result = ctx.Users
+                                .Where(s => s.Username.ToLower().Equals(acc.Username.ToLower()) && s.Password.Equals(pwrHash))
+                                .Select(s => new UserModel()
+                                {
+                                    Username = s.Username,
+                                    Email = s.Email,
+                                    Role = "user"
+                                }).FirstOrDefault();
+                            break;
+                    
+                        default: break;
+                    }
                 }
 
-                if (result == 1)
+                if (result != null)
                 {
-                    return Ok(GenerateJwtToken(username));
+                    
+                    return Ok(result);
                 }
-                return BadRequest("Login Failed");
+                return BadRequest("Login fail.");
             }
             catch (Exception ex)
             {
@@ -44,7 +67,29 @@ namespace RoseFashionBE.Controllers
             }
         }
 
-    
+        //Hash password MD5
+        static string GetMd5Hash(string input) //source: docs.microsoft.com
+        {
+            MD5 md5Hash = MD5.Create();
+
+            // Convert the input string to a byte array and compute the hash.
+            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            // Create a new Stringbuilder to collect the bytes
+            // and create a string.
+            StringBuilder sBuilder = new StringBuilder();
+
+            // Loop through each byte of the hashed data 
+            // and format each one as a hexadecimal string.
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            // Return the hexadecimal string.
+            return sBuilder.ToString();
+        }
+
         [HttpGet]
         public IHttpActionResult ShowAllUser()
         {
@@ -58,6 +103,25 @@ namespace RoseFashionBE.Controllers
             }
         }
 
+        public IHttpActionResult GetUserByID(string email)
+        {
+            UserModel result = null;
+            using (var entity = new RoseFashionDBEntities())
+            {
+                    result = entity.Users.Where(ct => ct.Email == email)
+                    .Select(ct => new UserModel
+                    {
+                        Email = ct.Email,
+                        Username = ct.Username,
+                        FullName = ct.FullName,
+                        Address = ct.Address,
+                        Phone = ct.Phone
+
+                    }).FirstOrDefault<UserModel>();
+                return Ok(result);
+            }
+        }
+      
         [HttpPost]
         public IHttpActionResult Register(UserModel user)
         {
@@ -84,33 +148,7 @@ namespace RoseFashionBE.Controllers
                 return InternalServerError(ex);
             }
         }
-        private string GenerateJwtToken(string username)
-        {
-            string serectKey = "ZmVlZGJhY2stc3lzdGVtLVNIQS0yNTYtc2VyZWN0LWtleQ=="; 
-            int expireMinutes = 30;
-            var symmetricKey = Convert.FromBase64String(serectKey);
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var now = DateTime.UtcNow;
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, username)
-                }),
-
-                Expires = now.AddMinutes(Convert.ToInt32(expireMinutes)),
-
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(symmetricKey),
-                    SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var stoken = tokenHandler.CreateToken(tokenDescriptor);
-            var token = tokenHandler.WriteToken(stoken);
-
-            return token;
-        }
+        
         string Md5Encryption(string password) //from docs.microsoft.com
         {
             MD5 md5hash = MD5.Create();
@@ -131,6 +169,29 @@ namespace RoseFashionBE.Controllers
             return stringbuilder.ToString();
         }
 
+        [HttpPut]
+        public IHttpActionResult EditAccount(UserModel account)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data.");
+            }
+            using (var entity = new RoseFashionDBEntities())
+            {
+                var Email = entity.Users.Where(c => c.Email.Equals(account.Email)).FirstOrDefault();
+                if (Email != null)
+                {
+                    Email.Username = account.Username;
+                    Email.FullName = account.FullName;
+                    Email.Address = account.Address;
+                    Email.Phone = account.Phone;
+                    entity.SaveChanges();
+                    return Ok("Edit account successfully!");
+                }
+                return NotFound();
+
+            }
+        }
 
     }
 }

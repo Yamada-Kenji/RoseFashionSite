@@ -1,12 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatSliderModule } from '@angular/material/slider';
 
 
-import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,8 +26,12 @@ import { CreateAccountComponent } from './AccountManagerment/create-account/crea
 import { EditAccountComponent } from './AccountManagerment/edit-account/edit-account.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
+
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
+import { PurchasehistoryComponent } from './UserManagerment/purchasehistory/purchasehistory.component';
+import { DetailhistoryComponent } from './UserManagerment/detailhistory/detailhistory.component';
 
 
 @NgModule({
@@ -48,7 +48,9 @@ import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
     ViewCartComponent,
     CreateAccountComponent,
     EditAccountComponent,
-    AddBillComponent
+    AddBillComponent,
+    PurchasehistoryComponent,
+    DetailhistoryComponent
   ],
   imports: [
     BrowserModule,
@@ -57,19 +59,21 @@ import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    NgbModule,
-    MDBBootstrapModule,
-    BrowserAnimationsModule,
-    MatSliderModule
+
+
+    BrowserAnimationsModule
+  
   ],
+
   providers: [
     UserService, 
     ProductService, 
     CategoryService,
-    ComponentLoaderFactory,
+    
     CartService,
     BillService
   ],
+
 
 
   bootstrap: [AppComponent]

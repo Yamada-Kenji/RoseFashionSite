@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AddProductComponent } from './ProductManagement/add-product/add-product.component';
+
+
 import { EditcategoryComponent } from './CategoryManagerment/editcategory/editcategory.component';
 import { ShowcategoryComponent } from './CategoryManagerment/showcategory/showcategory.component'
 import { ViewCartComponent } from './CartManagement/view-cart/view-cart.component';

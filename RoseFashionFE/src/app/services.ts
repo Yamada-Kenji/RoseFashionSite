@@ -1,9 +1,11 @@
 
 import { UserModel, CategoryModel, ProductModel, CartModel } from './model';
 import { HttpClient, HttpHeaders, HttpParams, HttpHeaderResponse, HttpErrorResponse} from '@angular/common/http';
-import { Observable } from 'rxjs';
+
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 const httpOptions = {
@@ -13,11 +15,52 @@ const httpOptions = {
   };
 
 export class UserService{
-    constructor(private http: HttpClient){}
+    private currentUserSubject: BehaviorSubject<UserModel>;
+    public currentUser: Observable<UserModel>;
+    constructor(private http: HttpClient){
+        this.currentUserSubject = new BehaviorSubject<UserModel>(JSON.parse(localStorage.getItem('currentUser')));
+      this.currentUser = this.currentUserSubject.asObservable();
+    }
     private userurl = 'http://localhost:62098/api/user';
     Register(newuser: UserModel): Observable<any>{
         return this.http.post(this.userurl, newuser);
     }
+
+    
+    public get currentUserValue(): UserModel {
+        return this.currentUserSubject.value;
+    }
+    login(Email: string, Password: string): Observable<UserModel> {
+        const account: UserModel = { Email, Password} as UserModel;
+        return this.http.post<UserModel>(this.userurl, account, httpOptions)
+            .pipe(map(user => {
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    this.currentUserSubject.next(user);
+                return user;
+            }));
+    }
+    logout() {
+        // remove user from local storage to log user out
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
+    }
+  
+    getCurrentUser(){
+        var temp: UserModel = JSON.parse(localStorage.getItem('currentUser'));
+        return temp;
+    }
+
+    //get account by email
+    GetAccountByEmail(email: string): Observable<UserModel[]>{
+        const geturl = `${this.userurl}?email=${email}`;
+        return this.http.get<UserModel[]>(geturl);
+    }
+    //update account
+    UpdateAccount(editedaccount: UserModel): Observable<any>{
+        return this.http.put(this.userurl, editedaccount, httpOptions);
+    }
+
+
 
     CreateGuestID(): Observable<any>{
         const editedurl = `${this.userurl}/guest`;
@@ -29,6 +72,7 @@ export class UserService{
         if(userid) return userid;
         else return localStorage.getItem('GuestID');
     }
+
 }
 
 export class ProductService{
@@ -134,6 +178,7 @@ export class CartService{
         return JSON.parse(localStorage.getItem('MyCart'));
     }
 
+
     UpdateItemAmount(productid, amount){
         var mycart: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
         var updateditem = mycart.find(item => item.ProductID == productid);
@@ -157,5 +202,6 @@ export class BillService{
         const editedurl = `${this.billurl}?userid=${userid}`;
         return this.http.post(editedurl, items, httpOptions);
     }
+
 }
 

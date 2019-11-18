@@ -4,13 +4,13 @@
    -->
     <div>
         <label>Email</label>
-      <input class="form-control" [(ngModel)]="users.Email"  disabled>
+      <input class="form-control" [(ngModel)]="user.Email"  disabled>
     </div>
   
     <div>
-        <label>User Name</label>
-      <input class="form-control" [(ngModel)]="users.Username" >
-      <div class="alert alert-danger" *ngIf="users.Username == '' ">
+        <label>Tên đăng nhập</label>
+      <input class="form-control" [(ngModel)]="user.Username" >
+      <div class="alert alert-danger" *ngIf="user.Username == '' ">
         <div >
           It's required.
         </div>
@@ -18,9 +18,9 @@
     </div>
 
     <div>
-      <label>Full Name</label>
-    <input class="form-control" [(ngModel)]="users.FullName" >
-    <div class="alert alert-danger" *ngIf="users.FullName == '' ">
+      <label>Họ và tên</label>
+    <input class="form-control" [(ngModel)]="user.FullName" >
+    <div class="alert alert-danger" *ngIf="user.FullName == '' ">
       <div >
         It's required.
       </div>
@@ -28,14 +28,19 @@
   </div>
 
   <div>
-    <label>Address</label>
-  <input class="form-control" [(ngModel)]="users.Address"  >
+    <label>Địa chỉ</label>
+  <input class="form-control" [(ngModel)]="user.Address"  >
 </div>
 
 <div>
-    <label>Phone</label>
-  <input class="form-control" [(ngModel)]="users.Phone"  >
+    <label>Số điện thoại</label>
+  <input class="form-control" [(ngModel)]="user.Phone"  >
 </div>
+
+ <div>
+  <label>Năm sinh</label>
+  <input class="form-control" [(ngModel)]="user.DOB "  >
+</div> 
 
   
     <button  type="button" class="btn btn-success float-right" (click)="save()" >Save</button>

@@ -11,7 +11,7 @@ namespace RoseFashionBE.Models
         public string Password;
         public string FullName;
         public string Gender;
-        public DateTime DOB;
+        public Nullable<DateTime> DOB ;
         public string Email;
         public string Address;
         public string Phone;

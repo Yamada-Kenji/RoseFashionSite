@@ -1,39 +1,19 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  </head>
-  <body>
-      
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
-</html>
 
 
-<div class="container" style="max-width: 350px;width: device-width;">
+<div class="container" style="max-width: 550px;width: device-width;">
 
     <div *ngIf="showMessage" class="alert alert-success">
     {{showMessage}}
     </div>
     <div>
-        <h2 style="text-align: center;">Add Category</h2>
+        <h2 style="text-align: center;">Thêm loại sản phẩm</h2>
     </div>
   <form [formGroup]="classForm" #formDir="ngForm">
     <div [hidden]="!!classForm.submitted">
     <div class="cross-validation" [class.cross-validation-error]="!!classForm.errors?.identityRevealed
     && (classForm.touched || classForm.dirty)">
       <div >
-      <label>Name</label>
+      <label>Tên loại</label>
       <input #classname type="text" class="form-control" placeholder="Class Name" formControlName="name" required>
       <div *ngIf="name.invalid && (name.dirty || name.touched)"
               class="alert alert-danger">
@@ -44,7 +24,7 @@
       </div>
   
       <div >
-        <label>Main Category</label>
+        <label>Loại chính</label>
         <input #classname type="text" class="form-control" placeholder="Class Name" formControlName="maincategory" required>
         <div *ngIf="maincategory.invalid && (maincategory.dirty || maincategory.touched)"
                 class="alert alert-danger">
@@ -55,9 +35,10 @@
         </div>
 
       <div>
-        <button class="btn btn-success float-right" (click)="addCategory(name.value , maincategory.value)" title="Add" type="submit" [disabled]="classForm.invalid">Save </button>
-        <button type="button" class="btn btn-success float-right" style="margin-right: 5px;background-color: #f36f21;"
-            [routerLink]="['/feclass']" routerLinkActive="active">Back</button>
+        <br/>
+        <button class="btn btn-dark float-right" (click)="addCategory(name.value , maincategory.value)" title="Add" type="submit" [disabled]="classForm.invalid">Save </button>
+        <button type="button" class="btn btn-dark float-right" style="margin-right: 5px;"
+            [routerLink]="['/']" routerLinkActive="active">Back</button>
       </div>
     </div>
   </div>

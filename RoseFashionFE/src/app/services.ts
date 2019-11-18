@@ -31,8 +31,9 @@ export class UserService{
         return this.currentUserSubject.value;
     }
     login(Email: string, Password: string): Observable<UserModel> {
+        const editedurl = `${this.userurl}/login`;
         const account: UserModel = { Email, Password} as UserModel;
-        return this.http.post<UserModel>(this.userurl, account, httpOptions)
+        return this.http.post<UserModel>(editedurl, account, httpOptions)
             .pipe(map(user => {
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);
@@ -51,9 +52,9 @@ export class UserService{
     }
 
     //get account by email
-    GetAccountByEmail(email: string): Observable<UserModel[]>{
+    GetAccountByEmail(email: string): Observable<UserModel>{
         const geturl = `${this.userurl}?email=${email}`;
-        return this.http.get<UserModel[]>(geturl);
+        return this.http.get<UserModel>(geturl);
     }
     //update account
     UpdateAccount(editedaccount: UserModel): Observable<any>{

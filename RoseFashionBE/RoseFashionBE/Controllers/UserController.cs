@@ -17,6 +17,7 @@ namespace RoseFashionBE.Controllers
     public class UserController : ApiController
     {
         [HttpPost]
+        [Route("login")]
         public IHttpActionResult LoginWithModel(UserModel acc)
         {
             //nếu có truyền vào model thì thêm
@@ -28,31 +29,18 @@ namespace RoseFashionBE.Controllers
 
                 using (var ctx = new RoseFashionDBEntities())
                 {
-                    switch (acc.Role.ToLower())
-                    {
-                        case "admin":
-                            result = ctx.Users
-                                .Where(s => s.Username.ToLower().Equals(acc.Username.ToLower()) && s.Password.Equals(pwrHash))
-                                .Select(s => new UserModel()
-                                {
-                                    Username = s.Username,
-                                    Email = s.Email,
-                                    Role = "admin"
-                                }).FirstOrDefault();
-                            break;
-                        case "user":
-                            result = ctx.Users
-                                .Where(s => s.Username.ToLower().Equals(acc.Username.ToLower()) && s.Password.Equals(pwrHash))
-                                .Select(s => new UserModel()
-                                {
-                                    Username = s.Username,
-                                    Email = s.Email,
-                                    Role = "user"
-                                }).FirstOrDefault();
-                            break;
                     
-                        default: break;
-                    }
+                        
+                            result = ctx.Users
+                                .Where(s => s.Email.ToLower().Equals(acc.Email.ToLower()) && s.Password.Equals(pwrHash))
+                                .Select(s => new UserModel()
+                                {
+                                    Username = s.Username,
+                                    Email = s.Email,
+                                    Role = s.Role
+                                }).FirstOrDefault();
+                           
+                    
                 }
 
                 if (result != null)
@@ -120,7 +108,8 @@ namespace RoseFashionBE.Controllers
                         Username = ct.Username,
                         FullName = ct.FullName,
                         Address = ct.Address,
-                        Phone = ct.Phone
+                        Phone = ct.Phone,
+                        DOB = ct.DOB
 
                     }).FirstOrDefault<UserModel>();
                 return Ok(result);
@@ -170,7 +159,7 @@ namespace RoseFashionBE.Controllers
                         FullName = user.FullName,
                         Email = user.Email,
                         Password = Md5Encryption(user.Password),
-                        Role = "User"
+                        Role = "user"
                     });
                     entity.SaveChanges();
                     return Ok("Register successfully.");

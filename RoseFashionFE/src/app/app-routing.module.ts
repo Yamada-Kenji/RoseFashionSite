@@ -12,7 +12,7 @@ import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
 import { ViewProductListComponent } from './ProductManagement/view-product-list/view-product-list.component';
 import { UpdateProductComponent } from './ProductManagement/update-product/update-product.component';
 import { AddProductToCartComponent } from './ProductManagement/add-product-to-cart/add-product-to-cart.component';
-
+import {AddcategoryComponent} from './CategoryManagerment/addcategory/addcategory.component';
 
 
 const routes: Routes = [
@@ -24,6 +24,7 @@ const routes: Routes = [
   {path:'add-product', component: AddProductComponent},
   {path:'editcategory/:id', component: EditcategoryComponent},
   {path:'showcategory', component: ShowcategoryComponent},
+  {path:'addcategory', component: AddcategoryComponent},
 
   {path: 'view-cart', component: ViewCartComponent},
   {path: 'view-product-list-for-customer', component: ViewProductListForCustomerComponent},

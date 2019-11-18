@@ -52,9 +52,9 @@ export class UserService{
     }
 
     //get account by email
-    GetAccountByEmail(email: string): Observable<UserModel[]>{
+    GetAccountByEmail(email: string): Observable<UserModel>{
         const geturl = `${this.userurl}?email=${email}`;
-        return this.http.get<UserModel[]>(geturl);
+        return this.http.get<UserModel>(geturl);
     }
     //update account
     UpdateAccount(editedaccount: UserModel): Observable<any>{

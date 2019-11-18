@@ -7,37 +7,112 @@
 <!-- <app-create-account></app-create-account> -->
 
 
+
 <!-- <app-create-account></app-create-account> -->
-<!-- <app-edit-account></app-edit-account> -->
+<!-- <app-edit-account></app-edit-account>  -->
 
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <i class="fa fa-bars" aria-hidden="true"></i>
   </button>
+
   <!-- Brand/logo -->
   <a class="navbar-brand" href="#">Logo</a>
-  
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <!-- Links -->
     <ul class="navbar-nav">
       <!-- Narbar for Admin -->
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="">Sản phẩm</a>
+      <li class="nav-item" *ngIf="role === 'admin'">
+        <a class="nav-link" [routerLink]="['/view-product-list']">Sản phẩm</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="role === 'admin'">
         <a class="nav-link" [routerLink]="['/showcategory']">Loại sản phẩm</a>
       </li>
+
+
+      <!-- Narbar for user -->
+      <li class="nav-item" *ngIf="role === 'user'">
+        <a class="nav-link" [routerLink]="['/view-product-list-for-customer']">Loại sản phẩm</a>
+      </li>
+
+      <!-- <li *ngIf="islogon">
+      <div class="btn-group">
+        <button type="button" class="btn btn-secondary">{{email}}</button>
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item"  [routerLink]="['/showcategory']">Quản lý tài khoản</a>
+          <a class="dropdown-item"  [routerLink]="['/showcategory']">Đơn hàng đã mua</a>
+          <a class="dropdown-item"  [routerLink]="['/showcategory'] " (click)="logout()">Log out</a>
+        </div>
+      </div>
+     </li> -->
+
     </ul>
   </div>
-  
+
+  <ul class="navbar-nav">
+    <li class="nav-item" *ngIf="!islogon">
+      <a class="nav-link" data-toggle="modal" data-target="#myModal"
+        style="background: none; border-style: none; border-radius: 0px; margin: auto;">
+        Đăng nhập
+      </a>
+
+      <div class="modal" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Modal Heading</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <label>Email</label>
+              <input type="text" class="form-control" #email>
+              <label>Password</label>
+              <input type="password" class="form-control" #password>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" (click)="login(email.value, password.value)"
+                data-dismiss="modal">Login</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li class="nav-item" *ngIf="!islogon">
+      <a class="nav-link " style="margin-right: 5px;" [routerLink]="">Đăng kí</a>
+    </li>
+
+    <li class="nav-item dropdown" *ngIf="islogon">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        {{email}}
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" *ngIf="role === 'user'" [routerLink]="['/showcategory']">Quản lý tài khoản</a>
+        <a class="dropdown-item" *ngIf="role === 'user'" [routerLink]="['/showcategory']">Đơn hàng đã mua</a>
+        <a class="dropdown-item" [routerLink]="['/showcategory'] " (click)="logout()">Log out</a>
+      </div>
+    </li>
+  </ul>
+
   <!-- shopping-cart icon-->
   <div class="nav-item">
-      <a class="nav-link" [routerLink]="['/view-cart']" routerLinkActive="router-link-active" >
-        <i class="fas fa-shopping-bag" style="color: white"></i>
-      </a>
-    </div>
+    <a class="nav-link" [routerLink]="['/view-cart']" routerLinkActive="router-link-active">
+      <i class="fas fa-shopping-bag" style="color: white"></i>
+    </a>
+  </div>
 
 </nav>
+
 
 <!-- <ng-template #content let-modal>
   <div class="modal-header">

@@ -22,12 +22,12 @@ export class EditAccountComponent implements OnInit {
 
   getAccountByEmail(): void {
     
-    this.userService.GetAccountByEmail('haha@gmail.com').subscribe(user => this.users = user);
+    this.userService.GetAccountByEmail('haha@gmail.com').subscribe(user => this.user = user);
  
   }
   save(): void {
       this.userService.UpdateAccount(this.user).subscribe(() => this.goBack());
-      alert("Congratulation! Update successfully.")
+      // alert("Congratulation! Update successfully.")
     }
   goBack(): void {
       this.location.back();

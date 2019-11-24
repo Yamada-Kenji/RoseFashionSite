@@ -4,26 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e6a49a2affa64d71bb7f977423650c75" Name="Diagram1">
-        <EntityTypeShape EntityType="RoseFashionDBModel.Bill" Width="1.5" PointX="5.25" PointY="0.75" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.Cart" Width="1.5" PointX="3" PointY="2.75" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.Cart_Product" Width="1.5" PointX="5.25" PointY="6.875" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.Category" Width="1.5" PointX="0.75" PointY="7" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.Discount" Width="1.5" PointX="3" PointY="16.25" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.Product" Width="1.5" PointX="3" PointY="6.125" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.Product_Size_Quantity" Width="1.5" PointX="5.25" PointY="12.375" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.Rating" Width="1.5" PointX="5.25" PointY="3.875" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.sysdiagram" Width="1.5" PointX="7.75" PointY="3.75" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.User" Width="1.5" PointX="3" PointY="10.75" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Bill_Cart" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Bill_Discount" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Cart_Product_Cart" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Cart_User" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Cart_Product_Product" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Product_Category" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Product_Size_Quantity_Product" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Rating_Product" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Rating_User" />
+      <Diagram DiagramId="3457880cba0f4d59942c41e415ed6e5a" Name="Diagram1">
+        <EntityTypeShape EntityType="RoseFashionDBModel.Bill" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.Cart" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.Cart_Product" Width="1.5" PointX="5.25" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.Category" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.Discount" Width="1.5" PointX="3" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.Product" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.Product_Size_Quantity" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.Rating" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.sysdiagram" Width="1.5" PointX="7.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.User" Width="1.5" PointX="3" PointY="12.125" IsExpanded="true" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Bill_Cart" ManuallyRouted="false" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Bill_Discount" ManuallyRouted="false" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Cart_Product_Cart" ManuallyRouted="false" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Cart_User" ManuallyRouted="false" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Cart_Product_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Product_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Product_Size_Quantity_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Rating_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Rating_User" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

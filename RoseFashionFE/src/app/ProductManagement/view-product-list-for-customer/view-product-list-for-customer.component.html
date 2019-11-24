@@ -46,8 +46,8 @@
                 <div *ngFor="let item of productlist | paginate: pageconfig; let i = index">
                     <img class="img-fluid" [src]="item.Image" [routerLink]="['/add-product-to-cart', item.ProductID]"
                         style="width: 142px;height: 182px; margin-left: 10px; margin-top: 10px;">
-                    <p class="d-flex justify-content-center">{{item.Name}}</p>
-                    <p class="d-flex justify-content-center">{{item.Price}} VNĐ</p>
+                    <p class="wrap-text-center">{{item.Name}}</p>
+                    <p class="wrap-text-center">{{item.Price | number}} VNĐ</p>
                 </div>
 
             </div>

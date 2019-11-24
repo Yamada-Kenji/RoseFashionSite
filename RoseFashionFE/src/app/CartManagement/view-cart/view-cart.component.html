@@ -11,18 +11,18 @@
                 <div class="col-sm-2">Size: {{item.Size}}</div>
                 <div class="col-sm-2"><input type="number" [(ngModel)]="item.Amount" class="form-control"
                         (change)="UpdateItemAmount(item.ProductID, item.Amount)" min="1" max="{{item.Quantity}}"></div>
-                <div class="col-sm-2">{{item.Price | number}} VNĐ</div>
-                <div class="col-sm-2"><Button class="btn btn-dark" data-toggle="modal" data-target="#myModal"
+                <div class="col-sm-2">{{item.SalePrice | number}} VNĐ</div>
+                <div class="col-sm-2"><Button class="btn btn-dark" data-toggle="modal" data-target="#myModal1"
                         (click)="SelectItem(item.ProductID)">Xóa</Button></div>
             </div>
-            <div class="d-flex justify-content-center" *ngIf="mycart.lenght>3">
+            <div class="d-flex justify-content-center" *ngIf="totalprice!=0">
                 <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="sticky-top" style="background-color: #f2f2f2;">
+            <div style="background-color: #f2f2f2;">
                 <p>Tổng cộng: {{totalprice | number}} VNĐ</p>
-                <button class="btn btn-dark" [routerLink]="['/add-bill']" routerLinkActive="router-link-active">Thanh
+                <button *ngIf="totalprice!=0" class="btn btn-dark" [routerLink]="['/add-bill']" routerLinkActive="router-link-active">Thanh
                     toán</button>
             </div>
         </div>
@@ -30,7 +30,7 @@
 </div>
 
 <!-- The Modal -->
-<div class="modal fade" id="myModal">
+<div class="modal fade" id="myModal1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 

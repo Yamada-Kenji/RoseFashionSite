@@ -1,16 +1,3 @@
-<!-- <app-register></app-register> -->
-
-<!-- <app-add-product></app-add-product> -->
-<!-- <app-addcategory></app-addcategory>  -->
-<!-- <app-showcategory></app-showcategory>    -->
-
-<!-- <app-create-account></app-create-account> -->
-
-
-
-<!-- <app-create-account></app-create-account> -->
-<!-- <app-edit-account></app-edit-account>  -->
-
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <i class="fa fa-bars" aria-hidden="true"></i>
@@ -22,17 +9,17 @@
     <!-- Links -->
     <ul class="navbar-nav">
       <!-- Narbar for Admin -->
-      <li class="nav-item" *ngIf="role === 'admin'">
-        <a class="nav-link" [routerLink]="['/view-product-list']">Sản phẩm</a>
+      <li class="nav-item" *ngIf="currentUser.Role === 'admin'">
+        <a class="nav-link" [routerLink]="['/view-product-list']">Danh sách sản phẩm</a>
       </li>
-      <li class="nav-item" *ngIf="role === 'admin'">
-        <a class="nav-link" [routerLink]="['/showcategory']">Loại sản phẩm</a>
+      <li class="nav-item" *ngIf="currentUser.Role === 'admin'">
+        <a class="nav-link" [routerLink]="['/showcategory']">Danh sách loại sản phẩm</a>
       </li>
 
 
       <!-- Narbar for user -->
-      <li class="nav-item" *ngIf="role === 'user'">
-        <a class="nav-link" [routerLink]="['/view-product-list-for-customer']">Loại sản phẩm</a>
+      <li class="nav-item" *ngIf="currentUser.Role === 'user'">
+        <a class="nav-link" [routerLink]="['/view-product-list-for-customer']">Danh sách sản phẩm</a>
       </li>
 
       <!-- <li *ngIf="islogon">
@@ -89,17 +76,17 @@
     </li>
 
     <li class="nav-item" *ngIf="!islogon">
-      <a class="nav-link " style="margin-right: 5px;" [routerLink]="">Đăng kí</a>
+      <a class="nav-link " style="margin-right: 5px;" [routerLink]="['/register']">Đăng kí</a>
     </li>
 
     <li class="nav-item dropdown" *ngIf="islogon">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        {{email}}
+        {{currentUser.Email}}
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" *ngIf="role === 'user'" [routerLink]="['/showcategory']">Quản lý tài khoản</a>
-        <a class="dropdown-item" *ngIf="role === 'user'" [routerLink]="['/showcategory']">Đơn hàng đã mua</a>
-        <a class="dropdown-item" [routerLink]="['/showcategory'] " (click)="logout()">Log out</a>
+        <a class="dropdown-item" *ngIf="currentUser.Role 'user'" [routerLink]="['/showcategory']">Quản lý tài khoản</a>
+        <a class="dropdown-item" *ngIf="currentUser.Role === 'user'" [routerLink]="['/showcategory']">Đơn hàng đã mua</a>
+        <a class="dropdown-item" (click)="logout()">Đăng xuất</a>
       </div>
     </li>
   </ul>
@@ -108,7 +95,7 @@
   <div class="nav-item">
       <!--  -->
     <a class="nav-link" [routerLink]="['/view-cart']" routerLinkActive="router-link-active">
-      <i class="fas fa-shopping-bag fa-lg" style="color: white"></i><span class="badge badge-dark">14</span>
+      <i class="fas fa-shopping-bag fa-lg" style="color: white"></i><span class="badge badge-dark" *ngIf="UpdateCartQuantity()!=0">{{UpdateCartQuantity()}}</span>
     </a>
     
   </div>
@@ -116,44 +103,9 @@
 </nav>
 
 
-<!-- <ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cancel click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="form-group">
-        <label for="dateOfBirth">Date of birth</label>
-        <div class="input-group">
-          <input [(ngModel)]="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cancel click')">Cancel</button>
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('saved')">Save</button>
-  </div>
-</ng-template>
-
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Input your birth date</button>
-
-<hr>
-
-<pre>{{closeResult}}</pre>
-
-<pre>{{dateOfBirth | json}}</pre> -->
-
-<!--<app-view-product-list></app-view-product-list>-->
-<!--<app-add-product></app-add-product>-->
 <button [routerLink]="['/view-product-list']" routerLinkActive="router-link-active">list</button>
 <button [routerLink]="['/view-cart']" routerLinkActive="router-link-active">Xem giỏ hàng</button>
 <button [routerLink]="['/view-product-list-for-customer']" routerLinkActive="router-link-active">Xem danh sách sản
   phẩm</button>
 <router-outlet></router-outlet>
+<app-message-modal></app-message-modal>

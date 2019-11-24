@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductModel, CategoryModel } from 'src/app/model';
-import { ProductService, CategoryService, CartService } from 'src/app/services';
+import { ProductModel, CategoryModel, MessageModel } from 'src/app/model';
+import { ProductService, CategoryService, CartService, UserService, MessageService } from 'src/app/services';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { max } from 'rxjs/operators';
@@ -19,6 +19,8 @@ export class AddProductToCartComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private cartService: CartService,
+    private userService: UserService,
+    private messageService: MessageService,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -27,7 +29,10 @@ export class AddProductToCartComponent implements OnInit {
   }
 
   AddToCart(amount: number){
-    this.cartService.AddToCart(this.product.ProductID, this.product.Image, this.product.Name, this.selectedsize, amount, this.maxamount, this.product.Price);
+    var user = this.userService.getCurrentUser();
+    this.cartService.AddToLocalCart(this.product.ProductID, this.product.Image, this.product.Name, this.selectedsize, amount, this.maxamount, this.product.Price);
+    var msg: MessageModel = {Type:"Thông báo", Content: "Đã thêm sản phẩm vào giỏ hàng.", YesNoQuestion: false};
+    this.messageService.SendMessage(msg);
   }
 
   OnSizeChange(size, index: number){

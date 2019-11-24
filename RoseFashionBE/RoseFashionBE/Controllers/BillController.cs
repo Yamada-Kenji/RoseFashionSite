@@ -13,22 +13,18 @@ namespace RoseFashionBE.Controllers
     public class BillController : ApiController
     {
         [HttpPost]
-        public IHttpActionResult AddBillForGuest(CartModel[] items, UserModel user)
+        public IHttpActionResult AddBillForGuest(CartModel[] items, BillModel billinfo, string guestid)
         {
             try
             {
                 using (var entity = new RoseFashionDBEntities())
                 {
-                    //lưu thông tin khách hàng
-                    var userinfo = entity.Users.Where(u => u.Username.Equals(user.Username)).FirstOrDefault();
-                    userinfo.FullName = user.FullName;
-                    userinfo.Email = user.Email;
                     // tạo cart mới
-                    string cartid = "CR-" + (entity.Carts.Count() + 1); 
+                    string cartid = "CR-" + (entity.Carts.Count() + 1);
                     entity.Carts.Add(new Cart
                     {
                         CartID = cartid,
-                        UserID = user.Username,
+                        UserID = guestid,
                         IsUsing = false,
                     });
                     // lưu sản phẩm vào cart vừa tạo
@@ -37,17 +33,53 @@ namespace RoseFashionBE.Controllers
                         entity.Cart_Product.Add(new Cart_Product {
                             CartID = cartid,
                             ProductID = items[i].ProductID,
-                            Amount = items[i].Amount
+                            Size = items[i].Size,
+                            Amount = items[i].Amount,
+                            SalePrice = items[i].SalePrice
                         });
                     }
                     // tạo hóa đơn cho cart vừa tạo
                     entity.Bills.Add(new Bill {
                         BillID = "BL-" + (entity.Bills.Count() + 1),
-                        CartID = cartid,
-                        Date = DateTime.Now.Date
+                        CartID = billinfo.CartID,
+                        Date = DateTime.Now.Date,
+                        ReceiverName = billinfo.ReceiverName,
+                        ReceiverPhone = billinfo.ReceiverPhone,
+                        DeliveryAddress = billinfo.DeliveryAddress,
+                        DiscountCode = billinfo.DiscountCode,
+                        TotalPrice = billinfo.TotalPrice
                     });
                     entity.SaveChanges();
-                    return Ok("Add bill successfully.");
+                    return Ok("OK");
+                }
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPost]
+        public IHttpActionResult AddBillForMember(BillModel billinfo)
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    entity.Bills.Add(new Bill
+                    {
+                        BillID = "BL-" + (entity.Bills.Count() + 1),
+                        CartID = billinfo.CartID,
+                        Date = DateTime.Now.Date,
+                        ReceiverName = billinfo.ReceiverName,
+                        ReceiverPhone = billinfo.ReceiverPhone,
+                        DeliveryAddress = billinfo.DeliveryAddress,
+                        DiscountCode = billinfo.DiscountCode,
+                        TotalPrice = billinfo.TotalPrice
+                    });
+                    entity.Carts.Where(c => c.CartID == billinfo.CartID).FirstOrDefault().IsUsing = false;
+                    entity.SaveChanges();
+                    return Ok("OK");
                 }
             }
             catch(Exception ex)
@@ -67,7 +99,7 @@ namespace RoseFashionBE.Controllers
                     {
                         BillID = b.BillID,
                         CartID = b.CartID,
-                        Date = b.Date
+                        OrderDate = b.Date
                     }).ToList();
                     return Ok(result);
                 }
@@ -95,7 +127,7 @@ namespace RoseFashionBE.Controllers
                             .Select(b => new BillModel
                             {
                                 BillID = b.BillID,
-                                Date = b.Date
+                                OrderDate = b.Date
                             }).FirstOrDefault();
                         result.Add(bill);
                    }

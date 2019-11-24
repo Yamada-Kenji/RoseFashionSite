@@ -101,3 +101,5 @@ D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityMode
 D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.JsonWebTokens.xml
 D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.Logging.xml
 D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.Tokens.xml
+D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\RoseFashionBE.dll.CodeAnalysisLog.xml
+D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\RoseFashionBE.dll.lastcodeanalysissucceeded

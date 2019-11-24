@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AddProductComponent } from './ProductManagement/add-product/add-product.component';
 
-import { UserService, ProductService, CategoryService, CartService, BillService } from './services';
+import { UserService, ProductService, CategoryService, CartService, BillService, MessageService } from './services';
 
 import { AddcategoryComponent } from './CategoryManagerment/addcategory/addcategory.component';
 import { EditcategoryComponent } from './CategoryManagerment/editcategory/editcategory.component';
@@ -33,6 +33,8 @@ import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
 import { PurchasehistoryComponent } from './UserManagerment/purchasehistory/purchasehistory.component';
 import { DetailhistoryComponent } from './UserManagerment/detailhistory/detailhistory.component';
 import { HomepageComponent } from './Others/homepage/homepage.component';
+import { MessageModalComponent } from './Others/message-modal/message-modal.component';
+import { AuthGuard } from './Shared/auth-guard';
 
 
 @NgModule({
@@ -52,7 +54,8 @@ import { HomepageComponent } from './Others/homepage/homepage.component';
     AddBillComponent,
     PurchasehistoryComponent,
     DetailhistoryComponent,
-    HomepageComponent
+    HomepageComponent,
+    MessageModalComponent
   ],
   imports: [
     BrowserModule,
@@ -71,9 +74,10 @@ import { HomepageComponent } from './Others/homepage/homepage.component';
     UserService, 
     ProductService, 
     CategoryService,
-    
     CartService,
-    BillService
+    BillService,
+    MessageService,
+    AuthGuard
   ],
 
 

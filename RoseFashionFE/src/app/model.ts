@@ -1,5 +1,5 @@
 export class UserModel{
-    Username: string;
+    UserID: string;
     Password: string;
     FullName: string;
     Gender: string;
@@ -8,6 +8,10 @@ export class UserModel{
     Address: string;
     Phone: string;
     Role: string;
+
+    constructor(){
+        this.Role ='guest';
+    }
 }
 
 export class ProductModel{
@@ -37,5 +41,22 @@ export class CartModel{
     Size: string;
     Amount: number;
     Quantity: number;
-    Price: number;
+    SalePrice: number;
+}
+
+export class BillModel{
+    BillID: string;
+    CartID: string;
+    OrderDate: Date;
+    ReceiverName: string;
+    ReceiverPhone: string;
+    DeliveryAddress: string;
+    DiscountCode: string;
+    TotalPrice: number;
+}
+
+export class MessageModel{
+    Type: string;
+    Content: string;
+    YesNoQuestion: boolean = false;
 }

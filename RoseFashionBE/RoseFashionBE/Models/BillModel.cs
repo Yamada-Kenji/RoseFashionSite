@@ -9,6 +9,11 @@ namespace RoseFashionBE.Models
     {
         public string BillID;
         public string CartID;
-        public DateTime Date;
+        public DateTime OrderDate;
+        public string ReceiverName;
+        public string ReceiverPhone;
+        public string DeliveryAddress;
+        public string DiscountCode;
+        public long TotalPrice;
     }
 }

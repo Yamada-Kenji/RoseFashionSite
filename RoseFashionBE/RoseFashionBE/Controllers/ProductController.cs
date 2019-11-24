@@ -97,7 +97,7 @@ namespace RoseFashionBE.Controllers
                         });
                         entity.SaveChanges();
                     }               
-                    return Ok("Add new product successfully.");
+                    return Ok("OK");
                 }
             }
             catch (Exception ex)

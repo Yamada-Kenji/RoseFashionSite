@@ -32,6 +32,7 @@
       </a>
     </li>
 
+
     <li class="nav-item" *ngIf="!islogon">
       <a class="nav-link " style="margin-right: 5px;" [routerLink]="['/register']">Đăng kí</a>
     </li>
@@ -47,6 +48,14 @@
       </div>
     </li>
   </ul>
+  <!-- shopping-cart icon-->
+  <div class="nav-item">
+    <!--  -->
+    <a class="nav-link" [routerLink]="['/view-cart']" routerLinkActive="router-link-active">
+      <i class="fas fa-shopping-bag fa-lg" style="color: white"></i><span class="badge badge-dark"
+        *ngIf="UpdateCartQuantity()!=0">{{UpdateCartQuantity()}}</span>
+    </a>
+  </div>
 </nav>
 
 <div *ngIf="loginmessage" class="alert alert-warning" role="alert" style="width:350px">
@@ -84,10 +93,11 @@
   </div>
 </div>
 
-
-
 <button [routerLink]="['/view-product-list']" routerLinkActive="router-link-active">list</button>
 <button [routerLink]="['/view-cart']" routerLinkActive="router-link-active">Xem giỏ hàng</button>
 <button [routerLink]="['/view-product-list-for-customer']" routerLinkActive="router-link-active">Xem danh sách sản
   phẩm</button>
+
 <router-outlet></router-outlet>
+<app-message-modal></app-message-modal>
+

@@ -33,7 +33,7 @@ const routes: Routes = [
   {path: 'view-cart', component: ViewCartComponent},
   {path: 'view-product-list-for-customer', component: ViewProductListForCustomerComponent},
   {path: 'add-bill', component: AddBillComponent},
-  {path: 'register', component: CreateAccountComponent},
+  {path: 'register', component: CreateAccountComponent}
 
 ];
 

@@ -16,15 +16,13 @@ export class CreateAccountComponent implements OnInit {
   classForm: FormGroup; //Validator
   public user :UserModel[] ;
   public showMessage ;
-  vaCate = { username: '', fullname: '',email: '',passwork: '',confirmpass: ''};
+  vaCate = {  fullname: '',email: '',passwork: '',confirmpass: ''};
 
   constructor(private userservice: UserService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     //Validators
     this.classForm = new FormGroup({
-      'username': new FormControl(this.vaCate.username,
-        Validators.required),
       'fullname': new FormControl(this.vaCate.fullname, [
         Validators.required
       ]),
@@ -56,16 +54,16 @@ export class CreateAccountComponent implements OnInit {
   }
 
  // Validators
-get username() { return this.classForm.get('username'); }
+
 get fullname() { return this.classForm.get('fullname'); }
 get email() { return this.classForm.get('email'); }
 get passwork() { return this.classForm.get('passwork'); }
 get confirmpass() { return this.classForm.get('confirmpass'); }
 //add new category
-creatAccount(UserID: string, FullName: string, Email: string,Password: string): void{
+creatAccount(FullName: string, Email: string,Password: string): void{
 var creAccount: UserModel;
 this.showMessage=null;
-creAccount = {UserID , FullName , Email,Password} as UserModel
+creAccount = { FullName , Email,Password} as UserModel
 this.userservice.Register(creAccount).subscribe(addCourse => this.user.push(addCourse), 
                                                   error => this.showMessage = error);
                                                   alert("Successfully.");

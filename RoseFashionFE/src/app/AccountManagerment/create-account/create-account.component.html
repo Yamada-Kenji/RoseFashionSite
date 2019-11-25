@@ -1,102 +1,85 @@
-<div class="container" style="max-width: 450px;width: device-width;">
 
-  <div *ngIf="showMessage" class="alert alert-success">
-    {{showMessage}}
-  </div>
-  <div>
-    <h2 style="text-align: center;">Create Account</h2>
-  </div>
-  <form [formGroup]="classForm" #formDir="ngForm">
 
+<div class="container " style="max-width: 450px;width: device-width;">
+
+    
+    <div>
+        <h2 style="text-align: center;">Đăng kí tài khoản</h2>
+    </div>
+
+    <div>
+  <form [formGroup]="classForm " #formDir="ngForm">
     <div [hidden]="!!classForm.submitted">
-      <div class="cross-validation" [class.cross-validation-error]="!!classForm.errors?.identityRevealed
+    <div class="cross-validation" [class.cross-validation-error]="!!classForm.errors?.identityRevealed
     && (classForm.touched || classForm.dirty)">
-        <div>
-          <label>UserName</label>
-          <input #classname type="text" class="form-control" placeholder="Class Name" formControlName="username"
-            required>
-          <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
-            <div *ngIf="!!username.errors.required">
-              User name is required.
+  
+      <div >
+        <label>Full Name</label>
+        <input #classname type="text" class="form-control" placeholder="Name" formControlName="fullname" required>
+        <div *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)"
+                class="alert alert-danger">
+              <div *ngIf="!!fullname.errors.required">
+                fullname is required.
+              </div>
             </div>
-          </div>
-        </div>
+     </div>
 
-        <div>
-          <label>Full Name</label>
-          <input #classname type="text" class="form-control" placeholder="Name" formControlName="fullname" required>
-          <div *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)" class="alert alert-danger">
-            <div *ngIf="!!fullname.errors.required">
-              fullname is required.
+     <div >
+        <label>Email</label>
+        <input #classname type="email" class="form-control" placeholder="Email" formControlName="email" required>
+        <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                class="alert alert-danger">
+              <div *ngIf="!!email.errors.required">
+                email is required.
+              </div>
+              <div *ngIf="!!email.errors.email">
+                Email must be a valid email address.
+              </div>
             </div>
-          </div>
-        </div>
+     </div>
 
-        <div>
-          <label>Email</label>
-          <input #classname type="email" class="form-control" placeholder="Email" formControlName="email" required>
-          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
-            <div *ngIf="!!email.errors.required">
-              email is required.
+     <div >
+        <label>Password</label>
+        <input #classname type="password" class="form-control" placeholder="Password" formControlName="passwork" required>
+        <div *ngIf="passwork.invalid && (passwork.dirty || passwork.touched)"
+                class="alert alert-danger">
+              <div *ngIf="!!passwork.errors.required">
+                password is required.
+              </div>
+              <div *ngIf="!!passwork.errors.minlength">
+                  Password must be at least 6 characters</div>
             </div>
-            <div *ngIf="!!email.errors.email">
-              Email must be a valid email address.
-            </div>
-          </div>
-        </div>
+     </div>
 
-        <div>
-          <label>Password</label>
-          <input #classname type="password" class="form-control" placeholder="Password" formControlName="passwork"
-            required>
-          <div *ngIf="passwork.invalid && (passwork.dirty || passwork.touched)" class="alert alert-danger">
-            <div *ngIf="!!passwork.errors.required">
-              password is required.
-            </div>
-            <div *ngIf="!!passwork.errors.minlength">
-              Password must be at least 6 characters</div>
-          </div>
-        </div>
-
-        <div>
-          <label>Confirm Password</label>
-          <input #classname type="password" class="form-control" placeholder="Confirm" formControlName="confirmpass"
-            required>
-          <div *ngIf="confirmpass.invalid && (confirmpass.dirty || confirmpass.touched)" class="alert alert-danger">
-            <div *ngIf="!!confirmpass.errors.required">
-              password is required.
-            </div>
-            <!-- <div *ngIf="!!confirmpass.errors.identityRevealedValidator ">
+     <div >
+            <label>Confirm Password</label>
+            <input #classname type="password" class="form-control" placeholder="Confirm" formControlName="confirmpass" required>
+            <div *ngIf="confirmpass.invalid && (confirmpass.dirty || confirmpass.touched)"
+                    class="alert alert-danger">
+                  <div *ngIf="!!confirmpass.errors.required">
+                    password is required.
+                  </div>
+                  <!-- <div *ngIf="!!confirmpass.errors.identityRevealedValidator ">
                       Passwords must match
                     </div>  
               </div>  -->
-          </div>
+         </div>   
+        
+      
+         <div *ngIf="classForm.errors?.identityRevealed && (confirmpass.touched || confirmpass.dirty)" class="cross-validation-error-message alert alert-danger">
+          Name cannot match alter ego.
+      </div>
+    </div>   
 
-
-          <div *ngIf="classForm.errors?.identityRevealed && (confirmpass.touched || confirmpass.dirty)"
-            class="cross-validation-error-message alert alert-danger">
-            Name cannot match alter ego.
-          </div>
-        </div>
-
-
-
+      <div style="margin-top: 10px;">
+        <button class="btn btn-dark float-right" (click)="creatAccount(fullname.value, email.value, passwork.value)" title="Add" type="submit" [disabled]="classForm.invalid">Save </button>
+        <button type="button" class="btn btn-dark float-right" style="margin-right: 5px;"
+            [routerLink]="['/feclass']" routerLinkActive="active">Back</button>
       </div>
     </div>
+  </div>
   </form>
-  <div class="row" style="margin-top: 10px;">
-    <div class="col">
-      <button class="btn btn-dark float-right"
-        (click)="creatAccount(username.value , fullname.value, email.value, passwork.value)" title="Add" type="submit"
-        [disabled]="classForm.invalid">Save </button>
-      <button type="button" class="btn btn-outline-dark float-right" style="margin-right: 5px;"
-        [routerLink]="['/feclass']" routerLinkActive="active">Back</button>
-    </div>
   </div>
-
   </div>
   
   
-
-
-

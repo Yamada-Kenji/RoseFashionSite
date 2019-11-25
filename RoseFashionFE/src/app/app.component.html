@@ -60,24 +60,27 @@
               <label>Email</label>
               <input type="text" class="form-control" #email>
               <label>Password</label>
-              <input type="password" class="form-control" #password>
-            </div>
 
-            <!-- Modal footer -->
-            <div class="modal-footer">
-              <button type="button" class="btn btn-success" (click)="login(email.value, password.value)"
-                data-dismiss="modal">Login</button>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-
+              <input type="password" class="form-control" #password >
           </div>
+          
+          <!-- Modal footer -->
+          <div class="modal-footer">
+              <button type="button" class="btn btn-dark" (click)="login(email.value, password.value)" data-dismiss="modal">Login</button>
+            <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
+          </div>
+          
+          
+
         </div>
       </div>
     </li>
 
-    <li class="nav-item" *ngIf="!islogon">
-      <a class="nav-link " style="margin-right: 5px;" [routerLink]="['/register']">Đăng kí</a>
-    </li>
+
+   <li class="nav-item" *ngIf="!islogon" >
+      <a class="nav-link " style="margin-right: 5px;"  [routerLink]="['/register']">Đăng kí</a>
+  </li>
+
 
     <li class="nav-item dropdown" *ngIf="islogon">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -89,6 +92,15 @@
         <a class="dropdown-item" (click)="logout()">Đăng xuất</a>
       </div>
     </li>
+
+</ul>
+
+ <div *ngIf="loginmessage" class="alert alert-warning" role="alert" style="width:350px">
+  {{loginmessage}}
+</div>
+ 
+
+
   </ul>
 
   <!-- shopping-cart icon-->
@@ -98,9 +110,12 @@
       <i class="fas fa-shopping-bag fa-lg" style="color: white"></i><span class="badge badge-dark" *ngIf="UpdateCartQuantity()!=0">{{UpdateCartQuantity()}}</span>
     </a>
     
+
   </div>
 
 </nav>
+
+
 
 
 <button [routerLink]="['/view-product-list']" routerLinkActive="router-link-active">list</button>

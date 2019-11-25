@@ -14,12 +14,14 @@ import { UpdateProductComponent } from './ProductManagement/update-product/updat
 import { AddProductToCartComponent } from './ProductManagement/add-product-to-cart/add-product-to-cart.component';
 import { HomepageComponent } from './Others/homepage/homepage.component';
 import {AddcategoryComponent} from './CategoryManagerment/addcategory/addcategory.component';
+
 import { CreateAccountComponent } from './AccountManagerment/create-account/create-account.component';
 import { AuthGuard } from './Shared/auth-guard';
 
 const routes: Routes = [
   {path: 'home', component: HomepageComponent},
   {path:'add-product', component: AddProductComponent, canActivate: [AuthGuard]},
+
   {path:'view-product-list', component: ViewProductListComponent},
   {path:'update-product/:productid', component: UpdateProductComponent},
   {path:'add-product-to-cart/:productid', component: AddProductToCartComponent},

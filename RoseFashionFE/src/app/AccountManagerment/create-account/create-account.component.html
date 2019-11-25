@@ -7,6 +7,7 @@
     <h2 style="text-align: center;">Create Account</h2>
   </div>
   <form [formGroup]="classForm" #formDir="ngForm">
+
     <div [hidden]="!!classForm.submitted">
       <div class="cross-validation" [class.cross-validation-error]="!!classForm.errors?.identityRevealed
     && (classForm.touched || classForm.dirty)">
@@ -79,6 +80,7 @@
         </div>
 
 
+
       </div>
     </div>
   </form>
@@ -91,4 +93,10 @@
         [routerLink]="['/feclass']" routerLinkActive="active">Back</button>
     </div>
   </div>
-</div>
+
+  </div>
+  
+  
+
+
+

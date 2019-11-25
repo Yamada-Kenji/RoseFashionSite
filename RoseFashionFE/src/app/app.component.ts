@@ -76,8 +76,9 @@ export class AppComponent {
 
     this.currentUser = await this.userservice.login(email, password).toPromise().then(data => this.currentUser = data, error => this.loginmessage = error);
     if (this.loginmessage != null) {
-      this.loginmessage = 'Wrong username or password or role!';
+      this.loginmessage = 'Wrong username or password!';
     } else {
+
       this.loginmessage = 'Login successfully!';
     }
     this.getCurrentUser();

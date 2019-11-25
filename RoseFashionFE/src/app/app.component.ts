@@ -43,11 +43,11 @@ export class AppComponent {
     this.currentUser =  await this.userservice.login(email, password).toPromise().then(data => this.currentUser = data, error => this.loginmessage = error);
     console.log(this.currentUser.Role);
     if (this.loginmessage != null) {
-      this.loginmessage = 'Wrong username or password or role!';
+      this.loginmessage = 'Wrong username or password!';
     } else {
       console.log(this.currentUser.Role);
       localStorage.setItem('currentrole', this.currentUser.Role);
-      this.loginmessage = 'Login successfully!';
+     // this.loginmessage = 'Login successfully!';
 
       
 

@@ -68,6 +68,7 @@ this.showMessage=null;
 creAccount = {Username , FullName , Email,Password} as UserModel
 this.userservice.Register(creAccount).subscribe(addCourse => this.user.push(addCourse), 
                                                   error => this.showMessage = error);
+                                                  alert("Successfully.");
 }
 
 }

@@ -13,9 +13,11 @@ import { ViewProductListComponent } from './ProductManagement/view-product-list/
 import { UpdateProductComponent } from './ProductManagement/update-product/update-product.component';
 import { AddProductToCartComponent } from './ProductManagement/add-product-to-cart/add-product-to-cart.component';
 import {AddcategoryComponent} from './CategoryManagerment/addcategory/addcategory.component';
+import {CreateAccountComponent} from './AccountManagerment/create-account/create-account.component';
 
 
 const routes: Routes = [
+  {path:'register', component: CreateAccountComponent},
   {path:'add-product', component: AddProductComponent},
   {path:'view-product-list', component: ViewProductListComponent},
   {path:'update-product/:productid', component: UpdateProductComponent},

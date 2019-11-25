@@ -11,6 +11,8 @@
 
  <!-- <app-create-account></app-create-account> -->
  <!-- <app-edit-account></app-edit-account>  -->
+<!-- <app-login></app-login> -->
+
 
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -77,9 +79,10 @@
           
           <!-- Modal footer -->
           <div class="modal-footer">
-              <button type="button" class="btn btn-success" (click)="login(email.value, password.value)" data-dismiss="modal">Login</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-dark" (click)="login(email.value, password.value)" data-dismiss="modal">Login</button>
+            <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
           </div>
+          
           
         </div>
       </div>
@@ -87,7 +90,7 @@
    </li>
 
    <li class="nav-item" *ngIf="!islogon" >
-      <a class="nav-link " style="margin-right: 5px;"  [routerLink]="">Đăng kí</a>
+      <a class="nav-link " style="margin-right: 5px;"  [routerLink]="['/register']">Đăng kí</a>
   </li>
 
   <li class="nav-item dropdown" *ngIf="islogon">
@@ -102,7 +105,9 @@
     </li>
 </ul>
  </nav>
- 
+ <div *ngIf="loginmessage" class="alert alert-warning" role="alert" style="width:350px">
+  {{loginmessage}}
+</div>
  
  <!-- <ng-template #content let-modal>
   <div class="modal-header">
@@ -140,6 +145,8 @@
 
 <!--<app-view-product-list></app-view-product-list>-->
 <!--<app-add-product></app-add-product>-->
+
+
 <button [routerLink]="['/view-product-list']" routerLinkActive="router-link-active">list</button>
 <button [routerLink]="['/view-cart']" routerLinkActive="router-link-active">Xem giỏ hàng</button>
 <button [routerLink]="['/view-product-list-for-customer']" routerLinkActive="router-link-active">Xem danh sách sản phẩm</button>

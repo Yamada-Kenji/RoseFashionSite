@@ -19,6 +19,7 @@ import { CreateAccountComponent } from './AccountManagerment/create-account/crea
 import { AuthGuard } from './Shared/auth-guard';
 
 const routes: Routes = [
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomepageComponent},
   {path:'add-product', component: AddProductComponent, canActivate: [AuthGuard]},
 

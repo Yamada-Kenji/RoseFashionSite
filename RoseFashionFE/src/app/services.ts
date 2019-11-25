@@ -214,7 +214,10 @@ export class CartService{
     }
     GetCartLenght(){
         var mycart: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
-        return 0;
+
+        if(mycart) return mycart.length;
+        else return 0;
+
     }
 }
 

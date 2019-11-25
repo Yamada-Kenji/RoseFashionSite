@@ -8,17 +8,17 @@
     <!-- Links -->
     <ul class="navbar-nav">
       <!-- Narbar for Admin -->
-      <li class="nav-item" *ngIf="role === 'admin'">
-        <a class="nav-link" [routerLink]="['/view-product-list']">Sản phẩm</a>
+      <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
+        <a class="nav-link" [routerLink]="['/view-product-list']">Danh sách sản phẩm</a>
       </li>
-      <li class="nav-item" *ngIf="role === 'admin'">
+      <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
         <a class="nav-link" [routerLink]="['/showcategory']">Loại sản phẩm</a>
       </li>
 
 
       <!-- Narbar for user -->
-      <li class="nav-item" *ngIf="role === 'user'">
-        <a class="nav-link" [routerLink]="['/view-product-list-for-customer']">Loại sản phẩm</a>
+      <li class="nav-item" *ngIf="currentUser.Role != 'admin'">
+        <a class="nav-link" [routerLink]="['/view-product-list-for-customer']">Danh sách sản phẩm</a>
       </li>
 
     </ul>
@@ -43,12 +43,12 @@
 
     <li class="nav-item dropdown" *ngIf="islogon">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        {{email}}
+        {{currentUser.Email}}
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" *ngIf="role === 'user'" [routerLink]="['/showcategory']">Quản lý tài khoản</a>
-        <a class="dropdown-item" *ngIf="role === 'user'" [routerLink]="['/showcategory']">Đơn hàng đã mua</a>
-        <a class="dropdown-item" [routerLink]="['/showcategory'] " (click)="logout()">Log out</a>
+        <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/showcategory']">Quản lý tài khoản</a>
+        <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/showcategory']">Đơn hàng đã mua</a>
+        <a class="dropdown-item" (click)="logout()">Đăng xuất</a>
       </div>
     </li>
   </ul>
@@ -89,7 +89,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-dark" (click)="login(email.value, password.value)"
           data-dismiss="modal">Login</button>
-        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
+        <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
       </div>
 
 

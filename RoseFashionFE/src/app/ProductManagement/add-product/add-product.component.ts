@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryModel, ProductModel } from 'src/app/model';
-import { ProductService, CategoryService } from 'src/app/services';
+import { CategoryModel, ProductModel, MessageModel } from 'src/app/model';
+import { ProductService, CategoryService, MessageService } from 'src/app/services';
 import { Location } from '@angular/common';
+import { AppComponent } from 'src/app/app.component';
 
+declare var jQuery:any;
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
@@ -10,6 +12,7 @@ import { Location } from '@angular/common';
 })
 export class AddProductComponent implements OnInit {
 
+  message: any;
   product: ProductModel = {ProductID:'', Name:'', Color:'#000000', Size:[]=['S','M','L','XL','XXL'], CategoryID:'', Description:'', Quantity:[]=[0,0,0,0,0], Image:'', Price:0};
   categorylist: CategoryModel[] = [];
   selectedmaincategory: string="";
@@ -23,6 +26,7 @@ export class AddProductComponent implements OnInit {
 
   constructor(private productService: ProductService, 
     private categoryService: CategoryService,
+    private messageService: MessageService,
     private location: Location) { }
 
   ngOnInit() {
@@ -59,8 +63,17 @@ export class AddProductComponent implements OnInit {
   }
 
   async AddProduct(){
-    await this.productService.AddProduct(this.product).toPromise().then(msg => alert(msg));
-    this.location.back();
+    await this.productService.AddProduct(this.product).toPromise().then(msg => this.message=msg).catch(err => this.message = err.message); 
+    var messagemodel: MessageModel = {Type:'', Content:'', YesNoQuestion:false }
+    if(this.message=='OK') {
+      messagemodel.Type='Thông báo';
+      messagemodel.Content='Thêm sản phẩm thành công';
+    }
+    else{
+      messagemodel.Type='Lỗi';
+      messagemodel.Content='Đã có lỗi xảy ra.';
+    }
+    this.messageService.SendMessage(messagemodel);
   }
 
   async GetAllCategory(){

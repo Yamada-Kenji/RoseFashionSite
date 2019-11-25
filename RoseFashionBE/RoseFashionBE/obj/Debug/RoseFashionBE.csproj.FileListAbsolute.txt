@@ -95,9 +95,11 @@ F:\TLCN\RoseFashionSite\RoseFashionBE\RoseFashionBE\obj\Debug\RoseFashionBE.cspr
 F:\TLCN\RoseFashionSite\RoseFashionBE\RoseFashionBE\obj\Debug\RoseFashionBE.csproj.CopyComplete
 F:\TLCN\RoseFashionSite\RoseFashionBE\RoseFashionBE\obj\Debug\RoseFashionBE.dll
 F:\TLCN\RoseFashionSite\RoseFashionBE\RoseFashionBE\obj\Debug\RoseFashionBE.pdb
-F:\TLCN\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.JsonWebTokens.dll
-F:\TLCN\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.Logging.dll
-F:\TLCN\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.Tokens.dll
-F:\TLCN\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.JsonWebTokens.xml
-F:\TLCN\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.Logging.xml
-F:\TLCN\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.Tokens.xml
+D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.Logging.dll
+D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.Tokens.dll
+D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.JsonWebTokens.xml
+D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.Logging.xml
+D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\Microsoft.IdentityModel.Tokens.xml
+D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\RoseFashionBE.dll.CodeAnalysisLog.xml
+D:\github\RoseFashionSite\RoseFashionBE\RoseFashionBE\bin\RoseFashionBE.dll.lastcodeanalysissucceeded

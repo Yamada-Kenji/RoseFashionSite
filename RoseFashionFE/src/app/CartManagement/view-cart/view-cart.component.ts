@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CartService } from 'src/app/services';
 import { CartModel } from 'src/app/model';
 
@@ -7,12 +7,23 @@ import { CartModel } from 'src/app/model';
   templateUrl: './view-cart.component.html',
   styleUrls: ['./view-cart.component.css']
 })
-export class ViewCartComponent implements OnInit {
+export class ViewCartComponent implements OnInit, OnDestroy {
 
   mycart: CartModel[] = [];
   selectedid: string;
   totalprice: number = 0;
   pageconfig: any;
+
+  ngOnDestroy(){
+    var cartid = localStorage.getItem('CartID');
+    var items: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
+    if(cartid){
+      this.cartService.UpdateCartInDatabase(cartid, items)
+      .toPromise().then(result => console.log(result))
+      .catch(err => console.log(err));
+    }
+  }
+
   constructor(private cartService: CartService) { 
     this.pageconfig = {
       itemsPerPage: 3,
@@ -34,7 +45,7 @@ export class ViewCartComponent implements OnInit {
     this.totalprice = 0;
     var i=0;
     while(i<this.mycart.length){
-      this.totalprice += this.mycart[i].Price * this.mycart[i].Amount;
+      this.totalprice += this.mycart[i].SalePrice * this.mycart[i].Amount;
       i++;
     }
   }

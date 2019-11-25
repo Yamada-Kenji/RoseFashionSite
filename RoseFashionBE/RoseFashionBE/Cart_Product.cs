@@ -17,6 +17,8 @@ namespace RoseFashionBE
         public string CartID { get; set; }
         public string ProductID { get; set; }
         public int Amount { get; set; }
+        public long SalePrice { get; set; }
+        public string Size { get; set; }
     
         public virtual Cart Cart { get; set; }
         public virtual Product Product { get; set; }

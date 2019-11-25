@@ -1,6 +1,5 @@
-mat-grid-tile {
-    background: lightblue;
-  }
-mat-grid-list {
-  height: 500px;    
+.wrap-text-center{
+  margin-left: 10px; max-width: 142px;
+  word-wrap: break-word;
+  text-align: center;
 }  

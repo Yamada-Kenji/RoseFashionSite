@@ -62,10 +62,10 @@ get email() { return this.classForm.get('email'); }
 get passwork() { return this.classForm.get('passwork'); }
 get confirmpass() { return this.classForm.get('confirmpass'); }
 //add new category
-creatAccount(Username: string, FullName: string, Email: string,Password: string): void{
+creatAccount(UserID: string, FullName: string, Email: string,Password: string): void{
 var creAccount: UserModel;
 this.showMessage=null;
-creAccount = {Username , FullName , Email,Password} as UserModel
+creAccount = {UserID , FullName , Email,Password} as UserModel
 this.userservice.Register(creAccount).subscribe(addCourse => this.user.push(addCourse), 
                                                   error => this.showMessage = error);
                                                   alert("Successfully.");

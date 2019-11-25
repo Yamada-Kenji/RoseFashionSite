@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { Component, HostListener } from '@angular/core';
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
-import { UserModel } from 'src/app/model';
-import { UserService } from 'src/app/services';
-import { RouterModule, Router } from '@angular/router';
+import { UserModel, MessageModel } from 'src/app/model';
+import { UserService, CartService } from 'src/app/services';
+import { Router } from '@angular/router';
 
 
 
@@ -14,9 +14,8 @@ import { RouterModule, Router } from '@angular/router';
 })
 export class AppComponent {
 
-
   loginmessage: string;
-  currentUser: UserModel;
+  currentUser: UserModel = new UserModel();
   returnUrl: string;
 
   email: string;
@@ -24,70 +23,69 @@ export class AppComponent {
   showMessage: string;
   role: string;
   text: string;
+  itemsincart: number = 0;
+
+  @HostListener('window:beforeunload', [ '$event' ])
+  beforeUnloadHander(event) {
+    //save user cart
+  }
 
   constructor(
     private userservice: UserService,
-    private router: Router) {
-     if (this.userservice.getCurrentUser()) { this.router.navigate(['/home']);
-
-  }
-}
+    private cartService: CartService) {}
 
   ngOnInit() {
+    this.getCurrentUser();
+  }
+
+  UpdateCartQuantity(){
+    return this.cartService.GetCartLenght();
+  }
+
+  getCurrentUser(){
+    var temp = this.userservice.getCurrentUser();
+    if (temp) {
+      this.currentUser = temp;
+      if(this.currentUser.Role!='guest'){
+        this.islogon = true;
+        this.cartService.GetLastUsedCart(this.currentUser.UserID).toPromise()
+        .then(result => 
+          {
+            localStorage.setItem('CartID', result);
+            this.cartService.GetItemsInCart(result);
+          });
+      }
+      else this.islogon = false;
+    }
+    else {
+      this.islogon = false;
+      this.userservice.CreateGuestID().toPromise()
+        .then(email => {
+          this.userservice.GetAccountByEmail(email)
+          .toPromise().then(result => {
+            localStorage.setItem('currentGuest', JSON.stringify(result));
+            this.currentUser = result;
+          })
+        });
+    }
   }
 
   async login(email: string, password: string) {
-    
+
     this.loginmessage = null;
-    
-    this.currentUser =  await this.userservice.login(email, password).toPromise().then(data => this.currentUser = data, error => this.loginmessage = error);
-    console.log(this.currentUser.Role);
+
+    this.currentUser = await this.userservice.login(email, password).toPromise().then(data => this.currentUser = data, error => this.loginmessage = error);
     if (this.loginmessage != null) {
       this.loginmessage = 'Wrong username or password!';
     } else {
-      console.log(this.currentUser.Role);
-      localStorage.setItem('currentrole', this.currentUser.Role);
-     // this.loginmessage = 'Login successfully!';
 
-      
-
-      this.setName(this.currentUser.Username);
-      this.setRole(this.currentUser.Role);
-      switch (this.currentUser.Role) {
-      case 'admin': {
-        this.router.navigate(['/view-product-list']); break;
-      }
-      case 'user': {
-        this.router.navigate(['/showcategory']); break;
-      }
-      default: break;
+      this.loginmessage = 'Login successfully!';
     }
+    this.getCurrentUser();
   }
-}
 
-setName(email: string){
-  this.email = email;
-  this.islogon = true;
-}
-logout() {
-  this.userservice.logout();
-  this.islogon = false;
-  this.email = null;
-  this.role = null;
-}
-setRole(rolename: string){
-  this.role = rolename;
-  this.islogon = true;
-}
-  
-
-  // constructor(private userService: UserService) {}
-
-  // ngOnInit() {
-  //   var userid = this.userService.GetCurrentUser();
-  //   if(userid == undefined) {
-  //     this.userService.CreateGuestID().toPromise().then(result => localStorage.setItem('GuestID', result));
-  //   }
-  // }
-
+  logout() {
+    this.userservice.logout();
+    this.getCurrentUser();
+  }
 }

@@ -8,7 +8,6 @@ using System.Net;
 using System.Web.Http;
 using System.Net.Http;
 using System.Web.Http.Cors;
-using System.Security.Claims;
 
 namespace RoseFashionBE.Controllers
 {
@@ -35,7 +34,7 @@ namespace RoseFashionBE.Controllers
                                 .Where(s => s.Email.ToLower().Equals(acc.Email.ToLower()) && s.Password.Equals(pwrHash))
                                 .Select(s => new UserModel()
                                 {
-                                    Username = s.Username,
+                                    UserID = s.UserID,
                                     Email = s.Email,
                                     Role = s.Role
                                 }).FirstOrDefault();
@@ -105,11 +104,12 @@ namespace RoseFashionBE.Controllers
                     .Select(ct => new UserModel
                     {
                         Email = ct.Email,
-                        Username = ct.Username,
+                        UserID = ct.UserID,
                         FullName = ct.FullName,
                         Address = ct.Address,
                         Phone = ct.Phone,
-                        DOB = ct.DOB
+                        DOB = ct.DOB,
+                        Role = ct.Role
 
                     }).FirstOrDefault<UserModel>();
                 return Ok(result);
@@ -125,16 +125,18 @@ namespace RoseFashionBE.Controllers
             {
                 using(var entity = new RoseFashionDBEntities())
                 {
-                    string guestname = "GUEST-" + (entity.Users.Count(u => u.Username.Contains("GUEST")) + 1);
+                    string guestname = "GUEST-" + (entity.Users.Count(u => u.Role == "guest") + 1);
                     entity.Users.Add(new User()
                     {
-                        Username = guestname,
+                        UserID = Guid.NewGuid().ToString(),
                         FullName = guestname,
+                        Email = guestname + "@gmail.com",
                         Password = Md5Encryption(guestname),
-                        Role = "User"
+                        Role = "guest"
                     });
                     entity.SaveChanges();
-                    return Ok(guestname);
+
+                    return Ok(guestname + "@gmail.com");
                 }
             }
             catch(Exception ex)
@@ -155,7 +157,7 @@ namespace RoseFashionBE.Controllers
                     if (existedemail > 0) return BadRequest("Email already in use.");
                     entity.Users.Add(new User()
                     {
-                        Username = user.Username,
+                        UserID = Guid.NewGuid().ToString(),
                         FullName = user.FullName,
                         Email = user.Email,
                         Password = Md5Encryption(user.Password),
@@ -233,7 +235,6 @@ namespace RoseFashionBE.Controllers
                 var Email = entity.Users.Where(c => c.Email.Equals(account.Email)).FirstOrDefault();
                 if (Email != null)
                 {
-                    Email.Username = account.Username;
                     Email.FullName = account.FullName;
                     Email.Address = account.Address;
                     Email.Phone = account.Phone;

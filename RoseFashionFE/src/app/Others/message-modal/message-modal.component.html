@@ -1,0 +1,28 @@
+<!--hidden button-->
+<button id="hiddenbtn" style="display: none;" data-toggle="modal" data-target="#MessageModal"></button>
+<!-- Error Modal -->
+<div class="modal fade" id="MessageModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">{{getGlobalMessageType()}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                {{getGlobalMessage()}}
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                <button *ngIf="expression" type="button" class="btn btn-dark" data-dismiss="modal">Có</button>
+                <button *ngIf="expression" type="button" class="btn btn-dark" data-dismiss="modal">Không</button>
+            </div>
+
+        </div>
+    </div>
+</div>

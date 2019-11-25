@@ -6,8 +6,12 @@
     </Key>
     <Property Name="BillID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="CartID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ReceiverName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ReceiverPhone" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="DeliveryAddress" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Date" Type="date" Nullable="false" />
     <Property Name="DiscountCode" Type="varchar" MaxLength="50" />
+    <Property Name="TotalPrice" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Cart">
     <Key>
@@ -24,7 +28,9 @@
     </Key>
     <Property Name="CartID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="ProductID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Amount" Type="int" Nullable="false" />
+    <Property Name="SalePrice" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Category">
     <Key>
@@ -52,8 +58,8 @@
     <Property Name="Color" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="CategoryID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
-    <Property Name="Image" Type="varchar(max)" Nullable="false" />
-    <Property Name="Price" Type="int" Nullable="false" />
+    <Property Name="Image" Type="varchar(max)" />
+    <Property Name="Price" Type="bigint" Nullable="false" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Product_Size_Quantity">
@@ -86,9 +92,9 @@
   </EntityType>
   <EntityType Name="User">
     <Key>
-      <PropertyRef Name="Username" />
+      <PropertyRef Name="UserID" />
     </Key>
-    <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Password" Type="varchar(max)" Nullable="false" />
     <Property Name="FullName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Gender" Type="varchar" MaxLength="5" />
@@ -151,7 +157,7 @@
     <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="User">
-        <PropertyRef Name="Username" />
+        <PropertyRef Name="UserID" />
       </Principal>
       <Dependent Role="Cart">
         <PropertyRef Name="UserID" />
@@ -199,7 +205,7 @@
     <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="User">
-        <PropertyRef Name="Username" />
+        <PropertyRef Name="UserID" />
       </Principal>
       <Dependent Role="Rating">
         <PropertyRef Name="UserID" />

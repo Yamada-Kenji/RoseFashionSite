@@ -13,18 +13,18 @@ namespace RoseFashionBE.Controllers
     public class BillController : ApiController
     {
         [HttpPost]
-        public IHttpActionResult AddBillForGuest(CartModel[] items, string userid)
+        public IHttpActionResult AddBillForGuest(CartModel[] items, BillModel billinfo, string guestid)
         {
             try
             {
                 using (var entity = new RoseFashionDBEntities())
                 {
                     // tạo cart mới
-                    string cartid = "CR-" + (entity.Carts.Count() + 1); 
+                    string cartid = "CR-" + (entity.Carts.Count() + 1);
                     entity.Carts.Add(new Cart
                     {
                         CartID = cartid,
-                        UserID = userid,
+                        UserID = guestid,
                         IsUsing = false,
                     });
                     // lưu sản phẩm vào cart vừa tạo
@@ -33,17 +33,53 @@ namespace RoseFashionBE.Controllers
                         entity.Cart_Product.Add(new Cart_Product {
                             CartID = cartid,
                             ProductID = items[i].ProductID,
-                            Amount = items[i].Amount
+                            Size = items[i].Size,
+                            Amount = items[i].Amount,
+                            SalePrice = items[i].SalePrice
                         });
                     }
                     // tạo hóa đơn cho cart vừa tạo
                     entity.Bills.Add(new Bill {
                         BillID = "BL-" + (entity.Bills.Count() + 1),
-                        CartID = cartid,
-                        Date = DateTime.Now.Date
+                        CartID = billinfo.CartID,
+                        Date = DateTime.Now.Date,
+                        ReceiverName = billinfo.ReceiverName,
+                        ReceiverPhone = billinfo.ReceiverPhone,
+                        DeliveryAddress = billinfo.DeliveryAddress,
+                        DiscountCode = billinfo.DiscountCode,
+                        TotalPrice = billinfo.TotalPrice
                     });
                     entity.SaveChanges();
-                    return Ok("Add bill successfully.");
+                    return Ok("OK");
+                }
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPost]
+        public IHttpActionResult AddBillForMember(BillModel billinfo)
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    entity.Bills.Add(new Bill
+                    {
+                        BillID = "BL-" + (entity.Bills.Count() + 1),
+                        CartID = billinfo.CartID,
+                        Date = DateTime.Now.Date,
+                        ReceiverName = billinfo.ReceiverName,
+                        ReceiverPhone = billinfo.ReceiverPhone,
+                        DeliveryAddress = billinfo.DeliveryAddress,
+                        DiscountCode = billinfo.DiscountCode,
+                        TotalPrice = billinfo.TotalPrice
+                    });
+                    entity.Carts.Where(c => c.CartID == billinfo.CartID).FirstOrDefault().IsUsing = false;
+                    entity.SaveChanges();
+                    return Ok("OK");
                 }
             }
             catch(Exception ex)
@@ -63,7 +99,7 @@ namespace RoseFashionBE.Controllers
                     {
                         BillID = b.BillID,
                         CartID = b.CartID,
-                        Date = b.Date
+                        OrderDate = b.Date
                     }).ToList();
                     return Ok(result);
                 }
@@ -73,5 +109,37 @@ namespace RoseFashionBE.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [HttpGet]
+        public IHttpActionResult GetUserBills(string userid)
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    var cartidlist = entity.Carts.Where(c => c.UserID == userid && c.IsUsing == false)
+                        .Select(c => c.CartID).ToList();
+                    List<BillModel> result = new List<BillModel>();
+                    for (int i = 0; i < cartidlist.Count(); i++)
+                    {
+                        string cartid = cartidlist[i];
+                        var bill = entity.Bills.Where(b => b.CartID == cartid)
+                            .Select(b => new BillModel
+                            {
+                                BillID = b.BillID,
+                                OrderDate = b.Date
+                            }).FirstOrDefault();
+                        result.Add(bill);
+                   }
+                    return Ok(result);
+                }
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+
     }
 }

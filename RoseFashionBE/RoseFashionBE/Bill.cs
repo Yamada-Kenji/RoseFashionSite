@@ -16,8 +16,12 @@ namespace RoseFashionBE
     {
         public string BillID { get; set; }
         public string CartID { get; set; }
+        public string ReceiverName { get; set; }
+        public string ReceiverPhone { get; set; }
+        public string DeliveryAddress { get; set; }
         public System.DateTime Date { get; set; }
         public string DiscountCode { get; set; }
+        public long TotalPrice { get; set; }
     
         public virtual Cart Cart { get; set; }
         public virtual Discount Discount { get; set; }

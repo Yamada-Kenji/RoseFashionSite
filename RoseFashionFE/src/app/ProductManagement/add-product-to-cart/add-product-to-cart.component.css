@@ -1,13 +1,50 @@
-.sizes button{
+.custom-radio{
+    height: 35px;
+    width: 35px;
+    border: black;
     border-style: solid;
-    border-width: 1px;
-    border-color: black;
-}
-.sizes button {
     text-align: center;
-    width: 40px;
-    height: 40px;
+    padding-top: 10%;
 }
-.sizes button:hover {
-    border-color: green;
+.custom-radio:hover{
+    height: 35px;
+    width: 35px;
+    border: black;
+    border-style: solid;
+    text-align: center;
+    padding-top: 10%;
+    background-color: black;
+    color: white;
 }
+
+.disabled-label{
+    height: 35px;
+    width: 35px;
+    border: grey;
+    border-style: solid;
+    text-align: center;
+    padding-top: 10%;
+    color: grey;
+}
+
+input[type=radio]:checked ~ label.custom-radio{
+    height: 35px;
+    width: 35px;
+    border: black;
+    border-style: solid;
+    text-align: center;
+    padding-top: 10%;
+    background-color: black;
+    color: white;
+}
+
+/* .custom-radio input[type=radio]:checked ~ label{
+    height: 35px;
+    width: 35px;
+    border: blue;
+    border-style: solid;
+    text-align: center;
+    padding-top: 10%;
+    background-color: green;
+} */
+

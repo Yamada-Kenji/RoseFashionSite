@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AddProductComponent } from './ProductManagement/add-product/add-product.component';
 
-import { UserService, ProductService, CategoryService, CartService, BillService, MessageService } from './services';
+//import { UserService, ProductService, CategoryService, CartService, BillService, MessageService } from './services';
 
 import { AddcategoryComponent } from './CategoryManagerment/addcategory/addcategory.component';
 import { EditcategoryComponent } from './CategoryManagerment/editcategory/editcategory.component';
@@ -35,6 +35,12 @@ import { DetailhistoryComponent } from './UserManagerment/detailhistory/detailhi
 import { HomepageComponent } from './Others/homepage/homepage.component';
 import { MessageModalComponent } from './Others/message-modal/message-modal.component';
 import { AuthGuard } from './Shared/auth-guard';
+import { UserService } from './Shared/user-service';
+import { ProductService } from './Shared/product-service';
+import { CategoryService } from './Shared/category-service';
+import { CartService } from './Shared/cart-service';
+import { BillService } from './Shared/bill-service';
+import { MessageService } from './Shared/message-service';
 
 
 @NgModule({

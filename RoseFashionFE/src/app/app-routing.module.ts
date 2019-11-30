@@ -21,10 +21,9 @@ import { AuthGuard } from './Shared/auth-guard';
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomepageComponent},
-  {path:'add-product', component: AddProductComponent, canActivate: [AuthGuard]},
-
+  {path:'add-product', component: AddProductComponent},
   {path:'view-product-list', component: ViewProductListComponent},
-  {path:'update-product/:productid', component: UpdateProductComponent},
+  {path:'update-product/:productid', component: AddProductComponent},
   {path:'add-product-to-cart/:productid', component: AddProductToCartComponent},
 
   {path:'editcategory/:id', component: EditcategoryComponent},

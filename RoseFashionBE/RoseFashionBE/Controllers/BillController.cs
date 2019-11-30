@@ -12,7 +12,7 @@ namespace RoseFashionBE.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BillController : ApiController
     {
-        [HttpPost]
+        /*[HttpPost]
         public IHttpActionResult AddBillForGuest(CartModel[] items, BillModel billinfo, string guestid)
         {
             try
@@ -57,10 +57,10 @@ namespace RoseFashionBE.Controllers
             {
                 return InternalServerError(ex);
             }
-        }
+        }*/
 
         [HttpPost]
-        public IHttpActionResult AddBillForMember(BillModel billinfo)
+        public IHttpActionResult AddBill(BillModel billinfo)
         {
             try
             {
@@ -74,10 +74,10 @@ namespace RoseFashionBE.Controllers
                         ReceiverName = billinfo.ReceiverName,
                         ReceiverPhone = billinfo.ReceiverPhone,
                         DeliveryAddress = billinfo.DeliveryAddress,
-                        DiscountCode = billinfo.DiscountCode,
                         TotalPrice = billinfo.TotalPrice
                     });
-                    entity.Carts.Where(c => c.CartID == billinfo.CartID).FirstOrDefault().IsUsing = false;
+                    var usercart = entity.Carts.Where(c => c.CartID == billinfo.CartID).FirstOrDefault();
+                    usercart.IsUsing = false;
                     entity.SaveChanges();
                     return Ok("OK");
                 }
@@ -95,6 +95,7 @@ namespace RoseFashionBE.Controllers
             {
                 using(var entity = new RoseFashionDBEntities())
                 {
+
                     var result = entity.Bills.Select(b => new BillModel
                     {
                         BillID = b.BillID,

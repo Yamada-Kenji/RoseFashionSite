@@ -10,59 +10,9 @@ using System.Web.Http.Cors;
 namespace RoseFashionBE.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [RoutePrefix("api/product")]
     public class ProductController : ApiController
     {
-        /*private bool AddOneProduct(RoseFashionDBEntities entity, ProductModel newproduct, string size, int quantity)
-        {
-            try
-            {
-                entity.Products.Add(new Product
-                {
-                    ProductID = "PR-" + (entity.Products.Count() + 1),
-                    Name = newproduct.Name,
-                    Color = newproduct.Color,
-                    Size = size,
-                    CategoryID = newproduct.CategoryID,
-                    Description = newproduct.Description,
-                    Quantity = quantity,
-                    Image = newproduct.Image,
-                    Price = newproduct.Price
-                });
-                entity.SaveChanges();
-                return true;
-            }
-            catch(Exception ex)
-            {
-                return false;
-            }
-        }*/
-
-        /*private bool UpdateOneProduct(RoseFashionDBEntities entity, ProductModel newproduct, string size, int quantity)
-        {
-            try
-            {
-                var exist  = entity.Products.Where(p => p.ProductID == newproduct.ProductID).FirstOrDefault();
-                entity.Products.Add(new Product
-                {
-                    ProductID = "PR-" + (entity.Products.Count() + 1),
-                    Name = newproduct.Name,
-                    Color = newproduct.Color,
-                    Size = size,
-                    CategoryID = newproduct.CategoryID,
-                    Description = newproduct.Description,
-                    Quantity = quantity,
-                    Image = newproduct.Image,
-                    Price = newproduct.Price
-                });
-                entity.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }*/
-
         [HttpPost]
         public IHttpActionResult AddProduct(ProductModel newproduct)
         {
@@ -83,7 +33,8 @@ namespace RoseFashionBE.Controllers
                         CategoryID = newproduct.CategoryID,
                         //Description = newproduct.Description,
                         Image = newproduct.Image,
-                        Price = newproduct.Price
+                        Price = newproduct.Price,
+                        DiscountPercent = newproduct.DiscountPercent
                     });
                     entity.SaveChanges();
 
@@ -123,6 +74,7 @@ namespace RoseFashionBE.Controllers
                     existedproduct.CategoryID = editedproduct.CategoryID;
                     existedproduct.Description = editedproduct.Description;
                     existedproduct.Price = editedproduct.Price;
+                    existedproduct.DiscountPercent = editedproduct.DiscountPercent;
                     for (int i = 0; i < editedproduct.Size.Count(); i++)
                     {
                         string size = editedproduct.Size[i];
@@ -177,7 +129,8 @@ namespace RoseFashionBE.Controllers
                             CategoryID = p.CategoryID,
                             Description = p.Description,
                             Price = p.Price,
-                    }).FirstOrDefault();
+                            DiscountPercent = p.DiscountPercent
+                        }).FirstOrDefault();
                     if (result == null) return BadRequest("Product not found.");
                     else
                     {
@@ -223,7 +176,7 @@ namespace RoseFashionBE.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetProductListForAdmin()
+        public IHttpActionResult GetAllProduct()
         {
             try
             {
@@ -234,9 +187,19 @@ namespace RoseFashionBE.Controllers
                         ProductID = p.ProductID,
                         Name = p.Name,
                         Image = p.Image,
-                        Color = p.Color,
-                        Price = p.Price
+                        Price = p.Price,
+                        CategoryID = p.CategoryID,
+                        DiscountPercent = p.DiscountPercent
                     }).ToList();
+                    for(int i = 0; i < result.Count; i++)
+                    {
+                        string id = result[i].ProductID;
+                        if (entity.Product_Size_Quantity.Any(p => p.ProductID == id && p.Quantity > 0))
+                        {
+                            result[i].SoldOut = false;   
+                        }
+                        else result[i].SoldOut = true;
+                    }
                     return Ok(result);
                 }
             }
@@ -260,14 +223,46 @@ namespace RoseFashionBE.Controllers
                             ProductID = p.ProductID,
                             Name = p.Name,
                             Image = p.Image,
-                            Color = p.Color,
                             Price = p.Price,
-                            CategoryID = p.CategoryID
+                            CategoryID = p.CategoryID,
+                            DiscountPercent = p.DiscountPercent
                         }).ToList();
                     return Ok(result);
                 }
             }
             catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("topsale")]
+        public IHttpActionResult GetTopSales()
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    var topsale = entity.FN_TOPSALE().Select(p=>p.PID).ToList();
+                    List<ProductModel> result = new List<ProductModel>();
+                    for (int i = 0; i < topsale.Count(); i++)
+                    {
+                        string pid = topsale[i];
+                        var product = entity.Products.Where(p => p.ProductID == pid)
+                            .Select(p=> new ProductModel {
+                                ProductID = p.ProductID,
+                                Name = p.Name,
+                                Image = p.Image,
+                                Price = p.Price,
+                                DiscountPercent = p.DiscountPercent
+                            }).FirstOrDefault();
+                        result.Add(product);
+                    }
+                    return Ok(result);
+                }
+            }
+            catch(Exception ex)
             {
                 return InternalServerError(ex);
             }

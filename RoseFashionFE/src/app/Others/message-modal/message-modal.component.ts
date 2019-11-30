@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageModel } from 'src/app/model';
+import { MessageModel } from 'src/app/Shared/model';
 
 @Component({
   selector: 'app-message-modal',
@@ -9,15 +9,15 @@ import { MessageModel } from 'src/app/model';
 export class MessageModalComponent implements OnInit {
 
   static hiddenbutton: HTMLElement;
-  static globalmessage: MessageModel = { Type: '', Content: '', YesNoQuestion: false };
+  static globalmessage: MessageModel = { Title: '', Content: ''};
   constructor() { }
 
   ngOnInit() {
     MessageModalComponent.hiddenbutton = document.getElementById('hiddenbtn') as HTMLElement;
   }
 
-  getGlobalMessageType() {
-    return MessageModalComponent.globalmessage.Type;
+  getGlobalMessageTitle() {
+    return MessageModalComponent.globalmessage.Title;
   }
 
   getGlobalMessage() {

@@ -2,6 +2,14 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <i class="fa fa-bars" aria-hidden="true"></i>
   </button>
+  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#collapsibleNavbarCategory">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </button>  -->
+                <!-- <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button> -->
   <!-- Brand/logo -->
   <a class="navbar-brand" href="#">Logo</a>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
@@ -44,7 +52,7 @@
       <div class="dropdown-menu">
         <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/showcategory']">Quản lý tài khoản</a>
         <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/showcategory']">Đơn hàng đã mua</a>
-        <a class="dropdown-item" (click)="logout()">Đăng xuất</a>
+        <a class="dropdown-item" (click)="logout()" [routerLink]="['/home']" routerLinkActive="router-link-active" >Đăng xuất</a>
       </div>
     </li>
   </ul>
@@ -77,14 +85,14 @@
       <div class="modal-body">
         <label>Email</label>
         <input type="text" class="form-control" #email>
-        <label>Password</label>
+        <label>Mật khẩu</label>
         <input type="password" class="form-control" #password>
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-dark" (click)="login(email.value, password.value)"
-          data-dismiss="modal">Login</button>
+          data-dismiss="modal">Đăng nhập</button>
         <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
       </div>
 
@@ -93,10 +101,10 @@
   </div>
 </div>
 
-<button [routerLink]="['/view-product-list']" routerLinkActive="router-link-active">list</button>
+<!-- <button [routerLink]="['/view-product-list']" routerLinkActive="router-link-active">list</button>
 <button [routerLink]="['/view-cart']" routerLinkActive="router-link-active">Xem giỏ hàng</button>
 <button [routerLink]="['/view-product-list-for-customer']" routerLinkActive="router-link-active">Xem danh sách sản
-  phẩm</button>
+  phẩm</button> -->
 
 <router-outlet></router-outlet>
 <app-message-modal></app-message-modal>

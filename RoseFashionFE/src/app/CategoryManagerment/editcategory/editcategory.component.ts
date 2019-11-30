@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryModel } from 'src/app/model';
-import { CategoryService } from 'src/app/services';
+import { CategoryModel } from 'src/app/Shared/model';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 //Validator
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Variable } from '@angular/compiler/src/render3/r3_ast';
+import { CategoryService } from 'src/app/Shared/category-service';
 @Component({
   selector: 'app-editcategory',
   templateUrl: './editcategory.component.html',
@@ -24,10 +24,10 @@ export class EditcategoryComponent implements OnInit {
   getCoursefromRoute(): void {
     const id = this.route.snapshot.paramMap.get('id');
     
-    this.categoryService.getCategoryID(id).subscribe(category => this.category = category);
+    this.categoryService.GetCategoryID(id).subscribe(category => this.category = category);
   }
   save(): void {
-      this.categoryService.editCategory(this.category).subscribe(() => this.goBack());
+      this.categoryService.EditCategory(this.category).subscribe(() => this.goBack());
       alert("Congratulation! Added class successfully.")
     }
   goBack(): void {

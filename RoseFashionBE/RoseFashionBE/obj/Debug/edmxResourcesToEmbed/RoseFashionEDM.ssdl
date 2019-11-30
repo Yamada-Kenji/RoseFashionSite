@@ -31,6 +31,7 @@
     <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Amount" Type="int" Nullable="false" />
     <Property Name="SalePrice" Type="bigint" Nullable="false" />
+    <Property Name="OriginalPrice" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Category">
     <Key>
@@ -55,12 +56,13 @@
     </Key>
     <Property Name="ProductID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Color" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Color" Type="varchar" MaxLength="50" />
     <Property Name="CategoryID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="Image" Type="varchar(max)" />
     <Property Name="Price" Type="bigint" Nullable="false" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="DiscountPercent" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Product_Size_Quantity">
     <Key>
@@ -213,6 +215,16 @@
     </ReferentialConstraint>
   </Association>
   <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="FN_TOPSALE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="PID" Type="varchar" MaxLength="50" />
+          <Property Name="TOTAL" Type="int" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
   <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
     <Parameter Name="owner_id" Type="int" Mode="In" />

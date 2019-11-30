@@ -140,5 +140,11 @@ namespace RoseFashionBE
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
+    
+        [DbFunction("RoseFashionDBEntities", "FN_TOPSALE")]
+        public virtual IQueryable<FN_TOPSALE_Result> FN_TOPSALE()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<FN_TOPSALE_Result>("[RoseFashionDBEntities].[FN_TOPSALE]()");
+        }
     }
 }

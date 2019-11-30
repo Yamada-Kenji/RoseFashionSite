@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CategoryModel } from 'src/app/model';
-import { CategoryService } from 'src/app/services';
+import { CategoryModel } from 'src/app/Shared/model';
 //Validator
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CategoryService } from 'src/app/Shared/category-service';
 
 @Component({
   selector: 'app-addcategory',
@@ -43,7 +43,7 @@ addCategory(Name: string, MainCategory: string): void{
 var addCategory: CategoryModel;
 this.showMessage=null;
 addCategory = {Name,MainCategory} as CategoryModel
-this.categoryService.addCategory(addCategory).subscribe(addCourse => this.category.push(addCourse), 
+this.categoryService.AddCategory(addCategory).subscribe(addCourse => this.category.push(addCourse), 
                                                   error => this.showMessage = error);
 }
 

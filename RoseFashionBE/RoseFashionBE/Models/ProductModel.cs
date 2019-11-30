@@ -16,5 +16,7 @@ namespace RoseFashionBE.Models
         public int[] Quantity;
         public string Image;
         public long Price;
+        public int DiscountPercent;
+        public bool SoldOut;
     }
 }

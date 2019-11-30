@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryModel, ProductModel, MessageModel } from 'src/app/model';
-import { ProductService, CategoryService, MessageService } from 'src/app/services';
+import { CategoryModel, ProductModel, MessageModel } from 'src/app/Shared/model';
 import { Location } from '@angular/common';
-import { AppComponent } from 'src/app/app.component';
+import { ProductService } from 'src/app/Shared/product-service';
+import { CategoryService } from 'src/app/Shared/category-service';
+import { MessageService } from 'src/app/Shared/message-service';
+import { ActivatedRoute } from '@angular/router';
 
-declare var jQuery:any;
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
@@ -13,24 +14,46 @@ declare var jQuery:any;
 export class AddProductComponent implements OnInit {
 
   message: any;
-  product: ProductModel = {ProductID:'', Name:'', Color:'#000000', Size:[]=['S','M','L','XL','XXL'], CategoryID:'', Description:'', Quantity:[]=[0,0,0,0,0], Image:'', Price:0};
+  product: ProductModel = new ProductModel();
+  //{ ProductID: '', Name: '', Color: '#000000', Size: [] = ['S', 'M', 'L', 'XL', 'XXL'], CategoryID: '', Description: '', Quantity: [] = [0, 0, 0, 0, 0], Image: '', Price: 0, SoldOut: false };
   categorylist: CategoryModel[] = [];
-  selectedmaincategory: string="";
+  maxquantity: number = 999;
+  minquantity: number = 0;
+  minprice: number = 0;
+  maincategory: string = '';
+  categoryrequire: boolean;
+  namerequire: boolean;
+  addfunction: boolean = true;
   sizes = [
-    {name:'S', quantity: 0, checked:false},
-    {name:'M', quantity: 0, checked:false},
-    {name:'L', quantity: 0, checked:false},
-    {name:'XL', quantity: 0, checked:false},
-    {name:'XXL', quantity: 0, checked:false}
+    { name: 'S', quantity: 0, checked: false },
+    { name: 'M', quantity: 0, checked: false },
+    { name: 'L', quantity: 0, checked: false },
+    { name: 'XL', quantity: 0, checked: false },
+    { name: 'XXL', quantity: 0, checked: false }
   ]
 
-  constructor(private productService: ProductService, 
+  constructor(private productService: ProductService,
     private categoryService: CategoryService,
     private messageService: MessageService,
+    private route: ActivatedRoute,
     private location: Location) { }
 
   ngOnInit() {
-    this.GetAllCategory();
+    this.categoryService.GetAllCategory()
+      .toPromise().then(result => {
+        this.categorylist = result;
+        var productid = this.route.snapshot.paramMap.get('productid');
+        if (productid) {
+          this.productService.GetProductDetail(productid).toPromise().then(p => {
+            this.product = p;
+            this.SetCategory();
+          });
+          this.addfunction = false;
+        }
+        else {
+          this.SetMainCategory();
+        }
+      });
   }
 
   // đọc dữ liệu file ảnh sang dạng url
@@ -45,45 +68,102 @@ export class AddProductComponent implements OnInit {
         this.product.Image = reader.result.toString();
       }
     }
-    else{
-      this.product.Image='';
+    else {
+      this.product.Image = '';
     }
   }
 
-  
-
-  show(){
-    console.log(this.product);
-  }
-
-  Cancel(){
-    if(confirm('Bạn có muốn hủy toàn bộ thay đổi đã thực hiện tại trang này không?')){
+  Cancel() {
+    if (confirm('Bạn có muốn hủy toàn bộ thay đổi đã thực hiện tại trang này không?')) {
       this.location.back();
     }
   }
 
-  async AddProduct(){
-    await this.productService.AddProduct(this.product).toPromise().then(msg => this.message=msg).catch(err => this.message = err.message); 
-    var messagemodel: MessageModel = {Type:'', Content:'', YesNoQuestion:false }
-    if(this.message=='OK') {
-      messagemodel.Type='Thông báo';
-      messagemodel.Content='Thêm sản phẩm thành công';
+  SetMainCategory() {
+    var i = 0;
+    while (i < this.categorylist.length) {
+      if (this.categorylist[i].MainCategory == null) {
+        this.maincategory = this.categorylist[i].CategoryID;
+        break;
+      }
+      i++;
     }
-    else{
-      messagemodel.Type='Lỗi';
-      messagemodel.Content='Đã có lỗi xảy ra.';
-    }
-    this.messageService.SendMessage(messagemodel);
   }
 
-  async GetAllCategory(){
+  OnQuantityChange(index: number) {
+    if (this.product.Quantity[index] % 1 !== 0 || this.product.Quantity[index] == null) this.product.Quantity[index] = this.minquantity;
+    if (this.product.Quantity[index] > this.maxquantity) this.product.Quantity[index] = this.maxquantity;
+    if (this.product.Quantity[index] <= this.minquantity) this.product.Quantity[index] = this.minquantity;
+
+  }
+
+  OnPriceChange() {
+    if (this.product.Price % 1 !== 0 || this.product.Price == null) this.product.Price = this.minprice;
+    if (this.product.Price < this.minprice) this.product.Price = this.minprice;
+  }
+
+  OnDiscountChange() {
+    if (this.product.DiscountPercent % 1 !== 0 || this.product.DiscountPercent == null) this.product.DiscountPercent = 0;
+    if (this.product.DiscountPercent > 100) this.product.DiscountPercent = 100;
+    if (this.product.DiscountPercent < 0) this.product.DiscountPercent = 0;
+  }
+
+  CheckEmptyValue() {
+    //kiem tra name
+    if (this.product.Name == '') this.namerequire = true;
+    else this.namerequire = false;
+    //kiem tra category
+    if (this.product.CategoryID == '') this.categoryrequire = true;
+    else this.categoryrequire = false;
+    if (!this.namerequire && !this.categoryrequire) return true;
+    return false;
+  }
+
+  AddProduct() {
+    this.productService.AddProduct(this.product)
+      .toPromise().then(() => {
+        alert('Thêm sản phẩm thành công');
+        this.location.back();
+      })
+      .catch(() => alert('Đã có lỗi xảy ra.'));
+  }
+
+  async GetAllCategory() {
     await this.categoryService.GetAllCategory().toPromise().then(result => this.categorylist = result);
   }
 
-  GetSelectedSizeAndQuantity(){
+  GetSelectedSizeAndQuantity() {
     this.product.Size = this.sizes.filter(opt => opt.checked).map(opt => opt.name);
     this.product.Quantity = this.sizes.filter(opt => opt.checked).map(opt => opt.quantity);
   }
 
+  SetCategory() {
+    var i: number = 0;
+    for (i; i < this.categorylist.length; i++) {
+      if (this.categorylist[i].CategoryID == this.product.CategoryID) {
+        this.maincategory = this.categorylist[i].MainCategory; break;
+      }
+    }
+  }
+
+  UpdateProduct() {
+    this.productService.UpdateProduct(this.product)
+      .toPromise().then(() => {
+        alert('Cập nhật sản phẩm thành công');
+        this.location.back();
+      })
+      .catch(() => alert('Đã có lỗi xảy ra.'));
+  }
+
+  Save() {
+    if (this.CheckEmptyValue() == false) return;
+    if (this.product.Price == 0) {
+      if (!confirm('Bạn đang lưu thông tin sản phẩm với giá là 0 VNĐ.\nBạn vẫn muốn tiếp tục?')) {
+        return;
+      }
+    }
+    if (this.addfunction == true) this.AddProduct();
+    else this.UpdateProduct();
+  }
 
 }

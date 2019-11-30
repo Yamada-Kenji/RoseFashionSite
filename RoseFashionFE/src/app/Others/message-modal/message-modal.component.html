@@ -7,7 +7,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">{{getGlobalMessageType()}}</h4>
+                <h4 class="modal-title">{{getGlobalMessageTitle()}}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
@@ -19,8 +19,6 @@
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
-                <button *ngIf="expression" type="button" class="btn btn-dark" data-dismiss="modal">Có</button>
-                <button *ngIf="expression" type="button" class="btn btn-dark" data-dismiss="modal">Không</button>
             </div>
 
         </div>

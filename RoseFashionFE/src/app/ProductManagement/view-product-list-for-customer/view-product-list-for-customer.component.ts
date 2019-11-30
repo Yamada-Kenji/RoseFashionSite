@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductModel, CategoryModel } from 'src/app/model';
-import { ProductService, CategoryService } from 'src/app/services';
-import { AddProductToCartComponent } from '../add-product-to-cart/add-product-to-cart.component';
-import { ActivatedRoute } from '@angular/router';
+import { ProductModel, CategoryModel } from 'src/app/Shared/model';
+import { ProductService } from 'src/app/Shared/product-service';
+import { CategoryService } from 'src/app/Shared/category-service';
+
 
 @Component({
   selector: 'app-view-product-list-for-customer',
@@ -14,24 +14,41 @@ export class ViewProductListForCustomerComponent implements OnInit {
   productlist: ProductModel[] = [];
   categorylist: CategoryModel[] = [];
   pageconfig: any;
-  recol: number;
-  
+  selectedcategory: string = 'all';
+
+  flag: boolean = false;
+  showbutton: boolean = false;
+
   constructor(private productService: ProductService,
     private categoryService: CategoryService) { 
       this.pageconfig = {
-        itemsPerPage: 7,
+        itemsPerPage: 10,
         currentPage: 1
       };
     }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.GetProductList();
     this.GetAllCategory();
-    this.recol = (window.innerWidth <= 420) ? 2 : 6;
+
+    window.onscroll = function() {
+      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        //alert('show');
+        this.showbutton = true;
+      } else {
+        //alert('hide');
+        this.showbutton = false;
+      }
+    }
   }
 
-  onResize(event) {
-    this.recol = (event.target.innerWidth <= 420) ? 2 : 6;
+  topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
+  ToggleSidebar(){
+    this.flag = !this.flag;
   }
 
   pageChanged(event) {
@@ -43,21 +60,22 @@ export class ViewProductListForCustomerComponent implements OnInit {
   }
 
   async GetProductList() {
-    await this.productService.GetProductListForAdmin().toPromise().then(result => this.productlist = result);
+    await this.productService.GetAllProduct().toPromise().then(result => this.productlist = result);
   }
 
   async GetProductByCategory(categoryid){
     await this.productService.GetProductByCategory(categoryid).toPromise().then(result => this.productlist = result);
   }
 
-  async DeleteProduct(productid: string) {
-    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
-      await this.productService.DeleteProduct(productid).toPromise().then(result => console.log(result));
-      this.GetProductList();
-    }
+  async onSelectCategory(categoryid){
+    this.selectedcategory = categoryid;
+    if(categoryid == 'all') await this.GetProductList();
+    else await this.GetProductByCategory(categoryid);
+    this.pageconfig.currentPage = 1;
   }
 
-  async onSelectCategory(categoryid){
-    await this.GetProductByCategory(categoryid);
+  GetColor(categoryid){
+    if(categoryid == this.selectedcategory) return 'white';
+    else return '';
   }
 }

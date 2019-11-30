@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CartModel, BillModel, UserModel } from 'src/app/model';
-import { CartService, BillService, UserService } from 'src/app/services';
+import { CartModel, BillModel, UserModel } from 'src/app/Shared/model';
+import { CartService } from 'src/app/Shared/cart-service';
+import { BillService } from 'src/app/Shared/bill-service';
+import { UserService } from 'src/app/Shared/user-service';
+
 
 @Component({
   selector: 'app-add-bill',
@@ -23,10 +26,10 @@ export class AddBillComponent implements OnInit {
     this.CalTotalPrice();
   }
 
-  CalTotalPrice(){
+  CalTotalPrice() {
     this.totalprice = 0;
-    var i=0;
-    while(i<this.mycart.length){
+    var i = 0;
+    while (i < this.mycart.length) {
       this.totalprice += this.mycart[i].SalePrice * this.mycart[i].Amount;
       i++;
     }
@@ -45,16 +48,18 @@ export class AddBillComponent implements OnInit {
       DiscountCode: discountcode,
       TotalPrice: this.totalprice
     };
-    if (this.user.Role == 'guest') {
-      this.billService.AddBillForGuest(items, billinfo, this.user.UserID)
-      .toPromise().then(result => alert(result))
-      .catch(err => alert(err));
-    }
-    else {
-      this.cartService.UpdateCartInDatabase(cartid, items);
-      this.billService.AddBillForMember(billinfo)
-      .toPromise().then(result => alert(result))
-      .catch(err => alert(err));
-    }
+
+    this.cartService.UpdateCartInDatabase(cartid, items);
+    this.cartService.UpdateProductQuantity(items).toPromise()
+      .then(() => {
+        this.billService.AddBillForMember(billinfo)
+          .toPromise().then(result => this.cartService.GetLastUsedCart(this.user.UserID).toPromise()
+            .then(result => {
+              localStorage.setItem('CartID', result);
+              this.cartService.GetItemsInCart(result);
+              alert("Hóa đơn đã được lưu.");
+            }))
+          .catch(err => alert("Lưu hóa đơn thất bại"));
+      }).catch(err => alert("Cập nhật số lượng thất bại"));
   }
 }

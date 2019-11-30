@@ -10,18 +10,10 @@
 namespace RoseFashionBE
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Cart_Product
+    public partial class FN_TOPSALE_Result
     {
-        public string CartID { get; set; }
-        public string ProductID { get; set; }
-        public int Amount { get; set; }
-        public long SalePrice { get; set; }
-        public string Size { get; set; }
-        public long OriginalPrice { get; set; }
-    
-        public virtual Cart Cart { get; set; }
-        public virtual Product Product { get; set; }
+        public string PID { get; set; }
+        public Nullable<int> TOTAL { get; set; }
     }
 }

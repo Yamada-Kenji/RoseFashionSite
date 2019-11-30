@@ -36,6 +36,7 @@
           <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Amount" Type="int" Nullable="false" />
           <Property Name="SalePrice" Type="bigint" Nullable="false" />
+          <Property Name="OriginalPrice" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -60,12 +61,13 @@
           </Key>
           <Property Name="ProductID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Color" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Color" Type="varchar" MaxLength="50" />
           <Property Name="CategoryID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Image" Type="varchar(max)" />
           <Property Name="Price" Type="bigint" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="DiscountPercent" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Product_Size_Quantity">
           <Key>
@@ -218,6 +220,16 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="FN_TOPSALE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="PID" Type="varchar" MaxLength="50" />
+                <Property Name="TOTAL" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -338,6 +350,7 @@
           <NavigationProperty Name="Cart" Relationship="Self.FK_Cart_Product_Cart" FromRole="Cart_Product" ToRole="Cart" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Cart_Product_Product" FromRole="Cart_Product" ToRole="Product" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OriginalPrice" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -364,7 +377,7 @@
           </Key>
           <Property Name="ProductID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CategoryID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -374,6 +387,7 @@
           <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="Product_Size_Quantity" Relationship="Self.FK_Product_Size_Quantity_Product" FromRole="Product" ToRole="Product_Size_Quantity" />
           <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_Product" FromRole="Product" ToRole="Rating" />
+          <Property Name="DiscountPercent" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Product_Size_Quantity">
           <Key>
@@ -607,6 +621,7 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="FN_TOPSALE" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.FN_TOPSALE_Result)" />
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -618,6 +633,10 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="FN_TOPSALE_Result">
+          <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TOTAL" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -651,6 +670,7 @@
           <EntitySetMapping Name="Cart_Product">
             <EntityTypeMapping TypeName="RoseFashionDBModel.Cart_Product">
               <MappingFragment StoreEntitySet="Cart_Product">
+                <ScalarProperty Name="OriginalPrice" ColumnName="OriginalPrice" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="CartID" ColumnName="CartID" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
@@ -681,6 +701,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Color" ColumnName="Color" />
@@ -760,6 +781,14 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="RoseFashionDBModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="RoseFashionDBModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="FN_TOPSALE" FunctionName="RoseFashionDBModel.Store.FN_TOPSALE">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoseFashionDBModel.FN_TOPSALE_Result">
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CartService } from 'src/app/services';
-import { CartModel } from 'src/app/model';
+import { CartModel } from 'src/app/Shared/model';
+import { CartService } from 'src/app/Shared/cart-service';
 
 @Component({
   selector: 'app-view-cart',
@@ -15,13 +15,7 @@ export class ViewCartComponent implements OnInit, OnDestroy {
   pageconfig: any;
 
   ngOnDestroy(){
-    var cartid = localStorage.getItem('CartID');
-    var items: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
-    if(cartid){
-      this.cartService.UpdateCartInDatabase(cartid, items)
-      .toPromise().then(result => console.log(result))
-      .catch(err => console.log(err));
-    }
+    this.SaveCart();
   }
 
   constructor(private cartService: CartService) { 
@@ -34,7 +28,28 @@ export class ViewCartComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.mycart = this.cartService.ViewProductInCart();
     if(this.mycart==undefined) this.mycart = [];
+    else{
+      for(var i=0;i<this.mycart.length;i++){
+        this.UpdateItemAmount(this.mycart[i].ProductID, this.mycart[i].Amount);
+      }
+    }
     this.CalTotalPrice();
+  }
+
+  CheckDiscount(originalprice: number, saleprice: number){
+    console.log(originalprice, saleprice);
+    if(originalprice > saleprice) return true;
+    return false;
+  }
+
+  SaveCart(){
+    var cartid = localStorage.getItem('CartID');
+    var items: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
+    if(cartid){
+      this.cartService.UpdateCartInDatabase(cartid, items)
+      .toPromise().then(result => console.log(result))
+      .catch(err => console.log(err));
+    }
   }
 
   pageChanged(event) {
@@ -51,6 +66,9 @@ export class ViewCartComponent implements OnInit, OnDestroy {
   }
 
   UpdateItemAmount(productid, amount){
+    const index = this.mycart.indexOf(this.mycart.find(item => item.ProductID == productid));
+    if(amount>this.mycart[index].Quantity) this.mycart[index].Amount = this.mycart[index].Quantity;
+    if(amount<1) this.mycart[index].Amount = 1; 
     this.cartService.UpdateItemAmount(productid, amount);
     this.CalTotalPrice();
   }
@@ -64,5 +82,6 @@ export class ViewCartComponent implements OnInit, OnDestroy {
     const index = this.mycart.indexOf(this.mycart.find(item => item.ProductID == this.selectedid));
     this.mycart.splice(index, 1);
     this.CalTotalPrice();
+    this.SaveCart();
   }
 }

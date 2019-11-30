@@ -11,7 +11,11 @@
                 <div class="col-sm-2">Size: {{item.Size}}</div>
                 <div class="col-sm-2"><input type="number" [(ngModel)]="item.Amount" class="form-control"
                         (change)="UpdateItemAmount(item.ProductID, item.Amount)" min="1" max="{{item.Quantity}}"></div>
-                <div class="col-sm-2">{{item.SalePrice | number}} VNĐ</div>
+                <div class="col-sm-2">
+                    <p>{{item.SalePrice | number}} VNĐ</p>
+                    <p *ngIf="CheckDiscount(item.OriginalPrice, item.SalePrice)" style="text-decoration: line-through;">
+                        {{item.OriginalPrice | number}} VNĐ</p>
+                </div>
                 <div class="col-sm-2"><Button class="btn btn-dark" data-toggle="modal" data-target="#myModal1"
                         (click)="SelectItem(item.ProductID)">Xóa</Button></div>
             </div>
@@ -22,7 +26,8 @@
         <div class="col-sm-4">
             <div style="background-color: #f2f2f2;">
                 <p>Tổng cộng: {{totalprice | number}} VNĐ</p>
-                <button *ngIf="totalprice!=0" class="btn btn-dark" [routerLink]="['/add-bill']" routerLinkActive="router-link-active">Thanh
+                <button *ngIf="totalprice!=0" class="btn btn-dark" [routerLink]="['/add-bill']"
+                    routerLinkActive="router-link-active">Thanh
                     toán</button>
             </div>
         </div>

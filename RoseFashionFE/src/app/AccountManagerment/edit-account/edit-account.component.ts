@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserModel } from 'src/app/model';
-import { UserService } from 'src/app/services';
+import { UserModel } from 'src/app/Shared/model';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from 'src/app/Shared/user-service';
 
 
 @Component({

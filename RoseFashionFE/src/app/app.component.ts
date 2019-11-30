@@ -1,9 +1,8 @@
 import { Component, HostListener } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { UserModel, CartModel } from 'src/app/Shared/model';
+import { UserService } from './Shared/user-service';
+import { CartService } from './Shared/cart-service';
 
-import { UserModel, MessageModel } from 'src/app/model';
-import { UserService, CartService } from 'src/app/services';
-import { Router } from '@angular/router';
 
 
 
@@ -25,51 +24,83 @@ export class AppComponent {
   text: string;
   itemsincart: number = 0;
 
+
   keyword: string;
 
   @HostListener('window:beforeunload', [ '$event' ])
+
+
   beforeUnloadHander(event) {
-    //save user cart
+    var cartid = localStorage.getItem('CartID');
+    var items: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
+    if(cartid){
+      this.cartService.UpdateCartInDatabase(cartid, items)
+      .toPromise().then(result => console.log(result))
+      .catch(err => console.log(err));
+    }
   }
 
   constructor(
     private userservice: UserService,
-    private cartService: CartService) {}
+    private cartService: CartService) { }
 
   ngOnInit() {
     this.getCurrentUser();
   }
 
-  UpdateCartQuantity(){
+  UpdateCartQuantity() {
     return this.cartService.GetCartLenght();
   }
 
-  getCurrentUser(){
+  getCurrentUser() {
     var temp = this.userservice.getCurrentUser();
     if (temp) {
       this.currentUser = temp;
-      if(this.currentUser.Role!='guest'){
+      if(this.currentUser.Role == 'guest') this.islogon = false;
+      else {
         this.islogon = true;
-        this.cartService.GetLastUsedCart(this.currentUser.UserID).toPromise()
-        .then(result => 
-          {
-            localStorage.setItem('CartID', result);
-            this.cartService.GetItemsInCart(result);
-          });
       }
-      else this.islogon = false;
     }
     else {
       this.islogon = false;
       this.userservice.CreateGuestID().toPromise()
         .then(email => {
           this.userservice.GetAccountByEmail(email)
-          .toPromise().then(result => {
-            localStorage.setItem('currentGuest', JSON.stringify(result));
-            this.currentUser = result;
-          })
+            .toPromise().then(result => {
+              localStorage.setItem('currentGuest', JSON.stringify(result));
+              this.currentUser = result;
+            })
         });
     }
+    this.cartService.GetLastUsedCart(this.currentUser.UserID).toPromise()
+      .then(result => {
+        localStorage.setItem('CartID', result);
+        this.cartService.GetItemsInCart(result);
+      });
+    // if (temp) {
+    //   this.currentUser = temp;
+    //   if(this.currentUser.Role!='guest'){
+    //     this.islogon = true;
+    //     this.cartService.GetLastUsedCart(this.currentUser.UserID).toPromise()
+    //     .then(result => 
+    //       {
+    //         localStorage.setItem('CartID', result);
+    //         this.cartService.GetItemsInCart(result);
+    //       });
+    //   }
+    //   else this.islogon = false;
+    // }
+    // else {
+    //   this.islogon = false;
+    //   this.userservice.CreateGuestID().toPromise()
+    //     .then(email => {
+    //       this.userservice.GetAccountByEmail(email)
+    //       .toPromise().then(result => {
+    //         localStorage.setItem('currentGuest', JSON.stringify(result));
+    //         this.currentUser = result;
+    //       })
+    //     });
+    // }
   }
 
   async login(email: string, password: string) {

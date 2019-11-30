@@ -1,5 +1,5 @@
 
-import { UserModel, CategoryModel, ProductModel, CartModel, MessageModel, BillModel } from './model';
+import { UserModel, CategoryModel, ProductModel, CartModel, MessageModel, BillModel } from './Shared/model';
 import { HttpClient, HttpHeaders, HttpParams, HttpHeaderResponse, HttpErrorResponse} from '@angular/common/http';
 
 import { catchError } from 'rxjs/operators';
@@ -160,7 +160,8 @@ export class CartService{
             Size: size, 
             Amount: amount,
             Quantity: quantity,
-            SalePrice: price
+            SalePrice: price,
+            OriginalPrice: price
         };
         var mycart: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
         if(mycart){
@@ -188,6 +189,10 @@ export class CartService{
     UpdateCartInDatabase(cartid: string, items: CartModel[]){
         const editedurl = `${this.carturl}?cartid=${cartid}`;
         return this.http.put(editedurl, items, httpOptions);
+    }
+
+    UpdateProductQuantity(items: CartModel[]){
+        return this.http.put(this.carturl, items, httpOptions);
     }
 
     ViewProductInCart(){
@@ -224,6 +229,11 @@ export class CartService{
         if(mycart) return mycart.length;
         else return 0;
 
+    }
+
+    SaveCartForGuestPayment(items: CartModel[], guestid: string): Observable<string>{
+        const editedurl = `${this.carturl}?guestid=${guestid}`;
+        return this.http.post<string>(editedurl, items, httpOptions);
     }
 }
 

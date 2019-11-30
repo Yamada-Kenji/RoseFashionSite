@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from 'src/app/services';
-import { ProductModel } from 'src/app/model';
+import { ProductModel } from 'src/app/Shared/model';
+import { ProductService } from 'src/app/Shared/product-service';
 
 @Component({
   selector: 'app-view-product-list',
@@ -28,7 +28,7 @@ export class ViewProductListComponent implements OnInit {
   }
 
   async GetProductList() {
-    await this.productService.GetProductListForAdmin().toPromise().then(result => this.productlist = result);
+    await this.productService.GetAllProduct().toPromise().then(result => this.productlist = result);
   }
 
   async DeleteProduct(productid: string) {

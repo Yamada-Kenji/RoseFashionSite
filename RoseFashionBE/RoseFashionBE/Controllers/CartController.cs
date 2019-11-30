@@ -47,31 +47,25 @@ namespace RoseFashionBE.Controllers
         {
             try
             {
-                if (items == null)
-                {
-                    return Ok("OK");
-                }
                 using(var entity = new RoseFashionDBEntities())
                 {
-                    for(int i = 0; i < items.Length; i++)
+                    entity.Cart_Product.RemoveRange(entity.Cart_Product.Where(cp => cp.CartID == cartid).ToList());
+                    entity.SaveChanges();
+                    if (items.Length == 0) return Ok("OK");
+                    for (int i = 0; i < items.Length; i++)
                     {
                         var oneitem = items[i];
-                        var olditem = entity.Cart_Product
-                            .Where(cp => cp.ProductID == oneitem.ProductID && cp.Size == oneitem.Size).FirstOrDefault();
-                        if (olditem != null) olditem.Amount = oneitem.Amount;
-                        else
+                        entity.Cart_Product.Add(new Cart_Product
                         {
-                            entity.Cart_Product.Add(new Cart_Product
-                            {
-                                CartID = cartid,
-                                ProductID = oneitem.ProductID,
-                                Size = oneitem.Size,
-                                Amount = oneitem.Amount,
-                                SalePrice = oneitem.SalePrice
-                            });
-                        }
-                        entity.SaveChanges();
+                            CartID = cartid,
+                            ProductID = oneitem.ProductID,
+                            Size = oneitem.Size,
+                            Amount = oneitem.Amount,
+                            SalePrice = oneitem.SalePrice,
+                            OriginalPrice = oneitem.OriginalPrice
+                        });
                     }
+                    entity.SaveChanges();
                 }
                 return Ok("OK");
             }
@@ -96,9 +90,10 @@ namespace RoseFashionBE.Controllers
                                  Name = cp.Product.Name,
                                  Image = cp.Product.Image,
                                  Size = cp.Size,
-                                 Quantity = cp.Product.Product_Size_Quantity.Where(q => q.ProductID == cp.ProductID).Select(q => q.Quantity).FirstOrDefault(),
+                                 Quantity = cp.Product.Product_Size_Quantity.Where(q => q.ProductID == cp.ProductID && q.Size == cp.Size).Select(q => q.Quantity).FirstOrDefault(),
                                  Amount = cp.Amount,
-                                 SalePrice = cp.Product.Price
+                                 SalePrice = cp.Product.Price,
+                                 OriginalPrice = cp.OriginalPrice
                              }).ToList();
                     return Ok(result);
                 }
@@ -108,5 +103,76 @@ namespace RoseFashionBE.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [HttpPut]
+        public IHttpActionResult UpdateProductQuantity(CartModel[] items)
+        {
+            try
+            {
+                bool success = UpdateQuantity(items);
+                if (success == false) return BadRequest("Update fail.");
+                return Ok("OK");
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        bool UpdateQuantity(CartModel[] items)
+        {
+            using (var entity = new RoseFashionDBEntities())
+            {
+                for (int i = 0; i < items.Count(); i++)
+                {
+                    string pid = items[i].ProductID;
+                    string size = items[i].Size;
+                    var product = entity.Product_Size_Quantity.Where(p => p.ProductID == pid && p.Size == size).FirstOrDefault();
+                    if (product.Quantity >= items[i].Amount) product.Quantity -= items[i].Amount;
+                    else return false;
+                }
+                entity.SaveChanges();
+            }
+            return true;
+        }
+
+        /*[HttpPost]
+        public IHttpActionResult SaveCartForGuestPayment(CartModel[] items, string guestid)
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    // tạo cart mới
+                    string cartid = "CR-" + (entity.Carts.Count() + 1);
+                    entity.Carts.Add(new Cart
+                    {
+                        CartID = cartid,
+                        UserID = guestid,
+                        IsUsing = false,
+                    });
+                    // lưu sản phẩm vào cart vừa tạo
+                    for (int i = 0; i < items.Length; i++)
+                    {
+                        entity.Cart_Product.Add(new Cart_Product
+                        {
+                            CartID = cartid,
+                            ProductID = items[i].ProductID,
+                            Size = items[i].Size,
+                            Amount = items[i].Amount,
+                            SalePrice = items[i].SalePrice
+                        });
+                    }
+                    entity.SaveChanges();
+                    bool success = UpdateQuantity(items);
+                    if (success == false) return BadRequest("Update fail.");
+                    return Ok(cartid);
+                }
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }*/
     }
 }

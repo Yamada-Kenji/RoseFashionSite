@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductModel, CategoryModel } from 'src/app/model';
-import { ProductService, CategoryService } from 'src/app/services';
+import { ProductModel, CategoryModel, MessageModel } from 'src/app/Shared/model';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { ProductService } from 'src/app/Shared/product-service';
+import { CategoryService } from 'src/app/Shared/category-service';
+import { MessageService } from 'src/app/Shared/message-service';
 
 @Component({
   selector: 'app-update-product',
@@ -11,9 +13,12 @@ import { Location } from '@angular/common';
 })
 export class UpdateProductComponent implements OnInit {
 
-  product: ProductModel = {ProductID:'', Name:'', Color:'#000000', Size:[]=['S','M','L','XL','XXL'], CategoryID:'', Description:'', Quantity:[]=[0,0,0,0,0], Image:'', Price:0};
+  product: ProductModel = new ProductModel();
   categorylist: CategoryModel[] = [];
   selectedmaincategory: string="";
+  message: any;
+  maxquantity: number = 999;
+  minquantity: number = 0;
   sizes = [
     {name:'S', quantity: 0, checked:false},
     {name:'M', quantity: 0, checked:false},
@@ -25,6 +30,7 @@ export class UpdateProductComponent implements OnInit {
   constructor(private productService: ProductService, 
     private categoryService: CategoryService,
     private route: ActivatedRoute,
+    private messageService: MessageService,
     private location: Location) { }
 
   ngOnInit() {
@@ -40,7 +46,6 @@ export class UpdateProductComponent implements OnInit {
   //nguồn tham khảo https://stackblitz.com/edit/angular-file-upload-preview?file=app%2Fapp.component.html
   onSelectFile(event) {
     if (event.target.files && event.target.files[0]) {
-      console.log('adafafafafa');
       var reader = new FileReader();
 
       reader.readAsDataURL(event.target.files[0]); // read file as data url
@@ -69,15 +74,34 @@ export class UpdateProductComponent implements OnInit {
     this.product.Quantity = this.sizes.filter(opt => opt.checked).map(opt => opt.quantity);
   }
 
-  async UpdateProduct(){
-    await this.productService.UpdateProduct(this.product).toPromise().then(result => alert(result));
-    this.location.back();
+  UpdateProduct(){
+    this.productService.UpdateProduct(this.product)
+    .toPromise().then(() => {
+      alert('Thêm sản phẩm thành công');
+      this.location.back();
+    })
+    .catch(() => alert('Đã có lỗi xảy ra.'));
+    // var messagemodel: MessageModel = {Title:'', Content:''}
+    // if(this.message=='OK') {
+    //   messagemodel.Title='Thông báo';
+    //   messagemodel.Content='Thêm sản phẩm thành công';
+    // }
+    // else{
+    //   messagemodel.Title='Lỗi';
+    //   messagemodel.Content='Đã có lỗi xảy ra.';
+    // }
   }
 
   Cancel(){
     if(confirm('Bạn có muốn hủy toàn bộ thay đổi đã thực hiện tại trang này không?')){
       this.location.back();
     }
+  }
+
+  OnQuantityChange(index: number){
+    if(this.product.Quantity[index] > this.maxquantity) this.product.Quantity[index] = this.maxquantity;
+    if(this.product.Quantity[index] <= this.minquantity) this.product.Quantity[index] = this.minquantity;
+  
   }
   
 }

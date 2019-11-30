@@ -30,6 +30,7 @@ namespace RoseFashionBE
         public string Image { get; set; }
         public long Price { get; set; }
         public bool IsDeleted { get; set; }
+        public int DiscountPercent { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cart_Product> Cart_Product { get; set; }

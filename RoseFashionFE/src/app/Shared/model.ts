@@ -24,6 +24,20 @@ export class ProductModel{
     Quantity: number[] = [];
     Image: string;
     Price: number;
+    DiscountPercent: number;
+    SoldOut: boolean = false;
+
+    constructor(){
+        this.ProductID = '';
+        this.Name = '';
+        this.Size = ['S', 'M', 'L', 'XL', 'XXL'];
+        this.CategoryID = '';
+        this.Quantity = [0, 0, 0, 0, 0];
+        this.Image = '';
+        this.Price = 0;
+        this.DiscountPercent = 0;
+        this.SoldOut = false; 
+    }
 }
 
 export class CategoryModel{
@@ -42,6 +56,20 @@ export class CartModel{
     Amount: number;
     Quantity: number;
     SalePrice: number;
+    OriginalPrice: number;
+
+    constructor(){
+        this.CartID = '';
+        this.UserID = '';
+        this.ProductID = '';
+        this.Image = '';
+        this.Name = '';
+        this.Size = '';
+        this.Amount = 0;
+        this.Quantity = 0;
+        this.SalePrice = 0;
+        this.OriginalPrice = 0;
+    }
 }
 
 export class BillModel{
@@ -56,7 +84,6 @@ export class BillModel{
 }
 
 export class MessageModel{
-    Type: string;
+    Title: string;
     Content: string;
-    YesNoQuestion: boolean = false;
 }

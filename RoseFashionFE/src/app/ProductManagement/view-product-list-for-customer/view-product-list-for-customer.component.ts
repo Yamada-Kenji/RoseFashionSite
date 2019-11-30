@@ -15,9 +15,10 @@ export class ViewProductListForCustomerComponent implements OnInit {
   categorylist: CategoryModel[] = [];
   pageconfig: any;
   recol: number;
+  key: string;
   
   constructor(private productService: ProductService,
-    private categoryService: CategoryService) { 
+    private categoryService: CategoryService, private route: ActivatedRoute) { 
       this.pageconfig = {
         itemsPerPage: 7,
         currentPage: 1
@@ -25,8 +26,10 @@ export class ViewProductListForCustomerComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.FindProduct();
     this.GetProductList();
     this.GetAllCategory();
+   
     this.recol = (window.innerWidth <= 420) ? 2 : 6;
   }
 
@@ -44,6 +47,11 @@ export class ViewProductListForCustomerComponent implements OnInit {
 
   async GetProductList() {
     await this.productService.GetProductListForAdmin().toPromise().then(result => this.productlist = result);
+  }
+  // find product
+  async FindProduct() {
+    const key = this.route.snapshot.paramMap.get('keyword');
+    await this.productService.FindProduct(key).toPromise().then(result => this.productlist = result);
   }
 
   async GetProductByCategory(categoryid){

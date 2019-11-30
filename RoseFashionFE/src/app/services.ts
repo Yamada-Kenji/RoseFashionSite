@@ -59,8 +59,8 @@ export class UserService{
     }
 
     //get account by email
-    GetAccountByEmail(email: string): Observable<UserModel>{
-        const geturl = `${this.userurl}?email=${email}`;
+    GetAccountByEmail(id: string): Observable<UserModel>{
+        const geturl = `${this.userurl}?id=${id}`;
         return this.http.get<UserModel>(geturl);
     }
     //update account
@@ -73,6 +73,7 @@ export class UserService{
         const editedurl = `${this.userurl}/guest`;
         return this.http.get<any>(editedurl);
     }
+    
 
 }
 
@@ -100,6 +101,11 @@ export class ProductService{
 
     GetProductListForAdmin(): Observable<ProductModel[]>{
         return this.http.get<ProductModel[]>(this.producturl);
+    }
+    // get Product when find
+    FindProduct(keyword: string): Observable<ProductModel[]>{
+        const editedurl = `${this.producturl}?keyword=${keyword}`;
+        return this.http.get<ProductModel[]>(editedurl);
     }
     
     GetProductByCategory(categoryid: string): Observable<ProductModel[]>{
@@ -238,6 +244,12 @@ export class BillService{
     AddBillForMember(billinfo: BillModel){
         return this.http.post(this.billurl, billinfo, httpOptions);
     }
+    //get purchase history by id
+    GetPurchaseById(userid: string): Observable<BillModel>{
+        const geturl = `${this.billurl}?userid=${userid}`;
+        return this.http.get<BillModel>(geturl);
+    }
+   
 }
 
 export class MessageService{

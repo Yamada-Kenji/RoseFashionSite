@@ -17,6 +17,8 @@ import {AddcategoryComponent} from './CategoryManagerment/addcategory/addcategor
 
 import { CreateAccountComponent } from './AccountManagerment/create-account/create-account.component';
 import { AuthGuard } from './Shared/auth-guard';
+import { EditAccountComponent } from './AccountManagerment/edit-account/edit-account.component';
+import { PurchasehistoryComponent } from './UserManagerment/purchasehistory/purchasehistory.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -34,7 +36,10 @@ const routes: Routes = [
   {path: 'view-cart', component: ViewCartComponent},
   {path: 'view-product-list-for-customer', component: ViewProductListForCustomerComponent},
   {path: 'add-bill', component: AddBillComponent},
-  {path: 'register', component: CreateAccountComponent}
+  {path: 'register', component: CreateAccountComponent},
+  {path: 'edit-account',component:EditAccountComponent},
+  {path: 'purchase-history',component:PurchasehistoryComponent},
+  {path: 'findproduct/:keyword', component:ViewProductListForCustomerComponent}
 
 ];
 

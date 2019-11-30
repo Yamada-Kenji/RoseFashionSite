@@ -25,6 +25,8 @@ export class AppComponent {
   text: string;
   itemsincart: number = 0;
 
+  keyword: string;
+
   @HostListener('window:beforeunload', [ '$event' ])
   beforeUnloadHander(event) {
     //save user cart
@@ -82,6 +84,7 @@ export class AppComponent {
       this.loginmessage = 'Login successfully!';
     }
     this.getCurrentUser();
+    
   }
 
   logout() {

@@ -22,11 +22,13 @@
       </li>
 
     </ul>
+ 
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+      <input class="form-control mr-sm-2"  aria-label="Search" [(ngModel)]="keyword"[ngModelOptions]="{standalone: true}" >
+      <button class="btn btn-outline-light my-2 my-sm-0" type="submit" routerLink='/findproduct/{{keyword}}'>Search</button>
     </form>
-  </div>
+    </div>
+
 
   <ul class="navbar-nav">
     <li class="nav-item" *ngIf="!islogon">
@@ -46,8 +48,8 @@
         {{currentUser.Email}}
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/showcategory']">Quản lý tài khoản</a>
-        <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/showcategory']">Đơn hàng đã mua</a>
+        <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/edit-account']">Quản lý tài khoản</a>
+        <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/purchase-history']">Đơn hàng đã mua</a>
         <a class="dropdown-item" (click)="logout()">Đăng xuất</a>
       </div>
     </li>
@@ -101,6 +103,7 @@
 <button [routerLink]="['/view-cart']" routerLinkActive="router-link-active">Xem giỏ hàng</button>
 <button [routerLink]="['/view-product-list-for-customer']" routerLinkActive="router-link-active">Xem danh sách sản
   phẩm</button>
+
 
 <router-outlet></router-outlet>
 <app-message-modal></app-message-modal>

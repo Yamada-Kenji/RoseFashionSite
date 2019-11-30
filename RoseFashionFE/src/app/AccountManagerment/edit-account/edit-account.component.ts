@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
+
 @Component({
   selector: 'app-edit-account',
   templateUrl: './edit-account.component.html',
@@ -11,18 +12,21 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditAccountComponent implements OnInit {
 
-  user: UserModel;
+  user: UserModel = new UserModel();
   users: UserModel[];
- idd: string;
-  constructor(private userService: UserService,  private location: Location, private route: ActivatedRoute) { }
+  idUser: string;
 
-  ngOnInit() {
+  constructor(private userService: UserService,  private location: Location, private route: ActivatedRoute,) { }
+
+   ngOnInit() {
+    var x = this.userService.getCurrentUser();
+    this.idUser=x.UserID;
     this.getAccountByEmail();
   }
 
   getAccountByEmail(): void {
     
-    this.userService.GetAccountByEmail('haha@gmail.com').subscribe(user => this.user = user);
+    this.userService.GetAccountByEmail(this.idUser).subscribe(user => this.user = user);
  
   }
   save(): void {

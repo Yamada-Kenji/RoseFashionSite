@@ -247,6 +247,31 @@ namespace RoseFashionBE.Controllers
         }
 
         [HttpGet]
+        public IHttpActionResult FindProduct(string keyword)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    var result = entity.Products.Where(c => c.Name.Contains(keyword) && c.IsDeleted == false).Select(c => new ProductModel
+                    {
+                         ProductID = c.ProductID,
+                        Name = c.Name,
+                        Image = c.Image,
+                        Color = c.Color,
+                        Price = c.Price
+                    }).ToList();
+                    if (result.Count == 0) return NotFound();
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpGet]
         public IHttpActionResult GetProductByCategory(string categoryid)
         {
             try

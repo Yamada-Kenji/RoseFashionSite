@@ -4,8 +4,6 @@ import { UserService } from './Shared/user-service';
 import { CartService } from './Shared/cart-service';
 
 
-
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -24,8 +22,11 @@ export class AppComponent {
   text: string;
   itemsincart: number = 0;
 
+  showbutton: boolean = false;
+  minscrollposition: number = 100;
+
   @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHander(event) {
+  BeforeUnloadHander(event) {
     var cartid = localStorage.getItem('CartID');
     var items: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
     if(cartid){
@@ -35,12 +36,32 @@ export class AppComponent {
     }
   }
 
+  @HostListener('window:scroll')
+  CheckScroll(){
+    // Both window.pageYOffset and document.documentElement.scrollTop returns the same result in all the cases. window.pageYOffset is not supported below IE 9.
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    
+    if (scrollPosition >= this.minscrollposition) {
+      this.showbutton = true;
+    } else {
+      this.showbutton = false;
+    }
+  }
+  
   constructor(
     private userservice: UserService,
     private cartService: CartService) { }
 
   ngOnInit() {
     this.getCurrentUser();
+  }
+
+  BackToTop() {
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior: 'smooth' 
+    });
   }
 
   UpdateCartQuantity() {

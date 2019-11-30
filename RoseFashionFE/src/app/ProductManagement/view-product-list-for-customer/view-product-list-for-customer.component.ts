@@ -17,7 +17,6 @@ export class ViewProductListForCustomerComponent implements OnInit {
   selectedcategory: string = 'all';
 
   flag: boolean = false;
-  showbutton: boolean = false;
 
   constructor(private productService: ProductService,
     private categoryService: CategoryService) { 
@@ -30,21 +29,6 @@ export class ViewProductListForCustomerComponent implements OnInit {
   ngOnInit() {    
     this.GetProductList();
     this.GetAllCategory();
-
-    window.onscroll = function() {
-      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-        //alert('show');
-        this.showbutton = true;
-      } else {
-        //alert('hide');
-        this.showbutton = false;
-      }
-    }
-  }
-
-  topFunction() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
   }
 
   ToggleSidebar(){

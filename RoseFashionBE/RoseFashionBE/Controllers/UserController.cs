@@ -94,17 +94,16 @@ namespace RoseFashionBE.Controllers
             }
         }
 
-
-        public IHttpActionResult GetUserByID(string email)
+        [HttpGet]
+        public IHttpActionResult GetUserByID(string id)
         {
             UserModel result = null;
             using (var entity = new RoseFashionDBEntities())
             {
-                    result = entity.Users.Where(ct => ct.Email == email)
+                    result = entity.Users.Where(ct => ct.UserID == id)
                     .Select(ct => new UserModel
                     {
                         Email = ct.Email,
-                        UserID = ct.UserID,
                         FullName = ct.FullName,
                         Address = ct.Address,
                         Phone = ct.Phone,
@@ -115,7 +114,6 @@ namespace RoseFashionBE.Controllers
                 return Ok(result);
             }
         }
-      
 
         [HttpGet]
         [Route("guest")]

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductModel, CategoryModel } from 'src/app/Shared/model';
 import { ProductService } from 'src/app/Shared/product-service';
 import { CategoryService } from 'src/app/Shared/category-service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -14,19 +15,27 @@ export class ViewProductListForCustomerComponent implements OnInit {
   productlist: ProductModel[] = [];
   categorylist: CategoryModel[] = [];
   pageconfig: any;
+
+  recol: number;
+  key: string;
+  
+
   selectedcategory: string = 'all';
 
   flag: boolean = false;
 
+
   constructor(private productService: ProductService,
-    private categoryService: CategoryService) { 
+    private categoryService: CategoryService, private route: ActivatedRoute) { 
       this.pageconfig = {
         itemsPerPage: 10,
         currentPage: 1
       };
     }
 
-  ngOnInit() {    
+
+  ngOnInit() {
+    this.FindProduct();
     this.GetProductList();
     this.GetAllCategory();
   }
@@ -45,6 +54,11 @@ export class ViewProductListForCustomerComponent implements OnInit {
 
   async GetProductList() {
     await this.productService.GetAllProduct().toPromise().then(result => this.productlist = result);
+  }
+  // find product
+  async FindProduct() {
+    const key = this.route.snapshot.paramMap.get('keyword');
+    //await this.productService.FindProduct(key).toPromise().then(result => this.productlist = result);
   }
 
   async GetProductByCategory(categoryid){

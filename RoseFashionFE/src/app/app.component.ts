@@ -25,8 +25,10 @@ export class AppComponent {
   showbutton: boolean = false;
   minscrollposition: number = 100;
 
-  @HostListener('window:beforeunload', ['$event'])
-  BeforeUnloadHander(event) {
+  keyword: string;
+
+  @HostListener('window:beforeunload', [ '$event' ])
+  beforeUnloadHander(event) {
     var cartid = localStorage.getItem('CartID');
     var items: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
     if(cartid){
@@ -131,6 +133,7 @@ export class AppComponent {
       this.loginmessage = 'Login successfully!';
     }
     this.getCurrentUser();
+    
   }
 
   logout() {

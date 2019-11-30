@@ -110,7 +110,6 @@ namespace RoseFashionBE.Controllers
                 return InternalServerError(ex);
             }
         }
-
         [HttpGet]
         public IHttpActionResult GetUserBills(string userid)
         {
@@ -128,7 +127,8 @@ namespace RoseFashionBE.Controllers
                             .Select(b => new BillModel
                             {
                                 BillID = b.BillID,
-                                OrderDate = b.Date
+                                OrderDate = b.Date,
+                                TotalPrice = b.TotalPrice
                             }).FirstOrDefault();
                         result.Add(bill);
                    }

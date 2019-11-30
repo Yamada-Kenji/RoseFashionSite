@@ -219,8 +219,10 @@ export class CartService{
     }
     GetCartLenght(){
         var mycart: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
+
         if(mycart) return mycart.length;
         else return 0;
+
     }
 
     SaveCartForGuestPayment(items: CartModel[], guestid: string): Observable<string>{

@@ -1,12 +1,12 @@
 
 
-<div class="container " style="max-width: 450px;width: device-width;">
- 
+<div class="container " style="max-width: 350px;width: device-width;">
+  <div class="row">
     <div>
         <h2 style="text-align: center;">Đăng kí tài khoản</h2>
     </div>
 
-    <div>
+    
   <form [formGroup]="classForm " #formDir="ngForm">
     <div [hidden]="!!classForm.submitted">
     <div class="cross-validation" [class.cross-validation-error]="!!classForm.errors?.identityRevealed
@@ -73,12 +73,14 @@
       
     </div>
   </div>
-  </form>
-  </div>
   <div style="margin-top: 10px;">
     <button class="btn btn-dark float-right" (click)="creatAccount(fullname.value, email.value, passwork.value)" title="Add" type="submit" [disabled]="classForm.invalid">Save </button>
     <button type="button" class="btn btn-dark float-right" style="margin-right: 5px;"
         [routerLink]="['/feclass']" routerLinkActive="active">Back</button>
+  </div>
+  </form>
+ 
+  
   </div>
   </div>
   

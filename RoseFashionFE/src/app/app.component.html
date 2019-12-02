@@ -11,7 +11,7 @@
                     <span>Toggle Sidebar</span>
                 </button> -->
   <!-- Brand/logo -->
-  <a class="navbar-brand" href="#">Logo</a>
+  <a class="navbar-brand" [routerLink]="['/home']" routerLinkActive="router-link-active"><img style="width: 100px; height: 100px;" [src]="logopath"></a>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <!-- Links -->
     <ul class="navbar-nav">
@@ -32,8 +32,8 @@
     </ul>
  
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2"  aria-label="Search" [(ngModel)]="keyword"[ngModelOptions]="{standalone: true}" >
-      <button class="btn btn-outline-light my-2 my-sm-0" type="submit" routerLink='/findproduct/{{keyword}}'>Search</button>
+      <input class="form-control mr-sm-2"  aria-label="Search" [(ngModel)]="keyword" [ngModelOptions]="{standalone: true}" >
+      <button class="btn btn-outline-light my-2 my-sm-0" type="submit" (click)="Find()" >Tìm kiếm</button>
     </form>
     </div>
 
@@ -59,7 +59,7 @@
 
         <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/edit-account']">Quản lý tài khoản</a>
         <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/purchase-history']">Đơn hàng đã mua</a>
-        <a class="dropdown-item" (click)="logout()">Đăng xuất</a>
+        <a class="dropdown-item" (click)="logout()" [routerLink]="['/home']" routerLinkActive="router-link-active" >Đăng xuất</a>
 
       </div>
     </li>
@@ -73,10 +73,6 @@
     </a>
   </div>
 </nav>
-
-<div *ngIf="loginmessage" class="alert alert-warning" role="alert" style="width:350px">
-  {{loginmessage}}
-</div>
 
 <!-- modal login  -->
 <div class="modal" id="myModal">

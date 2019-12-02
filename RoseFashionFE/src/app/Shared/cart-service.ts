@@ -80,8 +80,8 @@ const httpOptions = {
         return this.http.get<string>(editedurl);
     }
 
-    GetItemsInCart(caritd: string){
-        const editedurl = `${this.carturl}?cartid=${caritd}`;
+    GetItemsInCart(cartid: string){
+        const editedurl = `${this.carturl}?cartid=${cartid}`;
         this.http.get(editedurl).toPromise()
         .then(result => localStorage.setItem('MyCart', JSON.stringify(result)));
     }
@@ -95,5 +95,10 @@ const httpOptions = {
     SaveCartForGuestPayment(items: CartModel[], guestid: string): Observable<string>{
         const editedurl = `${this.carturl}?guestid=${guestid}`;
         return this.http.post<string>(editedurl, items, httpOptions);
+    }
+
+    GetItemsInBill(cartid: string): Observable<CartModel[]>{
+        const editedurl = `${this.carturl}?cartid=${cartid}`;
+        return this.http.get<CartModel[]>(editedurl);
     }
 }

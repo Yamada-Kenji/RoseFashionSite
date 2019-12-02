@@ -35,6 +35,11 @@ export class AddBillComponent implements OnInit {
     }
   }
 
+  CheckDiscount(originalprice: number, saleprice: number){
+    if(originalprice > saleprice) return true;
+    return false;
+  }
+
   AddBill(name, phone, address, discountcode) {
     var items: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
     var cartid = localStorage.getItem('CartID');

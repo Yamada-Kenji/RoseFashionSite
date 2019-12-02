@@ -41,6 +41,8 @@ import { CategoryService } from './Shared/category-service';
 import { CartService } from './Shared/cart-service';
 import { BillService } from './Shared/bill-service';
 import { MessageService } from './Shared/message-service';
+import { KeyWord } from './Shared/model';
+import { ViewBillDetailComponent } from './BillManagement/view-bill-detail/view-bill-detail.component';
 
 
 @NgModule({
@@ -61,7 +63,8 @@ import { MessageService } from './Shared/message-service';
     PurchasehistoryComponent,
     DetailhistoryComponent,
     HomepageComponent,
-    MessageModalComponent
+    MessageModalComponent,
+    ViewBillDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -70,8 +73,6 @@ import { MessageService } from './Shared/message-service';
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-
-
     BrowserAnimationsModule
   
   ],
@@ -83,7 +84,8 @@ import { MessageService } from './Shared/message-service';
     CartService,
     BillService,
     MessageService,
-    AuthGuard
+    AuthGuard,
+    KeyWord
   ],
 
 

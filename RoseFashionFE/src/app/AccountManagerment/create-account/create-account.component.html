@@ -13,12 +13,12 @@
     && (classForm.touched || classForm.dirty)">
   
       <div >
-        <label>Full Name</label>
+        <label>Họ và tên</label>
         <input #classname type="text" class="form-control" placeholder="Name" formControlName="fullname" required>
         <div *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)"
                 class="alert alert-danger">
               <div *ngIf="!!fullname.errors.required">
-                fullname is required.
+                Hãy nhập họ và tên.
               </div>
             </div>
      </div>
@@ -29,34 +29,34 @@
         <div *ngIf="email.invalid && (email.dirty || email.touched)"
                 class="alert alert-danger">
               <div *ngIf="!!email.errors.required">
-                email is required.
+                Hãy nhập email.
               </div>
               <div *ngIf="!!email.errors.email">
-                Email must be a valid email address.
+                Email không hợp lệ.
               </div>
             </div>
      </div>
 
      <div >
-        <label>Password</label>
+        <label>Mật khẩu</label>
         <input #classname type="password" class="form-control" placeholder="Password" formControlName="passwork" required>
         <div *ngIf="passwork.invalid && (passwork.dirty || passwork.touched)"
                 class="alert alert-danger">
               <div *ngIf="!!passwork.errors.required">
-                password is required.
+                Hãy nhập mật khẩu.
               </div>
               <div *ngIf="!!passwork.errors.minlength">
-                  Password must be at least 6 characters</div>
+                  Mật khẩu cần ít nhất 6 ký tự.</div>
             </div>
      </div>
 
      <div >
-            <label>Confirm Password</label>
+            <label>Xác nhận mật khẩu</label>
             <input #classname type="password" class="form-control" placeholder="Confirm" formControlName="confirmpass" required>
             <div *ngIf="confirmpass.invalid && (confirmpass.dirty || confirmpass.touched)"
                     class="alert alert-danger">
                   <div *ngIf="!!confirmpass.errors.required">
-                    password is required.
+                    Hãy xác nhận mật khẩu.
                   </div>
                   <!-- <div *ngIf="!!confirmpass.errors.identityRevealedValidator ">
                       Passwords must match
@@ -66,7 +66,7 @@
         
       
          <div *ngIf="classForm.errors?.identityRevealed && (confirmpass.touched || confirmpass.dirty)" class="cross-validation-error-message alert alert-danger">
-          Name cannot match alter ego.
+          Xác nhận mật khẩu không chính xác.
       </div>
     </div>   
 

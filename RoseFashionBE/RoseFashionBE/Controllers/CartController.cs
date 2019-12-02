@@ -82,7 +82,7 @@ namespace RoseFashionBE.Controllers
             {
                 using(var entity = new RoseFashionDBEntities())
                 {
-                    var result = entity.Cart_Product.Where(cp => cp.CartID == cartid)
+                    /*var result = entity.Cart_Product.Where(cp => cp.CartID == cartid)
                              .Select(cp => new CartModel
                              {
                                  CartID = cp.CartID,
@@ -92,9 +92,43 @@ namespace RoseFashionBE.Controllers
                                  Size = cp.Size,
                                  Quantity = cp.Product.Product_Size_Quantity.Where(q => q.ProductID == cp.ProductID && q.Size == cp.Size).Select(q => q.Quantity).FirstOrDefault(),
                                  Amount = cp.Amount,
-                                 SalePrice = cp.Product.Price,
+                                 SalePrice = cp.SalePrice,
+                                 OriginalPrice = cp.OriginalPrice
+                             }).ToList();*/
+                    var checkusing = entity.Carts.Where(c => c.CartID == cartid).Select(c => c.IsUsing).FirstOrDefault();
+                    List<CartModel> result = new List<CartModel>();
+                    if (checkusing == true)
+                    {
+                        result = entity.Cart_Product.Where(cp => cp.CartID == cartid)
+                             .Select(cp => new CartModel
+                             {
+                                 CartID = cp.CartID,
+                                 ProductID = cp.ProductID,
+                                 Name = cp.Product.Name,
+                                 Image = cp.Product.Image,
+                                 Size = cp.Size,
+                                 Quantity = cp.Product.Product_Size_Quantity.Where(q => q.ProductID == cp.ProductID && q.Size == cp.Size).Select(q => q.Quantity).FirstOrDefault(),
+                                 Amount = cp.Amount,
+                                 SalePrice = cp.Product.Price - cp.Product.Price*cp.Product.DiscountPercent/100,
+                                 OriginalPrice = cp.Product.Price
+                             }).ToList();
+                    }
+                    else
+                    {
+                        result = entity.Cart_Product.Where(cp => cp.CartID == cartid)
+                             .Select(cp => new CartModel
+                             {
+                                 CartID = cp.CartID,
+                                 ProductID = cp.ProductID,
+                                 Name = cp.Product.Name,
+                                 Image = cp.Product.Image,
+                                 Size = cp.Size,
+                                 Quantity = cp.Product.Product_Size_Quantity.Where(q => q.ProductID == cp.ProductID && q.Size == cp.Size).Select(q => q.Quantity).FirstOrDefault(),
+                                 Amount = cp.Amount,
+                                 SalePrice = cp.SalePrice,
                                  OriginalPrice = cp.OriginalPrice
                              }).ToList();
+                    }
                     return Ok(result);
                 }
             }

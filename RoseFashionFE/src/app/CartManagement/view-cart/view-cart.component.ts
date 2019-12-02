@@ -37,7 +37,6 @@ export class ViewCartComponent implements OnInit, OnDestroy {
   }
 
   CheckDiscount(originalprice: number, saleprice: number){
-    console.log(originalprice, saleprice);
     if(originalprice > saleprice) return true;
     return false;
   }

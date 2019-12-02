@@ -43,7 +43,7 @@ export class AddProductComponent implements OnInit {
       .toPromise().then(result => {
         this.categorylist = result;
         var productid = this.route.snapshot.paramMap.get('productid');
-        if (productid) {
+        if(productid) {
           this.productService.GetProductDetail(productid).toPromise().then(p => {
             this.product = p;
             this.SetCategory();

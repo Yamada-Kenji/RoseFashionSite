@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductModel, CategoryModel } from 'src/app/Shared/model';
+import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { ProductModel, CategoryModel, KeyWord } from 'src/app/Shared/model';
 import { ProductService } from 'src/app/Shared/product-service';
 import { CategoryService } from 'src/app/Shared/category-service';
 import { ActivatedRoute } from '@angular/router';
@@ -16,39 +16,46 @@ export class ViewProductListForCustomerComponent implements OnInit {
   categorylist: CategoryModel[] = [];
   pageconfig: any;
 
-  recol: number;
-  key: string;
-  
+  keyword: string;
 
   selectedcategory: string = 'all';
 
-  flag: boolean = false;
+  static searchkeyword: string = '';
 
+  showsidebar: boolean = false;
+
+  static searchbtn: HTMLElement;
 
   constructor(private productService: ProductService,
-    private categoryService: CategoryService, private route: ActivatedRoute) { 
-      this.pageconfig = {
-        itemsPerPage: 10,
-        currentPage: 1
-      };
-    }
+    private categoryService: CategoryService, private route: ActivatedRoute) {
+    this.pageconfig = {
+      itemsPerPage: 10,
+      currentPage: 1
+    };
+    this.keyword = ViewProductListForCustomerComponent.searchkeyword;
+    ViewProductListForCustomerComponent.searchbtn = document.getElementById('searchbtn') as HTMLElement;
+  }
 
 
   ngOnInit() {
-    this.FindProduct();
+    ViewProductListForCustomerComponent.searchbtn = document.getElementById('searchbtn') as HTMLElement;
     this.GetProductList();
     this.GetAllCategory();
   }
 
-  ToggleSidebar(){
-    this.flag = !this.flag;
+  ngOnDestroy(){
+    ViewProductListForCustomerComponent.searchkeyword = undefined;
+  }
+
+  ToggleSidebar() {
+    this.showsidebar = !this.showsidebar;
   }
 
   pageChanged(event) {
     this.pageconfig.currentPage = event;
   }
 
-  async GetAllCategory(){
+  async GetAllCategory() {
     await this.categoryService.GetAllCategory().toPromise().then(result => this.categorylist = result);
   }
 
@@ -57,23 +64,35 @@ export class ViewProductListForCustomerComponent implements OnInit {
   }
   // find product
   async FindProduct() {
-    const key = this.route.snapshot.paramMap.get('keyword');
-    //await this.productService.FindProduct(key).toPromise().then(result => this.productlist = result);
+    this.keyword = ViewProductListForCustomerComponent.searchkeyword;
+    if (this.keyword.trim() == '') {
+      this.GetProductList();
+      this.selectedcategory = 'all';
+    }
+    else {
+      await this.productService.FindProduct(this.keyword).toPromise()
+        .then(result => this.productlist = result)
+        .catch(err => this.productlist = []);
+        this.selectedcategory = '';
+    }
+    
   }
 
-  async GetProductByCategory(categoryid){
+  async GetProductByCategory(categoryid) {
     await this.productService.GetProductByCategory(categoryid).toPromise().then(result => this.productlist = result);
   }
 
-  async onSelectCategory(categoryid){
+  async onSelectCategory(categoryid) {
+    this.keyword = undefined;
     this.selectedcategory = categoryid;
-    if(categoryid == 'all') await this.GetProductList();
+    if (categoryid == 'all') await this.GetProductList();
     else await this.GetProductByCategory(categoryid);
     this.pageconfig.currentPage = 1;
   }
 
-  GetColor(categoryid){
-    if(categoryid == this.selectedcategory) return 'white';
+  GetColor(categoryid) {
+    if (categoryid == this.selectedcategory) return 'white';
     else return '';
   }
+
 }

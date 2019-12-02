@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services';
-import { BillService } from 'src/app/services';
-import { BillModel } from 'src/app/model';
+import { BillModel } from 'src/app/Shared/model';
+import { UserService } from 'src/app/Shared/user-service';
+import { BillService } from 'src/app/Shared/bill-service';
 
 @Component({
   selector: 'app-purchasehistory',

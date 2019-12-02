@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UserModel } from 'src/app/Shared/model';
+import { UserModel, MessageModel } from 'src/app/Shared/model';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/Shared/user-service';
+import { MessageService } from 'src/app/Shared/message-service';
 
 
 @Component({
@@ -15,8 +16,10 @@ export class EditAccountComponent implements OnInit {
   user: UserModel = new UserModel();
   users: UserModel[];
   idUser: string;
+  validphone: boolean = true;
 
-  constructor(private userService: UserService,  private location: Location, private route: ActivatedRoute,) { }
+  constructor(private userService: UserService,  private location: Location,
+    private messageService: MessageService) { }
 
    ngOnInit() {
     var x = this.userService.getCurrentUser();
@@ -25,16 +28,39 @@ export class EditAccountComponent implements OnInit {
   }
 
   getAccountByEmail(): void {
-    
-    this.userService.GetAccountByEmail(this.idUser).subscribe(user => this.user = user);
+    this.userService.GetAccountByID(this.idUser).toPromise().then(user => this.user = user);
  
   }
   save(): void {
-      this.userService.UpdateAccount(this.user).subscribe(() => this.goBack());
-      // alert("Congratulation! Update successfully.")
+    console.log(this.user);
+      this.userService.UpdateAccount(this.user).toPromise()
+      .then(result =>{
+        var msg: MessageModel = {Title:"Thông báo", Content: "Cập nhật thông tin thành công."};
+        this.messageService.SendMessage(msg);
+      }).catch(err =>{
+        var msg: MessageModel = {Title:"Thông báo", Content: "Đã có lỗi xảy ra."};
+        this.messageService.SendMessage(msg);
+      });
     }
   goBack(): void {
       this.location.back();
     }
-
+  
+  CheckingPhoneNumber(){
+    if(this.user.Phone=='') return;
+    var regex = ['0','1','2','3','4','5','6','7','8','9'];
+    if(this.user.Phone.length!=10){
+      this.validphone = false;
+    }
+    else
+    { 
+      for(var i=0;i<10;i++){
+        if(!regex.indexOf(this.user.Phone[i])) {
+          this.validphone = false;
+          break;
+        }
+      }
+      this.validphone = true
+    }
+  }  
 }

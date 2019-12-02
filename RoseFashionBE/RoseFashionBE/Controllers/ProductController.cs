@@ -218,13 +218,13 @@ namespace RoseFashionBE.Controllers
                 {
                     var result = entity.Products.Where(c => c.Name.Contains(keyword) && c.IsDeleted == false).Select(c => new ProductModel
                     {
-                         ProductID = c.ProductID,
+                        ProductID = c.ProductID,
                         Name = c.Name,
                         Image = c.Image,
-                        Color = c.Color,
-                        Price = c.Price
+                        Price = c.Price,
+                        CategoryID = c.CategoryID,
+                        DiscountPercent = c.DiscountPercent
                     }).ToList();
-                    if (result.Count == 0) return NotFound();
                     return Ok(result);
                 }
             }

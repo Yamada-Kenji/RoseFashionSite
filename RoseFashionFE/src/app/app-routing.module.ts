@@ -19,6 +19,9 @@ import { CreateAccountComponent } from './AccountManagerment/create-account/crea
 import { AuthGuard } from './Shared/auth-guard';
 import { EditAccountComponent } from './AccountManagerment/edit-account/edit-account.component';
 import { PurchasehistoryComponent } from './UserManagerment/purchasehistory/purchasehistory.component';
+import { DetailhistoryComponent } from './UserManagerment/detailhistory/detailhistory.component';
+import { ViewBillDetailComponent } from './BillManagement/view-bill-detail/view-bill-detail.component';
+
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -38,7 +41,9 @@ const routes: Routes = [
   {path: 'register', component: CreateAccountComponent},
   {path: 'edit-account',component:EditAccountComponent},
   {path: 'purchase-history',component:PurchasehistoryComponent},
-  {path: 'findproduct/:keyword', component:ViewProductListForCustomerComponent}
+  {path: 'findproduct/:keyword', component:ViewProductListForCustomerComponent},
+  {path: 'transition/:keyword', component: DetailhistoryComponent},
+  {path: 'viewbilldetail/:billid', component: ViewBillDetailComponent}
 
 ];
 

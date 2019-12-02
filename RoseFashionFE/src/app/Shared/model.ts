@@ -87,3 +87,7 @@ export class MessageModel{
     Title: string;
     Content: string;
 }
+
+export class KeyWord{
+    static Value: string='';
+}

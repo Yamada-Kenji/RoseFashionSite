@@ -254,11 +254,6 @@ export class BillService{
     AddBillForMember(billinfo: BillModel){
         return this.http.post(this.billurl, billinfo, httpOptions);
     }
-    //get purchase history by id
-    GetPurchaseById(userid: string): Observable<BillModel>{
-        const geturl = `${this.billurl}?userid=${userid}`;
-        return this.http.get<BillModel>(geturl);
-    }
    
 }
 

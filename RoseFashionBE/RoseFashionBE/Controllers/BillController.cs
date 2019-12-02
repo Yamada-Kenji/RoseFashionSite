@@ -141,6 +141,32 @@ namespace RoseFashionBE.Controllers
             }
         }
 
-
+        [HttpGet]
+        public IHttpActionResult GetBillOneInfo(string billid)
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    var result = entity.Bills.Where(b => b.BillID == billid)
+                        .Select(b => new BillModel
+                        {
+                            BillID = b.BillID,
+                            CartID = b.CartID,
+                            ReceiverName = b.ReceiverName,
+                            ReceiverPhone = b.ReceiverPhone,
+                            DeliveryAddress = b.DeliveryAddress,
+                            OrderDate = b.Date,
+                            DiscountCode = b.DiscountCode,
+                            TotalPrice = b.TotalPrice
+                        }).FirstOrDefault();
+                    return Ok(result);
+                }
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

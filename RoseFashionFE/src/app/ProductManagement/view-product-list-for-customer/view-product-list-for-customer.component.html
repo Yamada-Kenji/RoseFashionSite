@@ -1,12 +1,11 @@
 <div class="bg-dark" style="width: 250px; margin-top: 0px;">
-<button id="sidebarCollapse" class="navbar-toggler" type="button" style="color: white;"
-    (click)="ToggleSidebar()">
+    <button id="sidebarCollapse" class="navbar-toggler" type="button" style="color: white;" (click)="ToggleSidebar()">
         <i class="fa fa-bars" aria-hidden="true" style="color: white;"></i> Danh mục sản phẩm
-</button>
+    </button>
 </div>
 <div class="wrapper">
     <!-- Sidebar  -->
-    <nav [ngClass]="{active: flag}" class="navbar bg-dark navbar-dark" id="sidebar" style="height: fit-content;">
+    <nav [ngClass]="{active: showsidebar}" class="navbar bg-dark navbar-dark" id="sidebar" style="height: fit-content;">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" (click)="onSelectCategory('all')" [routerLink]="['/view-product-list-for-customer']"
@@ -62,7 +61,10 @@
         </ul>
     </div>
 </nav> -->
+
     <div class="container-fluid" style="margin-bottom: 10px;">
+        <div class="row" *ngIf="selectedcategory==''">Kết quả tìm kiếm cho từ khóa "{{keyword}}": {{productlist.length}} kết quả</div>
+        <button hidden id="searchbtn" (click)="FindProduct()">Tìm kiếm</button>
         <!-- <div class="row">
         <div class="col-sm-2">
         </div>
@@ -83,7 +85,8 @@
                         </a>
                         <br>
                         {{item.Price - item.Price*item.DiscountPercent/100 | number}} VNĐ
-                        <a *ngIf="item.DiscountPercent!=0" style="text-decoration: line-through;">{{item.Price | number}} VNĐ</a>
+                        <a *ngIf="item.DiscountPercent!=0"
+                            style="text-decoration: line-through;">{{item.Price | number}} VNĐ</a>
                     </p>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-detailhistory',
   templateUrl: './detailhistory.component.html',
@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailhistoryComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    const key = this.route.snapshot.paramMap.get('keyword');
+    this.router.navigate(['/findproduct/'+ key]);
   }
 
 }

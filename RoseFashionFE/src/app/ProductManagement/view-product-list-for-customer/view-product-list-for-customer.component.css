@@ -89,7 +89,7 @@ img {
     MEDIAQUERIES
 ----------------------------------------------------- */
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     #sidebar {
         margin-left: -250px;
     }

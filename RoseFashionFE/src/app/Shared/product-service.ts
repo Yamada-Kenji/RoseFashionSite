@@ -43,4 +43,10 @@ const httpOptions = {
         const editedurl = `${this.producturl}/topsale`;
         return this.http.get<ProductModel[]>(editedurl);
     }
+
+     // get Product when find
+    FindProduct(keyword: string): Observable<ProductModel[]>{
+        const editedurl = `${this.producturl}?keyword=${keyword}`;
+        return this.http.get<ProductModel[]>(editedurl);
+    }
 }

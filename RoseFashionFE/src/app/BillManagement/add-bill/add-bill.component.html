@@ -1,7 +1,7 @@
-<h2>Thanh toán giỏ hàng</h2>
+<h2 class="d-flex justify-content-center">Thanh toán giỏ hàng</h2>
 <div class="container" style="margin-bottom: 20px;">
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-4" style="border-right: 1px solid black;">
             <h4>Thông tin hóa đơn</h4>
             <p>Họ và tên</p>
             <input #receivername class="form-control" type="text" value="{{user.FullName}}">
@@ -15,25 +15,28 @@
         <div class="col-sm-8">
             <h4>Thông tin giỏ hàng</h4>
             <div class="row">
-                <div class="col">Tên sản phẩm</div>
-                <div class="col">Size</div>
-                <div class="col">Số lượng</div>
-                <div class="col">Giá</div>
+                <div class="col"><p>Tên sản phẩm</p></div>
+                <div class="col"><p>Size</p></div>
+                <div class="col"><p>Số lượng</p></div>
+                <div class="col"><p>Giá</p></div>
             </div>
-            <div class="row" *ngFor="let item of mycart">
-                <div class="col">{{item.Name}}</div>
-                <div class="col">{{item.Size}}</div>
-                <div class="col">{{item.Amount}}</div>
-                <div class="col">{{item.SalePrice | number}} VNĐ</div>
+            <div class="row" *ngFor="let item of mycart" style="border-bottom: 1px solid black;">
+                <div class="col"><p>{{item.Name}}</p></div>
+                <div class="col"><p>{{item.Size}}</p></div>
+                <div class="col"><p>{{item.Amount}}</p></div>
+                <div class="col"><p>{{item.SalePrice | number}} VNĐ</p>
+                    <div *ngIf="CheckDiscount(item.OriginalPrice, item.SalePrice)" style="text-decoration: line-through; color: red;">
+                        <p>{{item.OriginalPrice | number}} VNĐ</p></div>
+                </div>
             </div>
             <div class="row">
                 <div class="col font-weight-bold">
-                    Tổng cộng:
+                    <p>Tổng cộng:</p>
                 </div>
                 <div class="col"></div>
                 <div class="col"></div>
-                <div class="col">
-                    {{totalprice | number}} VNĐ
+                <div class="col font-weight-bold">
+                    <p>{{totalprice | number}} VNĐ</p>
                 </div>
             </div>
             <div class="row">

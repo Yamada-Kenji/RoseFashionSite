@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { AddProductComponent } from './ProductManagement/add-product/add-product.component';
+import { AddProductComponent } from './ProductManagement/add-update-product/add-product.component';
 
 //import { UserService, ProductService, CategoryService, CartService, BillService, MessageService } from './services';
 
@@ -17,7 +17,6 @@ import { EditcategoryComponent } from './CategoryManagerment/editcategory/editca
 import { ShowcategoryComponent } from './CategoryManagerment/showcategory/showcategory.component';
 
 import { ViewProductListComponent } from './ProductManagement/view-product-list/view-product-list.component';
-import { UpdateProductComponent } from './ProductManagement/update-product/update-product.component';
 import { AddProductToCartComponent } from './ProductManagement/add-product-to-cart/add-product-to-cart.component';
 import { ViewProductListForCustomerComponent } from './ProductManagement/view-product-list-for-customer/view-product-list-for-customer.component';
 
@@ -30,7 +29,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
-import { PurchasehistoryComponent } from './UserManagerment/purchasehistory/purchasehistory.component';
 import { DetailhistoryComponent } from './UserManagerment/detailhistory/detailhistory.component';
 import { HomepageComponent } from './Others/homepage/homepage.component';
 import { MessageModalComponent } from './Others/message-modal/message-modal.component';
@@ -43,6 +41,7 @@ import { BillService } from './Shared/bill-service';
 import { MessageService } from './Shared/message-service';
 import { KeyWord } from './Shared/model';
 import { ViewBillDetailComponent } from './BillManagement/view-bill-detail/view-bill-detail.component';
+import { ViewBillForCustomerComponent } from './BillManagement/view-bill-for-customer/view-bill-for-customer.component';
 
 
 @NgModule({
@@ -53,18 +52,17 @@ import { ViewBillDetailComponent } from './BillManagement/view-bill-detail/view-
     EditcategoryComponent,
     ShowcategoryComponent,
     ViewProductListComponent,
-    UpdateProductComponent,
     AddProductToCartComponent,
     ViewProductListForCustomerComponent,
     ViewCartComponent,
     CreateAccountComponent,
     EditAccountComponent,
     AddBillComponent,
-    PurchasehistoryComponent,
     DetailhistoryComponent,
     HomepageComponent,
     MessageModalComponent,
-    ViewBillDetailComponent
+    ViewBillDetailComponent,
+    ViewBillForCustomerComponent
   ],
   imports: [
     BrowserModule,

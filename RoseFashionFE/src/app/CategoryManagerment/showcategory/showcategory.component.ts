@@ -11,16 +11,23 @@ import { CategoryService } from 'src/app/Shared/category-service';
 export class ShowcategoryComponent implements OnInit {
   category: CategoryModel[];
   a: object;
-  constructor(private categoryService: CategoryService) { }
+  pageconfig: any;
+  constructor(private categoryService: CategoryService) {
+    this.pageconfig = {
+      itemsPerPage: 10,
+      currentPage: 1
+    };
+  }
 
   ngOnInit() {
-   this.getCategory();
+    this.getCategory();
   }
   //get category
   async getCategory() {
-    await this.categoryService.GetAllCategory().toPromise().then(result => this.category= result);
-   
+    await this.categoryService.GetAllCategory().toPromise().then(result => this.category = result);
+  }
 
-}
-
+  pageChanged(event) {
+    this.pageconfig.currentPage = event;
+  }
 }

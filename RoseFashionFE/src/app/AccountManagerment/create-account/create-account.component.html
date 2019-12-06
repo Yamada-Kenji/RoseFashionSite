@@ -1,13 +1,14 @@
 
 
 <div class="container " style="max-width: 350px;width: device-width;">
-  <div class="row">
+  <div class="row" style="margin-bottom: 10px;">
+    <div class="col">
     <div>
         <h2 style="text-align: center;">Đăng kí tài khoản</h2>
     </div>
 
     
-  <form [formGroup]="classForm " #formDir="ngForm">
+  <form  [formGroup]="classForm " #formDir="ngForm">
     <div [hidden]="!!classForm.submitted">
     <div class="cross-validation" [class.cross-validation-error]="!!classForm.errors?.identityRevealed
     && (classForm.touched || classForm.dirty)">
@@ -82,6 +83,7 @@
  
   
   </div>
+</div>
   </div>
   
   

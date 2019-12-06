@@ -29,7 +29,7 @@ export class AppComponent {
 
   keyword: string = '';
 
-  logopath = 'assets/images/logo.png';
+  logopath = 'assets/images/logo1.png';
 
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHander(event) {

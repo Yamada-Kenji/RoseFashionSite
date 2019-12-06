@@ -5,10 +5,10 @@
 <div class="container" style="width:device-width;">
     <h1>Danh sách các loại quần áo </h1>
 
-    <button class="btn btn-dark" style="margin-left: 10px;" [routerLink]="['/addcategory']" routerLinkActive="router-link-active" >Thêm loại sản phẩm</button>
+    <button class="btn btn-dark" [routerLink]="['/addcategory']" routerLinkActive="router-link-active" >Thêm loại sản phẩm</button>
 
     <div style="margin-top:10px;" class="table-responsive" >
-      <table class="table table-bordered table-striped">
+      <table class="table table-bordered">
         <thead class="thead-dark">
             <tr>
                 <th>Category ID</th>
@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor= "let each of category" >
+            <tr *ngFor= "let each of category | paginate: pageconfig">
 
                 <td>{{each.CategoryID}}</td>
                 <td>{{each.Name}}</td>
@@ -31,7 +31,9 @@
         </tbody>
     </table>
     </div>
-
+    <div class="d-flex justify-content-center">
+        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+    </div>
     </div>
 
 

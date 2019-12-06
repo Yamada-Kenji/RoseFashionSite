@@ -1,7 +1,7 @@
 <div class="container" style="width:device-width;">
     <h1 class="d-flex justify-content-center">Danh sách sản phẩm</h1>
-    <button class="btn btn-dark" [routerLink]="['/add-product']"
-        routerLinkActive="router-link-active">Thêm sản phẩm</button>
+    <button class="btn btn-dark" [routerLink]="['/add-product']" routerLinkActive="router-link-active">Thêm sản
+        phẩm</button>
     <p></p>
     <div class="table-responsive">
         <table class="table table-bordered">
@@ -18,11 +18,17 @@
                     <td>{{item.ProductID}}</td>
                     <td>{{item.Name}}</td>
                     <td>{{item.Price | number}}</td>
-                    <td><button class="btn btn-dark" style="margin-left: 5px"
+                    <!-- <td><button class="btn btn-dark" style="margin-left: 5px"
                             [routerLink]="['/update-product', item.ProductID]"
                             routerLinkActive="router-link-active">Sửa</button>
                         <button class="btn btn-dark" style="margin-left: 5px;"
-                            (click)="DeleteProduct(item.ProductID)">Xóa</button>
+                            (click)="DeleteProduct(item.ProductID)">Xóa</button> -->
+                    <td>
+                        <i class="fas fa-edit" style="margin-left: 5px;"
+                            [routerLink]="['/update-product', item.ProductID]" routerLinkActive="router-link-active"
+                            title="Edit"></i>
+                        <i class="fas fa-trash" style="margin-left: 5px;" (click)="DeleteProduct(item.ProductID)"
+                            title="Delete"></i>
                     </td>
                 </tr>
             </tbody>

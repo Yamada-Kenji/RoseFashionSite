@@ -24,11 +24,11 @@ export class AddProductToCartComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private cartService: CartService,
-    private userService: UserService,
     private messageService: MessageService,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
+    window.scroll(0,0);
     var productid = this.route.snapshot.paramMap.get('productid');
     this.productService.GetProductDetail(productid).toPromise().then(p => this.product = p);
   }
@@ -38,7 +38,6 @@ export class AddProductToCartComponent implements OnInit {
       this.warning = true;
       return;
     }
-    var user = this.userService.getCurrentUser();
     this.cartService.AddToLocalCart(this.product.ProductID, this.product.Image, this.product.Name, this.selectedsize, amount, this.maxamount, (this.product.Price-this.product.Price*this.product.DiscountPercent/100), this.product.Price);
     var msg: MessageModel = {Title:"Thông báo", Content: "Đã thêm sản phẩm vào giỏ hàng."};
     this.messageService.SendMessage(msg);

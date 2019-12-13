@@ -88,6 +88,11 @@ export class AppComponent {
       else {
         this.islogon = true;
       }
+      this.cartService.GetLastUsedCart(this.currentUser.UserID).toPromise()
+      .then(result => {
+        localStorage.setItem('CartID', result);
+        this.cartService.GetItemsInCart(result);
+      });
     }
     else {
       this.islogon = false;
@@ -97,14 +102,15 @@ export class AppComponent {
             .toPromise().then(result => {
               localStorage.setItem('currentGuest', JSON.stringify(result));
               this.currentUser = result;
+            });
+          this.cartService.GetLastUsedCart(id).toPromise()
+            .then(result => {
+              localStorage.setItem('CartID', result);
+              this.cartService.GetItemsInCart(result);
             })
         });
     }
-    this.cartService.GetLastUsedCart(this.currentUser.UserID).toPromise()
-      .then(result => {
-        localStorage.setItem('CartID', result);
-        this.cartService.GetItemsInCart(result);
-      });
+    
     // if (temp) {
     //   this.currentUser = temp;
     //   if(this.currentUser.Role!='guest'){
@@ -129,6 +135,10 @@ export class AppComponent {
     //       })
     //     });
     // }
+  }
+
+  ResetSearchbar() {
+    this.keyword = '';
   }
 
   async login(email: string, password: string) {

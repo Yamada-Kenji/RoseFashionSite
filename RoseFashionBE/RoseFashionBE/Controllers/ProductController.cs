@@ -252,6 +252,15 @@ namespace RoseFashionBE.Controllers
                             CategoryID = p.CategoryID,
                             DiscountPercent = p.DiscountPercent
                         }).ToList();
+                    for (int i = 0; i < result.Count; i++)
+                    {
+                        string id = result[i].ProductID;
+                        if (entity.Product_Size_Quantity.Any(p => p.ProductID == id && p.Quantity > 0))
+                        {
+                            result[i].SoldOut = false;
+                        }
+                        else result[i].SoldOut = true;
+                    }
                     return Ok(result);
                 }
             }

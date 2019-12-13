@@ -39,11 +39,12 @@ export class ViewProductListForCustomerComponent implements OnInit {
 
   ngOnInit() {
     ViewProductListForCustomerComponent.searchbtn = document.getElementById('searchbtn') as HTMLElement;
-    this.GetProductList();
+    //this.GetProductList();
+    this.FindProduct();
     this.GetAllCategory();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     ViewProductListForCustomerComponent.searchkeyword = undefined;
   }
 
@@ -65,17 +66,22 @@ export class ViewProductListForCustomerComponent implements OnInit {
   // find product
   async FindProduct() {
     this.keyword = ViewProductListForCustomerComponent.searchkeyword;
-    if (this.keyword.trim() == '') {
+    if (this.keyword) {
+      /*if (this.keyword.trim() == '') {
+        this.GetProductList();
+        this.selectedcategory = 'all';
+      }
+      else {*/
+        await this.productService.FindProduct(this.keyword).toPromise()
+          .then(result => this.productlist = result)
+          .catch(err => this.productlist = []);
+        this.selectedcategory = '';
+      //}
+    }
+    else {
       this.GetProductList();
       this.selectedcategory = 'all';
     }
-    else {
-      await this.productService.FindProduct(this.keyword).toPromise()
-        .then(result => this.productlist = result)
-        .catch(err => this.productlist = []);
-        this.selectedcategory = '';
-    }
-    
   }
 
   async GetProductByCategory(categoryid) {

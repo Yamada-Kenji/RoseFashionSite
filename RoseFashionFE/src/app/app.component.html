@@ -23,13 +23,13 @@
         <a class="nav-link" [routerLink]="['/showcategory']">Danh sách các danh mục</a>
       </li>
       <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
-        <a class="nav-link" [routerLink]="['/showcategory']">Danh sách hóa đơn</a>
+        <a class="nav-link" [routerLink]="">Danh sách hóa đơn</a>
       </li>
 
 
       <!-- Narbar for user -->
       <li class="nav-item" *ngIf="currentUser.Role != 'admin'">
-        <a class="nav-link" [routerLink]="['/view-product-list-for-customer']">Danh sách sản phẩm</a>
+        <a class="nav-link" [routerLink]="['/view-product-list-for-customer']" (click)="ResetSearchbar()">Danh sách sản phẩm</a>
       </li>
 
     </ul>
@@ -111,10 +111,6 @@
 <div id="GoToTopIcon" *ngIf="showbutton" (click)="BackToTop()">
 <i class="fas fa-arrow-circle-up fa-2x" style="color: white;"></i>
 </div>
-<!-- <button [routerLink]="['/view-product-list']" routerLinkActive="router-link-active">list</button>
-<button [routerLink]="['/view-cart']" routerLinkActive="router-link-active">Xem giỏ hàng</button>
-<button [routerLink]="['/view-product-list-for-customer']" routerLinkActive="router-link-active">Xem danh sách sản
-  phẩm</button> -->
 
 
 <router-outlet></router-outlet>

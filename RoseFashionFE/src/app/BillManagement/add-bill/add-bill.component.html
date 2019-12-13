@@ -3,10 +3,12 @@
     <div class="row">
         <div class="col-sm-4" style="border-right: 1px solid black;">
             <h4>Thông tin hóa đơn</h4>
+            <div class="alert alert-danger" *ngIf="warning">Xin hãy điền đầy đủ thông tin.</div>
             <p>Họ và tên</p>
             <input #receivername class="form-control" type="text" value="{{user.FullName}}">
-            <p>Email</p>
-            <input #email class="form-control" type="text" value="{{user.Email}}">
+            <!-- <p>Email</p>
+            <input #email class="form-control" type="text" value="{{user.Email}}"> -->
+            <div style="display: none;"><input #discount type="text"></div>
             <p>SDT</p>
             <input #phone class="form-control" type="text" value="{{user.Phone}}">
             <p>Địa chỉ giao hàng</p>
@@ -42,8 +44,8 @@
             <div class="row">
                 <div class="col">
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-dark" style="margin-right: 10px;">Tiếp tục mua hàng</button>
-                        <button class="btn btn-dark" (click)="AddBill(receivername.value, phone.value, address.value, email.value)">Xác nhận thanh toán</button>
+                        <button class="btn btn-dark" style="margin-right: 10px;" [routerLink]="['/view-product-list-for-customer']" routerLinkActive="router-link-active" >Tiếp tục mua hàng</button>
+                        <button class="btn btn-dark" (click)="AddBill(receivername.value, phone.value, address.value, discount.value)">Xác nhận thanh toán</button>
                     </div>
                 </div>
             </div>

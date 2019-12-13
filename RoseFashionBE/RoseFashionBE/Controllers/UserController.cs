@@ -35,7 +35,10 @@ namespace RoseFashionBE.Controllers
                                 .Select(s => new UserModel()
                                 {
                                     UserID = s.UserID,
+                                    FullName = s.FullName,
                                     Email = s.Email,
+                                    Phone = s.Phone,
+                                    Address = s.Address,
                                     Role = s.Role
                                 }).FirstOrDefault();
                            
@@ -103,13 +106,13 @@ namespace RoseFashionBE.Controllers
                     result = entity.Users.Where(ct => ct.UserID == id)
                     .Select(ct => new UserModel
                     {
+                        UserID = id,
                         Email = ct.Email,
                         FullName = ct.FullName,
                         Address = ct.Address,
                         Phone = ct.Phone,
                         DOB = ct.DOB,
                         Role = ct.Role
-
                     }).FirstOrDefault<UserModel>();
                 return Ok(result);
             }
@@ -123,18 +126,19 @@ namespace RoseFashionBE.Controllers
             {
                 using(var entity = new RoseFashionDBEntities())
                 {
-                    string guestname = "GUEST-" + (entity.Users.Count(u => u.Role == "guest") + 1);
+                    //string guestname = "GUEST-" + (entity.Users.Count(u => u.Role == "guest") + 1);
+                    string newid = Guid.NewGuid().ToString();
                     entity.Users.Add(new User()
                     {
-                        UserID = Guid.NewGuid().ToString(),
-                        FullName = guestname,
-                        Email = guestname + "@gmail.com",
-                        Password = Md5Encryption(guestname),
+                        UserID = newid,
+                        FullName = "GUEST",
+                        Password = Md5Encryption(newid),
                         Role = "guest"
                     });
                     entity.SaveChanges();
 
-                    return Ok(guestname + "@gmail.com");
+                    return Ok(newid);
+                    //return Ok(guestname + "@gmail.com");
                 }
             }
             catch(Exception ex)

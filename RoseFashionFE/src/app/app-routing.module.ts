@@ -17,7 +17,6 @@ import {AddcategoryComponent} from './CategoryManagerment/addcategory/addcategor
 import { CreateAccountComponent } from './AccountManagerment/create-account/create-account.component';
 import { AuthGuard } from './Shared/auth-guard';
 import { EditAccountComponent } from './AccountManagerment/edit-account/edit-account.component';
-import { DetailhistoryComponent } from './UserManagerment/detailhistory/detailhistory.component';
 import { ViewBillDetailComponent } from './BillManagement/view-bill-detail/view-bill-detail.component';
 import { ViewBillForCustomerComponent } from './BillManagement/view-bill-for-customer/view-bill-for-customer.component';
 
@@ -25,14 +24,14 @@ import { ViewBillForCustomerComponent } from './BillManagement/view-bill-for-cus
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomepageComponent},
-  {path:'add-product', component: AddProductComponent},
-  {path:'view-product-list', component: ViewProductListComponent},
-  {path:'update-product/:productid', component: AddProductComponent},
+  {path:'add-product', component: AddProductComponent, canActivate: [AuthGuard]},
+  {path:'view-product-list', component: ViewProductListComponent, canActivate: [AuthGuard]},
+  {path:'update-product/:productid', component: AddProductComponent, canActivate: [AuthGuard]},
   {path:'add-product-to-cart/:productid', component: AddProductToCartComponent},
 
-  {path:'editcategory/:id', component: EditcategoryComponent},
-  {path:'showcategory', component: ShowcategoryComponent},
-  {path:'addcategory', component: AddcategoryComponent},
+  {path:'editcategory/:id', component: EditcategoryComponent, canActivate: [AuthGuard]},
+  {path:'showcategory', component: ShowcategoryComponent, canActivate: [AuthGuard]},
+  {path:'addcategory', component: AddcategoryComponent, canActivate: [AuthGuard]},
 
   {path: 'view-cart', component: ViewCartComponent},
   {path: 'view-product-list-for-customer', component: ViewProductListForCustomerComponent},
@@ -41,7 +40,6 @@ const routes: Routes = [
   {path: 'edit-account',component:EditAccountComponent},
   {path: 'purchase-history', component: ViewBillForCustomerComponent},
   {path: 'findproduct/:keyword', component:ViewProductListForCustomerComponent},
-  {path: 'transition/:keyword', component: DetailhistoryComponent},
   {path: 'viewbilldetail/:billid', component: ViewBillDetailComponent}
 
 ];

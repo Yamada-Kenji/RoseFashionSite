@@ -17,7 +17,7 @@ namespace RoseFashionBE.Controllers
         {
             using (var entity = new RoseFashionDBEntities())
             {
-                IList<CategoryModel> result = entity.Categories.Select(ct => new CategoryModel
+                IList<CategoryModel> result = entity.Categories.OrderBy(ct => ct.Name).Select(ct => new CategoryModel
                     {
                         CategoryID = ct.CategoryID,
                         Name = ct.Name,
@@ -75,7 +75,7 @@ namespace RoseFashionBE.Controllers
                 {
                     entity.Categories.Add(new Category()
                     {
-                        CategoryID = "Cata" + (entity.Categories.Count() + 1),
+                        CategoryID = "CT" + (entity.Categories.Count() + 1),
                         Name = newcategory.Name,
                         MainCategory = newcategory.MainCategory
                     });

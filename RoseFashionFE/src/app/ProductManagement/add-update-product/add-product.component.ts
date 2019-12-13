@@ -119,8 +119,8 @@ export class AddProductComponent implements OnInit {
     return false;
   }
 
-  AddProduct() {
-    this.productService.AddProduct(this.product)
+  async AddProduct() {
+    await this.productService.AddProduct(this.product)
       .toPromise().then(() => {
         alert('Thêm sản phẩm thành công');
         this.location.back();
@@ -156,6 +156,7 @@ export class AddProductComponent implements OnInit {
   }
 
   Save() {
+    console.log(this.product);
     if (this.CheckEmptyValue() == false) return;
     if (this.product.Price == 0) {
       if (!confirm('Bạn đang lưu thông tin sản phẩm với giá là 0 VNĐ.\nBạn vẫn muốn tiếp tục?')) {

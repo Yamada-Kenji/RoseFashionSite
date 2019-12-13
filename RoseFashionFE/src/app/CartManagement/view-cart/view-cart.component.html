@@ -7,7 +7,11 @@
                 <div class="col-sm-2">
                     <img class="img-fluid" [src]="item.Image">
                 </div>
-                <div class="col-sm-2">{{item.Name}}</div>
+                <div class="col-sm-2">
+                    <a [routerLink]="['/add-product-to-cart', item.ProductID]" style="color: black;">
+                        {{item.Name}}
+                    </a>
+                </div>
                 <div class="col-sm-2">Size: {{item.Size}}</div>
                 <div class="col-sm-2"><input type="number" [(ngModel)]="item.Amount" class="form-control"
                         (change)="UpdateItemAmount(item.ProductID, item.Amount)" min="1" max="{{item.Quantity}}"></div>

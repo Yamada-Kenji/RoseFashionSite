@@ -29,7 +29,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AddBillComponent } from './BillManagement/add-bill/add-bill.component';
-import { DetailhistoryComponent } from './UserManagerment/detailhistory/detailhistory.component';
 import { HomepageComponent } from './Others/homepage/homepage.component';
 import { MessageModalComponent } from './Others/message-modal/message-modal.component';
 import { AuthGuard } from './Shared/auth-guard';
@@ -42,6 +41,7 @@ import { MessageService } from './Shared/message-service';
 import { KeyWord } from './Shared/model';
 import { ViewBillDetailComponent } from './BillManagement/view-bill-detail/view-bill-detail.component';
 import { ViewBillForCustomerComponent } from './BillManagement/view-bill-for-customer/view-bill-for-customer.component';
+import { ViewBillForAdminComponent } from './BillManagement/view-bill-for-admin/view-bill-for-admin.component';
 
 
 @NgModule({
@@ -58,11 +58,11 @@ import { ViewBillForCustomerComponent } from './BillManagement/view-bill-for-cus
     CreateAccountComponent,
     EditAccountComponent,
     AddBillComponent,
-    DetailhistoryComponent,
     HomepageComponent,
     MessageModalComponent,
     ViewBillDetailComponent,
-    ViewBillForCustomerComponent
+    ViewBillForCustomerComponent,
+    ViewBillForAdminComponent
   ],
   imports: [
     BrowserModule,

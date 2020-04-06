@@ -1,6 +1,6 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProductModel } from './model';
+import { ProductModel, TestModel } from './model';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -39,6 +39,12 @@ const httpOptions = {
         return this.http.get<ProductModel[]>(editedurl);
     }
 
+    GetProductByCategoryVer2(categoryid: string): Observable<string[]>{
+        const editedurl = `${this.producturl}?categoryid=${categoryid}`;
+        return this.http.get<string[]>(editedurl);
+    }
+
+
     GetTopSales(): Observable<ProductModel[]>{
         const editedurl = `${this.producturl}/topsale`;
         return this.http.get<ProductModel[]>(editedurl);
@@ -48,5 +54,20 @@ const httpOptions = {
     FindProduct(keyword: string): Observable<ProductModel[]>{
         const editedurl = `${this.producturl}?keyword=${keyword}`;
         return this.http.get<ProductModel[]>(editedurl);
+    }
+
+    /*FindProductVer2(keyword: string): Observable<string[]>{
+        const editedurl = `${this.producturl}?keyword=${keyword}`;
+        return this.http.get<string[]>(editedurl);
+    }
+
+    GetProductIDList(): Observable<string[]>{
+        const editedurl = `${this.producturl}/list`;
+        return this.http.get<string[]>(editedurl);
+    }*/
+
+    UploadImage(data: FormData): Observable<any>{
+        const editedurl = `${this.producturl}/imgupload`;
+        return this.http.post(editedurl, data);
     }
 }

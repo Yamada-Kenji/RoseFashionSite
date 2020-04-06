@@ -1,24 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryModel, ProductModel, MessageModel } from 'src/app/Shared/model';
-import { Location } from '@angular/common';
 import { ProductService } from 'src/app/Shared/product-service';
 import { CategoryService } from 'src/app/Shared/category-service';
 import { MessageService } from 'src/app/Shared/message-service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CategoryModel, ProductModel } from 'src/app/Shared/model';
+import { Location } from '@angular/common';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-add-product',
-  templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.css']
+  selector: 'app-try-new-code',
+  templateUrl: './try-new-code.component.html',
+  styleUrls: ['./try-new-code.component.css']
 })
-export class AddProductComponent implements OnInit {
+export class TryNewCodeComponent implements OnInit {
 
   uploadForm: FormGroup;
   emptyfile: boolean = true;
   filechanged: boolean = false;
   tempimage: string = '';
-  currentimage: string = '';
   message: any;
   product: ProductModel = new ProductModel();
   //{ ProductID: '', Name: '', Color: '#000000', Size: [] = ['S', 'M', 'L', 'XL', 'XXL'], CategoryID: '', Description: '', Quantity: [] = [0, 0, 0, 0, 0], Image: '', Price: 0, SoldOut: false };
@@ -43,7 +42,6 @@ export class AddProductComponent implements OnInit {
     private categoryService: CategoryService,
     private messageService: MessageService,
     private route: ActivatedRoute,
-    private router: Router,
     private location: Location,
     private formBuilder: FormBuilder) {
     this.uploadForm = this.formBuilder.group({
@@ -59,7 +57,6 @@ export class AddProductComponent implements OnInit {
         if (productid) {
           this.productService.GetProductDetail(productid).toPromise().then(p => {
             this.product = p;
-            this.currentimage = this.tempimage = p.Image;
             this.SetCategory();
           });
           this.addfunction = false;
@@ -74,7 +71,7 @@ export class AddProductComponent implements OnInit {
   //nguồn tham khảo https://stackblitz.com/edit/angular-file-upload-preview?file=app%2Fapp.component.html
   onSelectFile(event) {
     if (event.target.files && event.target.files[0]) {
-      //this.emptyfile = false;
+      this.emptyfile = false;
       this.filechanged = true;
       const file = event.target.files[0];
       this.uploadForm.get('selectedfile').setValue(file);
@@ -84,25 +81,20 @@ export class AddProductComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]); // read file as data url
 
       reader.onload = (event) => { // called once readAsDataURL is completed
-        this.currentimage = this.tempimage = reader.result.toString();
+        this.tempimage = reader.result.toString();
       }
     }
     else {
-      this.currentimage = this.tempimage;
-      // if (this.currentimage == '') {
-      //   this.tempimage = '';
-      //   this.emptyfile = true;
-      // }
-      // else {
-      //   this.tempimage = this.product.Image;
-      //   this.emptyfile = false;
-      //   this.filechanged = false;
-      // }
+      if (this.addfunction) {
+        this.tempimage = '';
+        this.emptyfile = true;
+      }
+      else {
+        this.tempimage = this.product.Image;
+        this.emptyfile = false;
+        this.filechanged = false;
+      }
     }
-  }
-
-  showfile() {
-    return this.uploadForm.get('selectedfile').value;
   }
 
   onSubmit() {
@@ -113,16 +105,13 @@ export class AddProductComponent implements OnInit {
         return;
       }
     }
-    if (!confirm('Xác nhận lưu thay đổi?')) {
-      return;
-    }
     if (this.addfunction == true) this.AddProduct();
     else this.UpdateProduct();
   }
 
   Cancel() {
     if (confirm('Bạn có muốn hủy toàn bộ thay đổi đã thực hiện tại trang này không?')) {
-      this.router.navigate(['/view-product-list']);
+      this.location.back();
     }
   }
 
@@ -163,7 +152,7 @@ export class AddProductComponent implements OnInit {
     if (this.product.CategoryID == '') this.categoryrequire = true;
     else this.categoryrequire = false;
     //kiem tra anh
-    if (this.currentimage == '') this.imagerequire = true;
+    if (this.emptyfile == true) this.imagerequire = true;
     else this.imagerequire = false;
     if (!this.namerequire && !this.categoryrequire && !this.imagerequire) return true;
     return false;

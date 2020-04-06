@@ -27,16 +27,18 @@ namespace RoseFashionBE
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Cart_Product> Cart_Product { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Discount> Discounts { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Product_Size_Quantity> Product_Size_Quantity { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Discount> Discounts { get; set; }
+        public virtual DbSet<District> Districts { get; set; }
+        public virtual DbSet<Bill> Bills { get; set; }
+        public virtual DbSet<Province> Provinces { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

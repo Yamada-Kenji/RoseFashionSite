@@ -1,0 +1,18 @@
+<div class="container" style="position: relative;">
+    <span *ngIf="item.DiscountPercent!=0" class="badge badge-primary" style="position: absolute;">
+        <h6>-{{item.DiscountPercent}}%</h6>
+    </span>
+    <span *ngIf="item.SoldOut" class="badge badge-danger" style="position: absolute; right: 15px;">
+        <h6>Hết hàng</h6>
+    </span>
+    <img class="img-fluid" [src]="item.Image" [routerLink]="['/add-product-to-cart', item.ProductID]">
+    <p class="wrap-text-center">
+        <a [routerLink]="['/add-product-to-cart', item.ProductID]" style="color: black;">
+            {{item.Name}}
+        </a>
+        <br>
+        {{item.Price - item.Price*item.DiscountPercent/100 | number}} VNĐ
+        <a *ngIf="item.DiscountPercent!=0"
+            style="text-decoration: line-through;">{{item.Price | number}} VNĐ</a>
+    </p>
+</div>

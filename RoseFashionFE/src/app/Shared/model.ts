@@ -76,11 +76,32 @@ export class BillModel{
     BillID: string;
     CartID: string;
     OrderDate: Date;
+    DeliveryDate: Date;
     ReceiverName: string;
     ReceiverPhone: string;
     DeliveryAddress: string;
+    ProvinceID: string;
+    DistrictID: string;
     DiscountCode: string;
+    DeliveryFee: number;
     TotalPrice: number;
+    Status: string;
+
+    constructor(){
+        this.BillID = '';
+        this.CartID = '';
+        this.OrderDate = null;
+        this.DeliveryDate = null;
+        this.ReceiverName = '';
+        this.ReceiverPhone = '';
+        this.DeliveryAddress = '';
+        this.ProvinceID = '';
+        this.DistrictID = '';
+        this.DiscountCode = '';
+        this.DeliveryFee = 0;
+        this.TotalPrice = 0;
+        this.Status = '';
+    }
 }
 
 export class MessageModel{
@@ -90,4 +111,21 @@ export class MessageModel{
 
 export class KeyWord{
     static Value: string='';
+}
+
+export class TestModel{
+    Name: string;
+    Image: File;
+}
+
+export class ProvinceModel{
+    ProvinceID: string;
+    ProvinceName: string;
+    DeliveryFee: number;
+}
+
+export class DistrictModel{
+    DistrictID: string;
+    ProvinceID: string;
+    DistrictName: string;
 }

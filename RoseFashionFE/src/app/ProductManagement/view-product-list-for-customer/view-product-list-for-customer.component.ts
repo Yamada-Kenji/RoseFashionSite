@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ViewProductListForCustomerComponent implements OnInit {
 
+  productidlist: string[] = [];
   productlist: ProductModel[] = [];
   categorylist: CategoryModel[] = [];
   pageconfig: any;
@@ -29,11 +30,15 @@ export class ViewProductListForCustomerComponent implements OnInit {
   constructor(private productService: ProductService,
     private categoryService: CategoryService, private route: ActivatedRoute) {
     this.pageconfig = {
-      itemsPerPage: 10,
+      itemsPerPage: 15,
       currentPage: 1
     };
     this.keyword = ViewProductListForCustomerComponent.searchkeyword;
     ViewProductListForCustomerComponent.searchbtn = document.getElementById('searchbtn') as HTMLElement;
+  }
+
+  GetIDList(id: string){
+    
   }
 
 

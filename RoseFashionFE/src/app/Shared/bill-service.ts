@@ -26,4 +26,8 @@ export class BillService {
     const editedurl = `${this.billurl}?billid=${billid}`;
     return this.http.get<BillModel>(editedurl);
   }
+
+  GetBillTable(): Observable<BillModel[]>{
+    return this.http.get<BillModel[]>(this.billurl);
+  }
 }

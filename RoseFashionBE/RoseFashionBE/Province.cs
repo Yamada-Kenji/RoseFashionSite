@@ -12,22 +12,22 @@ namespace RoseFashionBE
     using System;
     using System.Collections.Generic;
     
-    public partial class Discount
+    public partial class Province
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Discount()
+        public Province()
         {
             this.Bills = new HashSet<Bill>();
+            this.Districts = new HashSet<District>();
         }
     
-        public string DiscountCode { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
-        public double Value { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string ProvinceID { get; set; }
+        public string ProvinceName { get; set; }
+        public long DeliveryFee { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bill> Bills { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<District> Districts { get; set; }
     }
 }

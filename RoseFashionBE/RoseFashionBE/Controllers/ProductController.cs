@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using RoseFashionBE.Models;
 using System.Web.Http.Cors;
+using System.Web;
 
 namespace RoseFashionBE.Controllers
 {
@@ -13,11 +14,13 @@ namespace RoseFashionBE.Controllers
     [RoutePrefix("api/product")]
     public class ProductController : ApiController
     {
+        const string serverAddress = "http://localhost:62098";
         [HttpPost]
         public IHttpActionResult AddProduct(ProductModel newproduct)
         {
             try
             {
+                //const string serverAddress = "http://localhost:62098";
                 using (var entity = new RoseFashionDBEntities())
                 {
                     //kiểm tra sản phẩm đã tồn tại chưa
@@ -25,6 +28,7 @@ namespace RoseFashionBE.Controllers
                     if (existedproduct == true) return BadRequest("This product already exists.");
 
                     newproduct.ProductID = "PR-" + (entity.Products.Count() + 1);
+                    string imagepath = serverAddress + "/images/" + newproduct.ProductID + ".png";
                     entity.Products.Add(new Product
                     {
                         ProductID = newproduct.ProductID,
@@ -32,7 +36,7 @@ namespace RoseFashionBE.Controllers
                         Color = newproduct.Color,
                         CategoryID = newproduct.CategoryID,
                         //Description = newproduct.Description,
-                        Image = newproduct.Image,
+                        Image = imagepath,
                         Price = newproduct.Price,
                         DiscountPercent = newproduct.DiscountPercent
                     });
@@ -48,7 +52,7 @@ namespace RoseFashionBE.Controllers
                         });
                         entity.SaveChanges();
                     }               
-                    return Ok("OK");
+                    return Ok(newproduct.ProductID);
                 }
             }
             catch (Exception ex)
@@ -70,7 +74,7 @@ namespace RoseFashionBE.Controllers
                     //nếu có => thay đổi các thuộc tính
                     existedproduct.Name = editedproduct.Name;
                     existedproduct.Color = editedproduct.Color;
-                    existedproduct.Image = editedproduct.Image;
+                    existedproduct.Image = serverAddress + "/images/" + editedproduct.ProductID + ".png";
                     existedproduct.CategoryID = editedproduct.CategoryID;
                     existedproduct.Description = editedproduct.Description;
                     existedproduct.Price = editedproduct.Price;
@@ -216,15 +220,17 @@ namespace RoseFashionBE.Controllers
             {
                 using (var entity = new RoseFashionDBEntities())
                 {
-                    var result = entity.Products.Where(c => c.Name.Contains(keyword) && c.IsDeleted == false).Select(c => new ProductModel
-                    {
-                        ProductID = c.ProductID,
-                        Name = c.Name,
-                        Image = c.Image,
-                        Price = c.Price,
-                        CategoryID = c.CategoryID,
-                        DiscountPercent = c.DiscountPercent
-                    }).ToList();
+                    var result = entity.Products.Where(c => c.Name.Contains(keyword) && c.IsDeleted == false)
+                        .Select(c => new ProductModel
+                        {
+                            ProductID = c.ProductID,
+                            Name = c.Name,
+                            Image = c.Image,
+                            Price = c.Price,
+                            CategoryID = c.CategoryID,
+                            DiscountPercent = c.DiscountPercent
+                        }).ToList();
+                    //.Select(p => p.ProductID).ToList();
                     return Ok(result);
                 }
             }
@@ -241,8 +247,9 @@ namespace RoseFashionBE.Controllers
             {
                 using(var entity = new RoseFashionDBEntities())
                 {
-                    var result = entity.Products.Where(p => (p.CategoryID == categoryid || 
+                    var result = entity.Products.Where(p => (p.CategoryID == categoryid ||
                     p.Category.MainCategory == categoryid) && p.IsDeleted == false)
+                        //.Select(p => p.ProductID).ToList();
                         .Select(p => new ProductModel
                         {
                             ProductID = p.ProductID,
@@ -297,6 +304,76 @@ namespace RoseFashionBE.Controllers
                 }
             }
             catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("page")]
+        public IHttpActionResult GetOnePage(string[] idlist)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    List<ProductModel> result = new List<ProductModel>();
+                    for(int i = 0; i < idlist.Length; i++)
+                    {
+                        string id = idlist[i];
+                        ProductModel item = entity.Products.Where(p => p.ProductID == id)
+                            .Select(p => new ProductModel
+                            {
+                                ProductID = p.ProductID,
+                                Name = p.Name,
+                                Image = p.Image,
+                                Price = p.Price,
+                                DiscountPercent = p.DiscountPercent
+                            }).FirstOrDefault();
+                        result.Add(item);
+                    }
+                    return Ok(result);
+                }
+            }
+            catch (Exception err)
+            {
+                return InternalServerError(err);
+            }
+        }
+
+        [HttpGet]
+        [Route("list")]
+        public IHttpActionResult GetAllProductID()
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    var result = entity.Products.Select(p => p.ProductID).ToList();
+                    return Ok(result);
+                }
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("imgupload")]
+        public IHttpActionResult UploadImage()
+        {
+            try
+            {
+                var httpRequest = HttpContext.Current.Request;
+                var pid = httpRequest.Params["productid"];
+                var image = httpRequest.Files[0];
+                var newPath = HttpContext.Current.Server.MapPath("~/images/" + pid + ".png");
+                image.SaveAs(newPath);
+                return Ok();
+            }
+            catch (Exception ex)
             {
                 return InternalServerError(ex);
             }

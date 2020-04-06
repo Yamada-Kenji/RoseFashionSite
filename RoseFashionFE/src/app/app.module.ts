@@ -42,6 +42,9 @@ import { KeyWord } from './Shared/model';
 import { ViewBillDetailComponent } from './BillManagement/view-bill-detail/view-bill-detail.component';
 import { ViewBillForCustomerComponent } from './BillManagement/view-bill-for-customer/view-bill-for-customer.component';
 import { ViewBillForAdminComponent } from './BillManagement/view-bill-for-admin/view-bill-for-admin.component';
+import { ProductViewComponent } from './Others/product-view/product-view.component';
+import { TryNewCodeComponent } from './Others/try-new-code/try-new-code.component';
+import { AddressService } from './Shared/address-service';
 
 
 @NgModule({
@@ -62,7 +65,9 @@ import { ViewBillForAdminComponent } from './BillManagement/view-bill-for-admin/
     MessageModalComponent,
     ViewBillDetailComponent,
     ViewBillForCustomerComponent,
-    ViewBillForAdminComponent
+    ViewBillForAdminComponent,
+    ProductViewComponent,
+    TryNewCodeComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +87,7 @@ import { ViewBillForAdminComponent } from './BillManagement/view-bill-for-admin/
     CartService,
     BillService,
     MessageService,
+    AddressService,
     AuthGuard,
     KeyWord
   ],

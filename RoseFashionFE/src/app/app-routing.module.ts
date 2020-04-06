@@ -19,6 +19,8 @@ import { AuthGuard } from './Shared/auth-guard';
 import { EditAccountComponent } from './AccountManagerment/edit-account/edit-account.component';
 import { ViewBillDetailComponent } from './BillManagement/view-bill-detail/view-bill-detail.component';
 import { ViewBillForCustomerComponent } from './BillManagement/view-bill-for-customer/view-bill-for-customer.component';
+import { ViewBillForAdminComponent } from './BillManagement/view-bill-for-admin/view-bill-for-admin.component';
+import { TryNewCodeComponent } from './Others/try-new-code/try-new-code.component';
 
 
 const routes: Routes = [
@@ -40,7 +42,11 @@ const routes: Routes = [
   {path: 'edit-account',component:EditAccountComponent},
   {path: 'purchase-history', component: ViewBillForCustomerComponent},
   {path: 'findproduct/:keyword', component:ViewProductListForCustomerComponent},
-  {path: 'viewbilldetail/:billid', component: ViewBillDetailComponent}
+  {path: 'viewbilldetail/:billid', component: ViewBillDetailComponent},
+  {path: 'view-bill-for-admin', component: ViewBillForAdminComponent},
+
+  {path: 'image-upload', component: ViewBillForAdminComponent},
+  {path: 'trynewcode', component: TryNewCodeComponent}
 
 ];
 

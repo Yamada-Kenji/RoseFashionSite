@@ -17,8 +17,8 @@ namespace RoseFashionBE
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cart()
         {
-            this.Bills = new HashSet<Bill>();
             this.Cart_Product = new HashSet<Cart_Product>();
+            this.Bills = new HashSet<Bill>();
         }
     
         public string CartID { get; set; }
@@ -26,9 +26,9 @@ namespace RoseFashionBE
         public Nullable<bool> IsUsing { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Bill> Bills { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cart_Product> Cart_Product { get; set; }
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Bill> Bills { get; set; }
     }
 }

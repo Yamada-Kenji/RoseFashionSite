@@ -70,11 +70,15 @@ namespace RoseFashionBE.Controllers
                     {
                         BillID = "BL-" + (entity.Bills.Count() + 1),
                         CartID = billinfo.CartID,
-                        Date = DateTime.Now.Date,
+                        OrderDate = DateTime.Now.Date,
                         ReceiverName = billinfo.ReceiverName,
                         ReceiverPhone = billinfo.ReceiverPhone,
                         DeliveryAddress = billinfo.DeliveryAddress,
-                        TotalPrice = billinfo.TotalPrice
+                        ProvinceID = billinfo.ProvinceID,
+                        DistrictID = billinfo.DistrictID,
+                        TotalPrice = billinfo.TotalPrice,
+                        DeliveryFee = billinfo.DeliveryFee,
+                        Status = "Đang đợi duyệt."
                     });
                     var usercart = entity.Carts.Where(c => c.CartID == billinfo.CartID).FirstOrDefault();
                     usercart.IsUsing = false;
@@ -100,7 +104,8 @@ namespace RoseFashionBE.Controllers
                     {
                         BillID = b.BillID,
                         CartID = b.CartID,
-                        OrderDate = b.Date
+                        OrderDate = b.OrderDate,
+                        Status = b.Status
                     }).ToList();
                     return Ok(result);
                 }
@@ -127,7 +132,7 @@ namespace RoseFashionBE.Controllers
                             .Select(b => new BillModel
                             {
                                 BillID = b.BillID,
-                                OrderDate = b.Date,
+                                OrderDate = b.OrderDate,
                                 TotalPrice = b.TotalPrice
                             }).FirstOrDefault();
                         result.Add(bill);
@@ -156,7 +161,7 @@ namespace RoseFashionBE.Controllers
                             ReceiverName = b.ReceiverName,
                             ReceiverPhone = b.ReceiverPhone,
                             DeliveryAddress = b.DeliveryAddress,
-                            OrderDate = b.Date,
+                            OrderDate = b.OrderDate,
                             DiscountCode = b.DiscountCode,
                             TotalPrice = b.TotalPrice
                         }).FirstOrDefault();

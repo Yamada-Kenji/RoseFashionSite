@@ -9,11 +9,22 @@ import { ProductService } from 'src/app/Shared/product-service';
 })
 export class HomepageComponent implements OnInit {
 
+  pageconfig: any;
+
   productlist: ProductModel[] = [];
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService) { 
+    this.pageconfig = {
+      itemsPerPage: 2,
+      currentPage: 1
+    };
+  }
 
   ngOnInit() {
     this.productService.GetTopSales().toPromise().then(result => this.productlist = result);
+  }
+
+  pageChanged(event) {
+    this.pageconfig.currentPage = event;
   }
 
 }

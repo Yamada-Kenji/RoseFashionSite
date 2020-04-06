@@ -9,9 +9,14 @@
     <Property Name="ReceiverName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="ReceiverPhone" Type="nchar" MaxLength="10" Nullable="false" />
     <Property Name="DeliveryAddress" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="ProvinceID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DistrictID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="OrderDate" Type="date" Nullable="false" />
+    <Property Name="DeliveryDate" Type="date" />
     <Property Name="DiscountCode" Type="varchar" MaxLength="50" />
     <Property Name="TotalPrice" Type="bigint" Nullable="false" />
+    <Property Name="DeliveryFee" Type="bigint" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Cart">
     <Key>
@@ -49,6 +54,16 @@
     <Property Name="StartDate" Type="date" Nullable="false" />
     <Property Name="EndDate" Type="date" Nullable="false" />
     <Property Name="Value" Type="float" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="District">
+    <Key>
+      <PropertyRef Name="DistrictID" />
+    </Key>
+    <Property Name="DistrictID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ProvinceID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DistrictName" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Product">
     <Key>
@@ -72,6 +87,14 @@
     <Property Name="ProductID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Size" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Province">
+    <Key>
+      <PropertyRef Name="ProvinceID" />
+    </Key>
+    <Property Name="ProvinceID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ProvinceName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DeliveryFee" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Rating">
     <Key>
@@ -130,6 +153,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Bill_District">
+    <End Role="District" Type="Self.District" Multiplicity="1" />
+    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="DistrictID" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="DistrictID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Bill_Province">
+    <End Role="Province" Type="Self.Province" Multiplicity="1" />
+    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="ProvinceID" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="ProvinceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Cart_Product_Cart">
     <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
     <End Role="Cart_Product" Type="Self.Cart_Product" Multiplicity="*" />
@@ -163,6 +210,18 @@
       </Principal>
       <Dependent Role="Cart">
         <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_District_Province">
+    <End Role="Province" Type="Self.Province" Multiplicity="1" />
+    <End Role="District" Type="Self.District" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="ProvinceID" />
+      </Principal>
+      <Dependent Role="District">
+        <PropertyRef Name="ProvinceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -261,8 +320,10 @@
     <EntitySet Name="Cart_Product" EntityType="Self.Cart_Product" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Discount" EntityType="Self.Discount" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Product_Size_Quantity" EntityType="Self.Product_Size_Quantity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -272,6 +333,14 @@
     </AssociationSet>
     <AssociationSet Name="FK_Bill_Discount" Association="Self.FK_Bill_Discount">
       <End Role="Discount" EntitySet="Discount" />
+      <End Role="Bill" EntitySet="Bill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Bill_District" Association="Self.FK_Bill_District">
+      <End Role="District" EntitySet="District" />
+      <End Role="Bill" EntitySet="Bill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Bill_Province" Association="Self.FK_Bill_Province">
+      <End Role="Province" EntitySet="Province" />
       <End Role="Bill" EntitySet="Bill" />
     </AssociationSet>
     <AssociationSet Name="FK_Cart_Product_Cart" Association="Self.FK_Cart_Product_Cart">
@@ -285,6 +354,10 @@
     <AssociationSet Name="FK_Cart_User" Association="Self.FK_Cart_User">
       <End Role="User" EntitySet="User" />
       <End Role="Cart" EntitySet="Cart" />
+    </AssociationSet>
+    <AssociationSet Name="FK_District_Province" Association="Self.FK_District_Province">
+      <End Role="Province" EntitySet="Province" />
+      <End Role="District" EntitySet="District" />
     </AssociationSet>
     <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
       <End Role="Category" EntitySet="Category" />

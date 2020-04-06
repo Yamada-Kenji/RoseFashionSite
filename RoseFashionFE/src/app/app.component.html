@@ -23,7 +23,7 @@
         <a class="nav-link" [routerLink]="['/showcategory']">Danh sách các danh mục</a>
       </li>
       <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
-        <a class="nav-link" [routerLink]="">Danh sách hóa đơn</a>
+        <a class="nav-link" [routerLink]="['/view-bill-for-admin']">Danh sách hóa đơn</a>
       </li>
 
 

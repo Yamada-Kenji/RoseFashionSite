@@ -1,0 +1,5 @@
+https://www.codeproject.com/Articles/1232150/Building-a-Recommendation-Engine-in-Csharp#userbased2
+
+https://machinelearningcoban.com/2017/05/24/collaborativefiltering/#-user-user-collaborative-filtering
+
+https://medium.com/sfu-cspmp/recommendation-systems-user-based-collaborative-filtering-using-n-nearest-neighbors-bf7361dc24e0

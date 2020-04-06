@@ -75,7 +75,7 @@ namespace RoseFashionBE.Controllers
                 {
                     entity.Categories.Add(new Category()
                     {
-                        CategoryID = "CT" + (entity.Categories.Count() + 1),
+                        CategoryID = "CT-" + (entity.Categories.Count() + 1),
                         Name = newcategory.Name,
                         MainCategory = newcategory.MainCategory
                     });

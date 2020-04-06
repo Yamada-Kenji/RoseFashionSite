@@ -1,20 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="RoseFashionDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="Bill">
-    <Key>
-      <PropertyRef Name="BillID" />
-    </Key>
-    <Property Name="BillID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="CartID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="ReceiverName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="ReceiverPhone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-    <Property Name="DeliveryAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="DiscountCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="TotalPrice" Type="Int64" Nullable="false" />
-    <NavigationProperty Name="Cart" Relationship="Self.FK_Bill_Cart" FromRole="Bill" ToRole="Cart" />
-    <NavigationProperty Name="Discount" Relationship="Self.FK_Bill_Discount" FromRole="Bill" ToRole="Discount" />
-  </EntityType>
   <EntityType Name="Cart">
     <Key>
       <PropertyRef Name="CartID" />
@@ -22,9 +7,9 @@
     <Property Name="CartID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="IsUsing" Type="Boolean" />
-    <NavigationProperty Name="Bills" Relationship="Self.FK_Bill_Cart" FromRole="Cart" ToRole="Bill" />
     <NavigationProperty Name="Cart_Product" Relationship="Self.FK_Cart_Product_Cart" FromRole="Cart" ToRole="Cart_Product" />
     <NavigationProperty Name="User" Relationship="Self.FK_Cart_User" FromRole="Cart" ToRole="User" />
+    <NavigationProperty Name="Bills" Relationship="RoseFashionDBModel.FK_Bill_Cart" FromRole="Cart" ToRole="Bill" />
   </EntityType>
   <EntityType Name="Cart_Product">
     <Key>
@@ -48,16 +33,6 @@
     <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="MainCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Products" Relationship="Self.FK_Product_Category" FromRole="Category" ToRole="Product" />
-  </EntityType>
-  <EntityType Name="Discount">
-    <Key>
-      <PropertyRef Name="DiscountCode" />
-    </Key>
-    <Property Name="DiscountCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Value" Type="Double" Nullable="false" />
-    <NavigationProperty Name="Bills" Relationship="Self.FK_Bill_Discount" FromRole="Discount" ToRole="Bill" />
   </EntityType>
   <EntityType Name="Product">
     <Key>
@@ -124,30 +99,6 @@
     <NavigationProperty Name="Carts" Relationship="Self.FK_Cart_User" FromRole="User" ToRole="Cart" />
     <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_User" FromRole="User" ToRole="Rating" />
   </EntityType>
-  <Association Name="FK_Bill_Cart">
-    <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
-    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Cart">
-        <PropertyRef Name="CartID" />
-      </Principal>
-      <Dependent Role="Bill">
-        <PropertyRef Name="CartID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Bill_Discount">
-    <End Role="Discount" Type="Self.Discount" Multiplicity="0..1" />
-    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Discount">
-        <PropertyRef Name="DiscountCode" />
-      </Principal>
-      <Dependent Role="Bill">
-        <PropertyRef Name="DiscountCode" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Cart_Product_Cart">
     <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
     <End Role="Cart_Product" Type="Self.Cart_Product" Multiplicity="*" />
@@ -233,24 +184,14 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="RoseFashionDBEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Bills" EntityType="Self.Bill" />
     <EntitySet Name="Carts" EntityType="Self.Cart" />
     <EntitySet Name="Cart_Product" EntityType="Self.Cart_Product" />
     <EntitySet Name="Categories" EntityType="Self.Category" />
-    <EntitySet Name="Discounts" EntityType="Self.Discount" />
     <EntitySet Name="Products" EntityType="Self.Product" />
     <EntitySet Name="Product_Size_Quantity" EntityType="Self.Product_Size_Quantity" />
     <EntitySet Name="Ratings" EntityType="Self.Rating" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="Users" EntityType="Self.User" />
-    <AssociationSet Name="FK_Bill_Cart" Association="Self.FK_Bill_Cart">
-      <End Role="Cart" EntitySet="Carts" />
-      <End Role="Bill" EntitySet="Bills" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Bill_Discount" Association="Self.FK_Bill_Discount">
-      <End Role="Discount" EntitySet="Discounts" />
-      <End Role="Bill" EntitySet="Bills" />
-    </AssociationSet>
     <AssociationSet Name="FK_Cart_Product_Cart" Association="Self.FK_Cart_Product_Cart">
       <End Role="Cart" EntitySet="Carts" />
       <End Role="Cart_Product" EntitySet="Cart_Product" />
@@ -310,6 +251,30 @@
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
     <FunctionImport Name="FN_TOPSALE" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.FN_TOPSALE_Result)" />
+    <EntitySet Name="Discounts" EntityType="RoseFashionDBModel.Discount" />
+    <EntitySet Name="Districts" EntityType="RoseFashionDBModel.District" />
+    <EntitySet Name="Bills" EntityType="RoseFashionDBModel.Bill" />
+    <EntitySet Name="Provinces" EntityType="RoseFashionDBModel.Province" />
+    <AssociationSet Name="FK_Bill_Cart" Association="RoseFashionDBModel.FK_Bill_Cart">
+      <End Role="Cart" EntitySet="Carts" />
+      <End Role="Bill" EntitySet="Bills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Bill_Discount" Association="RoseFashionDBModel.FK_Bill_Discount">
+      <End Role="Discount" EntitySet="Discounts" />
+      <End Role="Bill" EntitySet="Bills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Bill_District" Association="RoseFashionDBModel.FK_Bill_District">
+      <End Role="District" EntitySet="Districts" />
+      <End Role="Bill" EntitySet="Bills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Bill_Province" Association="RoseFashionDBModel.FK_Bill_Province">
+      <End Role="Province" EntitySet="Provinces" />
+      <End Role="Bill" EntitySet="Bills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_District_Province" Association="RoseFashionDBModel.FK_District_Province">
+      <End Role="Province" EntitySet="Provinces" />
+      <End Role="District" EntitySet="Districts" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -326,4 +291,118 @@
     <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="TOTAL" Nullable="true" />
   </ComplexType>
+  <EntityType Name="Discount">
+    <Key>
+      <PropertyRef Name="DiscountCode" />
+    </Key>
+    <Property Name="DiscountCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Value" Type="Double" Nullable="false" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Bills" Relationship="RoseFashionDBModel.FK_Bill_Discount" FromRole="Discount" ToRole="Bill" />
+  </EntityType>
+  <EntityType Name="District">
+    <Key>
+      <PropertyRef Name="DistrictID" />
+    </Key>
+    <Property Name="DistrictID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ProvinceID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DistrictName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Bills" Relationship="RoseFashionDBModel.FK_Bill_District" FromRole="District" ToRole="Bill" />
+    <NavigationProperty Name="Province" Relationship="RoseFashionDBModel.FK_District_Province" FromRole="District" ToRole="Province" />
+  </EntityType>
+  <EntityType Name="Bill">
+    <Key>
+      <PropertyRef Name="BillID" />
+    </Key>
+    <Property Name="BillID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CartID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ReceiverName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ReceiverPhone" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="DeliveryAddress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ProvinceID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DistrictID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
+    <Property Name="DiscountCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TotalPrice" Type="Int64" Nullable="false" />
+    <Property Name="DeliveryFee" Type="Int64" Nullable="false" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Cart" Relationship="RoseFashionDBModel.FK_Bill_Cart" FromRole="Bill" ToRole="Cart" />
+    <NavigationProperty Name="Discount" Relationship="RoseFashionDBModel.FK_Bill_Discount" FromRole="Bill" ToRole="Discount" />
+    <NavigationProperty Name="District" Relationship="RoseFashionDBModel.FK_Bill_District" FromRole="Bill" ToRole="District" />
+    <NavigationProperty Name="Province" Relationship="RoseFashionDBModel.FK_Bill_Province" FromRole="Bill" ToRole="Province" />
+  </EntityType>
+  <EntityType Name="Province">
+    <Key>
+      <PropertyRef Name="ProvinceID" />
+    </Key>
+    <Property Name="ProvinceID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ProvinceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DeliveryFee" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Bills" Relationship="RoseFashionDBModel.FK_Bill_Province" FromRole="Province" ToRole="Bill" />
+    <NavigationProperty Name="Districts" Relationship="RoseFashionDBModel.FK_District_Province" FromRole="Province" ToRole="District" />
+  </EntityType>
+  <Association Name="FK_Bill_Cart">
+    <End Type="RoseFashionDBModel.Cart" Role="Cart" Multiplicity="1" />
+    <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cart">
+        <PropertyRef Name="CartID" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="CartID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Bill_Discount">
+    <End Type="RoseFashionDBModel.Discount" Role="Discount" Multiplicity="0..1" />
+    <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Discount">
+        <PropertyRef Name="DiscountCode" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="DiscountCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Bill_District">
+    <End Type="RoseFashionDBModel.District" Role="District" Multiplicity="1" />
+    <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="DistrictID" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="DistrictID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Bill_Province">
+    <End Type="RoseFashionDBModel.Province" Role="Province" Multiplicity="1" />
+    <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="ProvinceID" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="ProvinceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_District_Province">
+    <End Type="RoseFashionDBModel.Province" Role="Province" Multiplicity="1" />
+    <End Type="RoseFashionDBModel.District" Role="District" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="ProvinceID" />
+      </Principal>
+      <Dependent Role="District">
+        <PropertyRef Name="ProvinceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

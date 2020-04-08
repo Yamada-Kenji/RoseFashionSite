@@ -21,6 +21,7 @@ import { ViewBillDetailComponent } from './BillManagement/view-bill-detail/view-
 import { ViewBillForCustomerComponent } from './BillManagement/view-bill-for-customer/view-bill-for-customer.component';
 import { ViewBillForAdminComponent } from './BillManagement/view-bill-for-admin/view-bill-for-admin.component';
 import { TryNewCodeComponent } from './Others/try-new-code/try-new-code.component';
+import { EditBillComponent } from './BillManagement/edit-bill/edit-bill.component';
 
 
 const routes: Routes = [
@@ -44,6 +45,7 @@ const routes: Routes = [
   {path: 'findproduct/:keyword', component:ViewProductListForCustomerComponent},
   {path: 'viewbilldetail/:billid', component: ViewBillDetailComponent},
   {path: 'view-bill-for-admin', component: ViewBillForAdminComponent},
+  {path: 'edit-bill/:billid', component: EditBillComponent},
 
   {path: 'image-upload', component: ViewBillForAdminComponent},
   {path: 'trynewcode', component: TryNewCodeComponent}

@@ -16,7 +16,7 @@
             <tbody *ngFor="let item of billtable | paginate: pageconfig">
                 <tr>
                     <td>{{item.BillID}}</td>
-                    <td>{{item.OrderDate}}</td>
+                    <td>{{item.OrderDate | date: "dd/MM/yyyy"}}</td>
                     <td>{{item.Status}}</td>
                     <!-- <td><button class="btn btn-dark" style="margin-left: 5px"
                             [routerLink]="['/update-product', item.ProductID]"
@@ -25,9 +25,9 @@
                             (click)="DeleteProduct(item.ProductID)">Xóa</button> -->
                     <td>
                         <i class="fas fa-edit" style="margin-left: 5px;"
-                            [routerLink]="" routerLinkActive="router-link-active"
+                            [routerLink]="['/viewbilldetail',item.BillID]"
                             title="Edit"></i>
-                        <i class="fas fa-trash" style="margin-left: 5px;" (click)="DeleteProduct(item.ProductID)"
+                        <i class="fas fa-trash" style="margin-left: 5px;" (click)="DeleteProduct(item.BillID)"
                             title="Delete"></i>
                     </td>
                 </tr>

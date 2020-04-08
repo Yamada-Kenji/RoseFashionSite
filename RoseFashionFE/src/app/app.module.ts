@@ -45,6 +45,7 @@ import { ViewBillForAdminComponent } from './BillManagement/view-bill-for-admin/
 import { ProductViewComponent } from './Others/product-view/product-view.component';
 import { TryNewCodeComponent } from './Others/try-new-code/try-new-code.component';
 import { AddressService } from './Shared/address-service';
+import { EditBillComponent } from './BillManagement/edit-bill/edit-bill.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { AddressService } from './Shared/address-service';
     ViewBillForCustomerComponent,
     ViewBillForAdminComponent,
     ProductViewComponent,
-    TryNewCodeComponent
+    TryNewCodeComponent,
+    EditBillComponent
   ],
   imports: [
     BrowserModule,

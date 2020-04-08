@@ -309,7 +309,7 @@ namespace RoseFashionBE.Controllers
             }
         }
 
-        [HttpGet]
+        /*[HttpGet]
         [Route("page")]
         public IHttpActionResult GetOnePage(string[] idlist)
         {
@@ -357,8 +357,7 @@ namespace RoseFashionBE.Controllers
             {
                 return InternalServerError(ex);
             }
-        }
-
+        }*/
 
         [HttpPost]
         [Route("imgupload")]
@@ -374,6 +373,32 @@ namespace RoseFashionBE.Controllers
                 return Ok();
             }
             catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("defaultrating")]
+        public IHttpActionResult DefaultRating(string[] pids, string userid)
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    for(int i = 0; i < pids.Length; i++)
+                    {
+                        string pid = pids[i];
+                        entity.Ratings.Add(new Rating()
+                        {
+                            UserID = userid,
+                            ProductID = pid
+                        });
+                    }
+                    return Ok();
+                }
+            }
+            catch(Exception ex)
             {
                 return InternalServerError(ex);
             }

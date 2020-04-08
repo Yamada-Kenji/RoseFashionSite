@@ -78,7 +78,7 @@ namespace RoseFashionBE.Controllers
                         DistrictID = billinfo.DistrictID,
                         TotalPrice = billinfo.TotalPrice,
                         DeliveryFee = billinfo.DeliveryFee,
-                        Status = "Đang đợi duyệt."
+                        Status = "Đang chờ xác nhận"
                     });
                     var usercart = entity.Carts.Where(c => c.CartID == billinfo.CartID).FirstOrDefault();
                     usercart.IsUsing = false;

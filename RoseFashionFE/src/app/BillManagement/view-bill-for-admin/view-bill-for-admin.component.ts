@@ -10,11 +10,20 @@ import { BillModel } from 'src/app/Shared/model';
 export class ViewBillForAdminComponent implements OnInit {
   
   billtable: BillModel[] = [];
+  pageconfig: any;
   constructor(private billService: BillService) {
+    this.pageconfig = {
+      itemsPerPage: 10,
+      currentPage: 1
+    };
    }
 
   ngOnInit() {
     this.billService.GetBillTable().toPromise().then(r => this.billtable = r).catch(err => alert(err));
+  }
+
+  pageChanged(event) {
+    this.pageconfig.currentPage = event;
   }
 
 }

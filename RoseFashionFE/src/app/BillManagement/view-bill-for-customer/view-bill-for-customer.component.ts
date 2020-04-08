@@ -11,7 +11,7 @@ import { BillService } from 'src/app/Shared/bill-service';
 export class ViewBillForCustomerComponent implements OnInit {
 
   idUser: string
-  history: BillModel
+  history: BillModel[]
 
   constructor( private userservice: UserService,private billservice: BillService) { }
 
@@ -22,7 +22,8 @@ export class ViewBillForCustomerComponent implements OnInit {
   }
 
   getPurchaseHistory(): void {
-    this.billservice.GetPurchaseById(this.idUser).subscribe(history => this.history = history);
+    this.billservice.GetPurchaseById(this.idUser).subscribe(history => {this.history = history; console.log(history);});
+    console.log(this.history);
   }
 
 }

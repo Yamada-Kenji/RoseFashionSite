@@ -17,9 +17,9 @@ export class BillService {
   }
 
   //get purchase history by id
-  GetPurchaseById(userid: string): Observable<BillModel> {
+  GetPurchaseById(userid: string): Observable<BillModel[]> {
     const geturl = `${this.billurl}?userid=${userid}`;
-    return this.http.get<BillModel>(geturl);
+    return this.http.get<BillModel[]>(geturl);
   }
 
   GetOneBillInfo(billid: string): Observable<BillModel>{

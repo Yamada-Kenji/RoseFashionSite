@@ -1,6 +1,7 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { CartModel } from './model';
 import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -8,6 +9,7 @@ const httpOptions = {
     })
   };
   
+  @Injectable()
   export class CartService{
     constructor(private http: HttpClient){}
     private carturl = 'http://localhost:62098/api/cart';

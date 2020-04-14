@@ -403,5 +403,141 @@ namespace RoseFashionBE.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [HttpGet]
+        [Route("purchased")]
+        public IHttpActionResult CheckingPurchasedProduct(string userid, string productid)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    bool result = false;
+                    var existed = entity.fn_CheckingIfProductWasPurchasedByUser(userid, productid).FirstOrDefault();
+                    if (existed != null) result = true;
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("ratinglist")]
+        public IHttpActionResult GetProductRatingList(string pid)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    var result = entity.Ratings.Where(r => r.ProductID == pid)
+                        .Select(r=>new RatingModel()
+                        {
+                            UserName = r.User.FullName,
+                            Title = r.Title,
+                            Comment = r. Comment,
+                            Star = r.Star
+                        }).ToList();
+                    return Ok(result);
+                }
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("addrating")]
+        public IHttpActionResult AddUserRating(RatingModel newrating)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    var oldrating = entity.Ratings.Where(r => r.UserID == newrating.UserID && r.ProductID == newrating.ProductID).FirstOrDefault();
+                    if (oldrating!=null)
+                    {
+                        oldrating.Title = newrating.Title;
+                        oldrating.Comment = newrating.Comment;
+                        oldrating.Star = newrating.Star;
+                        entity.SaveChanges();
+                    }
+                    else
+                    {
+                        entity.Ratings.Add(new Rating()
+                        {
+                            UserID = newrating.UserID,
+                            ProductID = newrating.ProductID,
+                            Title = newrating.Title,
+                            Comment = newrating.Comment,
+                            Star = newrating.Star
+                        });
+                        entity.SaveChanges();
+                    }
+                    return Ok();
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("totalrating")]
+        public IHttpActionResult GetTotalRatingOfProduct(string pid)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    double result = 0;
+                    var ratinglist = entity.Ratings.Where(r => r.ProductID == pid).ToList();
+                    if (ratinglist.Count > 0) {
+                        result = ratinglist.Sum(r => r.Star) / ratinglist.Count;
+                    }
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("onerating")]
+        public IHttpActionResult GetOneUserRating(string userid, string pid)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    var result = entity.Ratings.Where(r => r.UserID == userid && r.ProductID == pid)
+                        .Select(r => new RatingModel()
+                        {
+                            UserID = r.UserID,
+                            ProductID = r.ProductID,
+                            Title = r.Title,
+                            Comment = r.Comment,
+                            Star = r.Star
+                        }).FirstOrDefault();
+                    if (result == null)
+                    {
+                        result = new RatingModel();
+                        result.UserID = userid;
+                        result.ProductID = pid;
+                    }
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

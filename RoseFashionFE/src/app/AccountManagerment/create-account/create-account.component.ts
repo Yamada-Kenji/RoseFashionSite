@@ -65,7 +65,7 @@ export class CreateAccountComponent implements OnInit {
   //add new category
   creatAccount(FullName: string, Email: string, Password: string): void {
     var creAccount: UserModel;
-    var msg: MessageModel = { Title: "Thông báo", Content: "" };
+    var msg: MessageModel = { Title: "Thông báo", Content: "", BackToHome: false };
     creAccount = { FullName, Email, Password } as UserModel
     this.userservice.Register(creAccount).toPromise()
       .then(result => {

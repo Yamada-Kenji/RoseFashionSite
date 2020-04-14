@@ -80,8 +80,8 @@ export class BillModel{
     ReceiverName: string;
     ReceiverPhone: string;
     DeliveryAddress: string;
-    ProvinceID: string;
-    DistrictID: string;
+    ProvinceName: string;
+    DistrictName: string;
     DiscountCode: string;
     DeliveryFee: number;
     TotalPrice: number;
@@ -95,8 +95,8 @@ export class BillModel{
         this.ReceiverName = '';
         this.ReceiverPhone = '';
         this.DeliveryAddress = '';
-        this.ProvinceID = '';
-        this.DistrictID = '';
+        this.ProvinceName = '';
+        this.DistrictName = '';
         this.DiscountCode = '';
         this.DeliveryFee = 0;
         this.TotalPrice = 0;
@@ -107,6 +107,13 @@ export class BillModel{
 export class MessageModel{
     Title: string;
     Content: string;
+    BackToHome: boolean;
+
+    constructor(){
+        this.Title = '';
+        this.Content = '';
+        this.BackToHome = false;
+    }
 }
 
 export class KeyWord{
@@ -128,4 +135,13 @@ export class DistrictModel{
     DistrictID: string;
     ProvinceID: string;
     DistrictName: string;
+}
+
+export class RatingModel{
+    UserID: string;
+    UserName: string;
+    ProductID: string;
+    Title: string;
+    Comment: string;
+    Star: number;
 }

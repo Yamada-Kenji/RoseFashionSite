@@ -1,6 +1,7 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProductModel, TestModel } from './model';
+import { ProductModel, TestModel, RatingModel } from './model';
+import { Injectable } from '@angular/core';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -8,6 +9,7 @@ const httpOptions = {
     })
   };
 
+  @Injectable()
   export class ProductService{
     constructor(private http: HttpClient){}
     private producturl = 'http://localhost:62098/api/product';
@@ -69,5 +71,30 @@ const httpOptions = {
     UploadImage(data: FormData): Observable<any>{
         const editedurl = `${this.producturl}/imgupload`;
         return this.http.post(editedurl, data);
+    }
+
+    CheckingPurchased(userid: string, productid: string): Observable<boolean>{
+        const editedurl = `${this.producturl}/purchased?userid=${userid}&productid=${productid}`;
+        return this.http.get<boolean>(editedurl);
+    }
+
+    GetTotalStar(pid: string): Observable<number>{
+        const editedurl = `${this.producturl}/totalrating?pid=${pid}`;
+        return this.http.get<number>(editedurl);
+    }
+
+    GetRatingList(pid: string): Observable<RatingModel[]>{
+        const editedurl = `${this.producturl}/ratinglist?pid=${pid}`;
+        return this.http.get<RatingModel[]>(editedurl);
+    }
+
+    GetOneRating(userid: string, pid: string): Observable<RatingModel>{
+        const editedurl = `${this.producturl}/onerating?userid=${userid}&pid=${pid}`;
+        return this.http.get<RatingModel>(editedurl);
+    }
+
+    AddRating(newrating: RatingModel): Observable<any>{
+        const editedurl = `${this.producturl}/addrating`;
+        return this.http.post<any>(editedurl,newrating,httpOptions);
     }
 }

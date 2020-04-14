@@ -14,8 +14,8 @@ namespace RoseFashionBE.Models
         public string ReceiverName;
         public string ReceiverPhone;
         public string DeliveryAddress;
-        public string ProvinceID;
-        public string DistrictID;
+        public string ProvinceName;
+        public string DistrictName;
         public string DiscountCode;
         public long TotalPrice;
         public long DeliveryFee;

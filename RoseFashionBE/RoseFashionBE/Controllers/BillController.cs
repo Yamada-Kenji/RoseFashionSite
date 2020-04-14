@@ -71,11 +71,12 @@ namespace RoseFashionBE.Controllers
                         BillID = "BL-" + (entity.Bills.Count() + 1),
                         CartID = billinfo.CartID,
                         OrderDate = DateTime.Now.Date,
+                        DeliveryDate = DateTime.Now.Date,
                         ReceiverName = billinfo.ReceiverName,
                         ReceiverPhone = billinfo.ReceiverPhone,
                         DeliveryAddress = billinfo.DeliveryAddress,
-                        ProvinceID = billinfo.ProvinceID,
-                        DistrictID = billinfo.DistrictID,
+                        ProvinceName = billinfo.ProvinceName,
+                        DistrictName = billinfo.DistrictName,
                         TotalPrice = billinfo.TotalPrice,
                         DeliveryFee = billinfo.DeliveryFee,
                         Status = "Đang chờ xác nhận"
@@ -115,6 +116,7 @@ namespace RoseFashionBE.Controllers
                 return InternalServerError(ex);
             }
         }
+
         [HttpGet]
         public IHttpActionResult GetUserBills(string userid)
         {
@@ -136,7 +138,7 @@ namespace RoseFashionBE.Controllers
                                 TotalPrice = b.TotalPrice
                             }).FirstOrDefault();
                         result.Add(bill);
-                   }
+                    }
                     return Ok(result);
                 }
             }
@@ -161,14 +163,39 @@ namespace RoseFashionBE.Controllers
                             ReceiverName = b.ReceiverName,
                             ReceiverPhone = b.ReceiverPhone,
                             DeliveryAddress = b.DeliveryAddress,
+                            ProvinceName = b.ProvinceName,
+                            DistrictName = b.DistrictName,
                             OrderDate = b.OrderDate,
+                            DeliveryDate = b.DeliveryDate,
                             DiscountCode = b.DiscountCode,
-                            TotalPrice = b.TotalPrice
+                            DeliveryFee = b.DeliveryFee,
+                            TotalPrice = b.TotalPrice,
+                            Status = b.Status
                         }).FirstOrDefault();
                     return Ok(result);
                 }
             }
             catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPost]
+        public IHttpActionResult UpdateBill(string billid, string newstatus, DateTime newdate)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    var bill = entity.Bills.Where(s => s.BillID == billid).FirstOrDefault();
+                    bill.Status = newstatus;
+                    bill.DeliveryDate = newdate;
+                    entity.SaveChanges();
+                    return Ok();
+                }
+            }
+            catch (Exception ex)
             {
                 return InternalServerError(ex);
             }

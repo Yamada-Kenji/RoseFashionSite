@@ -1,58 +1,57 @@
 <h2 class="d-flex justify-content-center">CHI TIẾT ĐƠN HÀNG {{billinfo.BillID}}</h2>
+
 <div class="container">
     <div class="row bg-dark text-white d-flex justify-content-center">
         <p>THÔNG TIN CHUNG</p>
-        <!-- <div class="col">
-            <p>THÔNG TIN NGƯỜI NHẬN</p>
-        </div>
-        <div class="col">
-            <p>Phương thức thanh toán</p>
-        </div>
-        <div class="col">
-                <p>Tình trạng đơn hàng</p>
-            </div> -->
     </div>
+
     <div class="row" style="background-color: whitesmoke;">
         <div class="col">
-            <div class="row">
-                <p>Họ tên: {{billinfo.ReceiverName}}</p>
-            </div>
-            <div class="row">
-                <p>Điện thoại: {{billinfo.ReceiverPhone}}</p>
-            </div>
-            <div class="row">
-                <p>Trạng thái: {{billinfo.Status}}
-                    <select>
-                        <option>Đang chờ xác nhận</option>
-                        <option>Đã xác nhận</option>
-                        <option>Đang giao hàng</option>
-                        <option>Đã thanh toán</option>
-                    </select>
-                </p>
-            </div>
+            <p>Họ tên: {{billinfo.ReceiverName}}</p>
         </div>
         <div class="col">
-            <div class="row">
-                <p>Địa chỉ: {{billinfo.DeliveryAddress}}</p>
-            </div>
-            <div class="row">
-                <p>Quận/Huyện: {{billinfo.District}}</p>
-            </div>
-            <div class="row">
-                <p>Tỉnh/Thành phố: {{billinfo.Province}}</p>
-            </div>
+            <p>Tỉnh/Thành phố: {{billinfo.ProvinceName}}</p>
         </div>
         <div class="col">
-            <div class="row">
-                <p>Ngày đặt hàng: {{billinfo.OrderDate | date: 'dd/MM/yyyy'}}</p>
-            </div>
-            <div class="row">
-                <p>Ngày giao hàng: <input type="date"></p>
-            </div>
-            <div class="row">
-                <p>Phí vận chuyển: {{billinfo.DeliveryFee | number}} VNĐ</p>
-            </div>
+            <p>Ngày đặt hàng: {{billinfo.OrderDate | date: 'dd/MM/yyyy'}}</p>
         </div>
+    </div>
+
+    <div class="row" style="background-color: whitesmoke;">
+        <div class="col">
+            <p>Điện thoại: {{billinfo.ReceiverPhone}}</p>
+        </div>
+        <div class="col">
+            <p>Quận/Huyện: {{billinfo.DistrictName}}</p>
+        </div>
+        <div class="col">
+            <p>Ngày nhận hàng: <input id="dldate" type="date" [ngModel]="billinfo.DeliveryDate | date: 'yyyy-MM-dd'"
+                    (ngModelChange)="billinfo.DeliveryDate=$event"></p>
+        </div>
+    </div>
+
+    <div class="row" style="background-color: whitesmoke;">
+        <div class="col">
+            <p>Trạng thái:
+                <select [(ngModel)]="billinfo.Status">
+                    <option value="Đang chờ xác nhận">Đang chờ xác nhận</option>
+                    <option value="Đã xác nhận">Đã xác nhận</option>
+                    <option value="Đang giao hàng">Đang giao hàng</option>
+                    <option value="Đã thanh toán">Đã thanh toán</option>
+                </select>
+            </p>
+        </div>
+        <div class="col">
+            <p>Địa chỉ: {{billinfo.DeliveryAddress}}</p>
+        </div>
+        <div class="col">
+            <p>Phí vận chuyển: {{billinfo.DeliveryFee | number}} VNĐ</p>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-end" style="background-color: whitesmoke;">
+        <button class="btn btn-dark" (click)="Save()">Lưu</button>
+        <!-- <button class="btn btn-dark" (click)="Cancel()" style="margin-left: 10px;">Hủy</button> -->
     </div>
     <!-- <div class="col">
                 <p>Thanh toán bằng tiền mặt.</p>
@@ -61,9 +60,11 @@
                     <p>Đang giao hàng.</p>
                 </div> -->
     <p></p>
+
+
     <div class="row">
         <div class="col">
-            <p>SẢN PHẨM</p>
+            <h3 class="d-flex justify-content-center">GIỎ HÀNG</h3>
         </div>
     </div>
     <div class="row bg-dark text-white">
@@ -82,39 +83,47 @@
         <div class="col">
             <p>Giá</p>
         </div>
-        <div class="col">
-            <p>Tùy chọn</p>
-        </div>
-    </div>
-    <div class="row" *ngFor="let item of usedcart"
-        style="border-bottom: 1px solid black; background-color: whitesmoke;">
-        <div class="col">
-            <img class="img-fluid" height="240px" style=" margin-bottom: 10px; margin-top: 10px;" [src]="item.Image">
-        </div>
-        <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
-            <p>{{item.Name}} - Size: {{item.Size}}</p>
-        </div>
-        <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
-            <p>{{item.Amount}}</p>
-        </div>
-        <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
-            <p>{{item.Quantity}}</p>
-        </div>
-        <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
-            <p *ngIf="item.OriginalPrice!=item.SalePrice" style="text-decoration: line-through;">
-                {{item.OriginalPrice | number}} VNĐ</p>
-            <p class="d-inline">{{item.SalePrice}} VNĐ</p>
-            <p *ngIf="item.OriginalPrice!=item.SalePrice" class="d-inline" style="color: red;">
-                (-{{(item.OriginalPrice-item.SalePrice)*100/item.OriginalPrice | number}}%)</p>
-        </div>
-        <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
-            <button>Remove</button>
-        </div>
         <!-- <div class="col">
+            <p>Tùy chọn</p>
+        </div> -->
+    </div>
+    <div class="row" style="overflow-x: hidden;overflow-y: auto;height: 260px;">
+        <div class="row" *ngFor="let item of usedcart"
+            style="border-bottom: 1px solid black; background-color: whitesmoke;">
+            <div class="col">
+                <img class="img-fluid" height="240px" style=" margin-bottom: 10px; margin-top: 10px;"
+                    [src]="item.Image">
+            </div>
+            <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
+                <p>{{item.Name}} - Size: {{item.Size}}</p>
+            </div>
+            <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
+                <div *ngIf="item.Amount>item.Quantity;else ok">
+                    <p style="color:red">{{item.Amount}}</p>
+                </div>
+                <ng-template #ok>
+                    <p>{{item.Amount}}</p>
+                </ng-template>
+            </div>
+            <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
+                <p>{{item.Quantity}}</p>
+            </div>
+            <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
+                <p *ngIf="item.OriginalPrice!=item.SalePrice" style="text-decoration: line-through;">
+                    {{item.OriginalPrice | number}} VNĐ</p>
+                <p class="d-inline">{{item.SalePrice}} VNĐ</p>
+                <p *ngIf="item.OriginalPrice!=item.SalePrice" class="d-inline" style="color: red;">
+                    (-{{(item.OriginalPrice-item.SalePrice)*100/item.OriginalPrice | number}}%)</p>
+            </div>
+            <!-- <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
+            <button class="btn btn-dark" (click)="AddToRemoveList(item.ProductID)">Xóa</button>
+        </div> -->
+            <!-- <div class="col">
             <p class="d-inline">{{item.SalePrice}} VNĐ</p>
             <p class="d-inline" style="color: red;">
                 (-{{(item.OriginalPrice-item.SalePrice)*100/item.OriginalPrice | number}}%)</p>
         </div> -->
+        </div>
     </div>
     <div class="row bg-dark text-white" style="margin-bottom: 10px;">
         <div class="col">

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
 
   loginmessage: string;
@@ -147,10 +148,10 @@ export class AppComponent {
 
     this.currentUser = await this.userservice.login(email, password).toPromise().then(data => this.currentUser = data, error => this.loginmessage = error);
     if (this.loginmessage != null) {
-      var msg: MessageModel = { Title: 'Thông báo', Content: 'Tài khoản hoặc mật khẩu không chính xác.' };
+      var msg: MessageModel = { Title: 'Thông báo', Content: 'Tài khoản hoặc mật khẩu không chính xác.', BackToHome: false};
       this.messageService.SendMessage(msg);
     } else {
-      var msg: MessageModel = { Title: 'Thông báo', Content: 'Đăng nhập thành công.' };
+      var msg: MessageModel = { Title: 'Thông báo', Content: 'Đăng nhập thành công.', BackToHome: false };
       this.messageService.SendMessage(msg);
       this.router.navigate(['/home']);
     }

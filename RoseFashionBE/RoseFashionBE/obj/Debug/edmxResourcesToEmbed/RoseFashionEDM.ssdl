@@ -9,10 +9,10 @@
     <Property Name="ReceiverName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="ReceiverPhone" Type="nchar" MaxLength="10" Nullable="false" />
     <Property Name="DeliveryAddress" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ProvinceID" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="DistrictID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ProvinceName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DistrictName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="OrderDate" Type="date" Nullable="false" />
-    <Property Name="DeliveryDate" Type="date" />
+    <Property Name="DeliveryDate" Type="date" Nullable="false" />
     <Property Name="DiscountCode" Type="varchar" MaxLength="50" />
     <Property Name="TotalPrice" Type="bigint" Nullable="false" />
     <Property Name="DeliveryFee" Type="bigint" Nullable="false" />
@@ -103,7 +103,27 @@
     </Key>
     <Property Name="UserID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="ProductID" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Star" Type="float" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar(max)" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Recommendation">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="UserID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ProductID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PredictedStar" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Similarity">
+    <Key>
+      <PropertyRef Name="UserID1" />
+      <PropertyRef Name="UserID2" />
+    </Key>
+    <Property Name="UserID1" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserID2" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SimilarityRate" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -150,30 +170,6 @@
       </Principal>
       <Dependent Role="Bill">
         <PropertyRef Name="DiscountCode" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Bill_District">
-    <End Role="District" Type="Self.District" Multiplicity="1" />
-    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="District">
-        <PropertyRef Name="DistrictID" />
-      </Principal>
-      <Dependent Role="Bill">
-        <PropertyRef Name="DistrictID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Bill_Province">
-    <End Role="Province" Type="Self.Province" Multiplicity="1" />
-    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Province">
-        <PropertyRef Name="ProvinceID" />
-      </Principal>
-      <Dependent Role="Bill">
-        <PropertyRef Name="ProvinceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -273,6 +269,17 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="fn_CheckingIfProductWasPurchasedByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="varchar" Mode="In" />
+    <Parameter Name="productid" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Purchased" Type="varchar" MaxLength="50" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
   <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
   <Function Name="FN_TOPSALE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <ReturnType>
@@ -325,6 +332,8 @@
     <EntitySet Name="Product_Size_Quantity" EntityType="Self.Product_Size_Quantity" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Recommendation" EntityType="Self.Recommendation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Similarity" EntityType="Self.Similarity" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Bill_Cart" Association="Self.FK_Bill_Cart">
@@ -333,14 +342,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_Bill_Discount" Association="Self.FK_Bill_Discount">
       <End Role="Discount" EntitySet="Discount" />
-      <End Role="Bill" EntitySet="Bill" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Bill_District" Association="Self.FK_Bill_District">
-      <End Role="District" EntitySet="District" />
-      <End Role="Bill" EntitySet="Bill" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Bill_Province" Association="Self.FK_Bill_Province">
-      <End Role="Province" EntitySet="Province" />
       <End Role="Bill" EntitySet="Bill" />
     </AssociationSet>
     <AssociationSet Name="FK_Cart_Product_Cart" Association="Self.FK_Cart_Product_Cart">

@@ -7,3 +7,18 @@ BEGIN
 END
 
 SELECT * FROM FN_TOPSALE()
+
+-----------------------------
+
+create function fn_CheckingIfProductWasPurchasedByUser(@userid varchar(50), @productid varchar(50)) returns @result table(Purchased varchar(50)) as
+begin
+	insert into @result
+		select distinct ProductID
+		from Cart_Product
+		inner join Cart 
+		on Cart.CartID = Cart_Product.CartID
+		where UserID = @userid and ProductID = @productid
+	return
+end
+
+---------------------------

@@ -17,7 +17,6 @@ namespace RoseFashionBE
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Province()
         {
-            this.Bills = new HashSet<Bill>();
             this.Districts = new HashSet<District>();
         }
     
@@ -25,8 +24,6 @@ namespace RoseFashionBE
         public string ProvinceName { get; set; }
         public long DeliveryFee { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Bill> Bills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<District> Districts { get; set; }
     }

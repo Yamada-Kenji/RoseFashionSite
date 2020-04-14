@@ -173,7 +173,6 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Controllers\RecommendController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Discount.cs">
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
@@ -193,6 +192,7 @@
     <Compile Include="Models\DistrictModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\ProvinceModel.cs" />
+    <Compile Include="Models\RatingModel.cs" />
     <Compile Include="Models\TestModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Product.cs">
@@ -206,6 +206,9 @@
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Rating.cs">
+      <DependentUpon>RoseFashionEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Recommendation.cs">
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="RoseFashionEDM.Context.cs">
@@ -222,6 +225,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RoseFashionEDM.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Similarity.cs">
+      <DependentUpon>RoseFashionEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>

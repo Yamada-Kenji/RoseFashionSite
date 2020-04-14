@@ -83,8 +83,16 @@
                     <h1>{{product.Price - product.Price*product.DiscountPercent/100 | number}} VNĐ</h1>
                     <p></p>
                     <button class="btn btn-dark" (click)="AddToCart(amount.value)">Thêm vào giỏ</button>
+                    <p></p>
+                    <!-- <div *ngIf="purchased">
+                    <p>Đánh giá</p>
+                    <bar-rating [(rate)]="rate" [max]="5" [theme]="'fontawesome-o'"
+                        [(ngModel)]="star">Đánh giá</bar-rating>
+                    </div> -->
+                    
                 </div>
             </td>
         </tr>
     </table>
 </div>
+<app-view-user-rating [pr]="product.ProductID"></app-view-user-rating>

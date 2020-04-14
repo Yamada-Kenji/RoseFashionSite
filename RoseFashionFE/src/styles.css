@@ -4,6 +4,10 @@
 
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
+@import '~ngx-bar-rating/themes/br-default-theme';
+@import '~ngx-bar-rating/themes/br-stars-theme';
+@import '~ngx-bar-rating/themes/br-fontawesome-o-theme';
+@import '~ngx-bar-rating/themes/br-fontawesome-theme';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,6 +1,7 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProvinceModel, DistrictModel } from './model';
+import { Injectable } from '@angular/core';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -8,6 +9,7 @@ const httpOptions = {
     })
   };
 
+@Injectable()
 export class AddressService{
     constructor(private http: HttpClient){}
     private addressurl = 'http://localhost:62098/api/address';

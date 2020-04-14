@@ -14,6 +14,7 @@ export class ViewBillDetailComponent implements OnInit {
   billinfo: BillModel = new BillModel();
   usedcart: CartModel[] = [];
   billid: string;
+  delivered: boolean = false;
   constructor(private billService: BillService,
     private cartService: CartService,
     private route: ActivatedRoute) { }
@@ -23,6 +24,7 @@ export class ViewBillDetailComponent implements OnInit {
     this.billService.GetOneBillInfo(this.billid).toPromise()
     .then(result => {
       this.billinfo = result;
+      if(this.billinfo.Status=='Đã thanh toán') this.delivered = true;
       this.cartService.GetItemsInBill(this.billinfo.CartID).toPromise()
       .then(items => this.usedcart = items);
     });

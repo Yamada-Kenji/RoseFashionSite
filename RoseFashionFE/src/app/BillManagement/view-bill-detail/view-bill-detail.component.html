@@ -1,7 +1,8 @@
 <h2 class="d-flex justify-content-center">CHI TIẾT ĐƠN HÀNG {{billinfo.BillID}}</h2>
 <div class="container">
-    <div class="row bg-dark text-white">
-        <div class="col">
+    <div class="row bg-dark text-white d-flex justify-content-center">
+        <p>THÔNG TIN CHUNG</p>
+        <!-- <div class="col">
             <p>THÔNG TIN NGƯỜI NHẬN</p>
         </div>
         <div class="col">
@@ -9,88 +10,100 @@
         </div>
         <div class="col">
                 <p>Tình trạng đơn hàng</p>
-            </div>
+            </div> -->
     </div>
     <div class="row" style="background-color: whitesmoke;">
         <div class="col">
-            <p class="font-weight-bold">{{billinfo.ReceiverName}}</p>
-            <p>Địa chỉ: {{billinfo.DeliveryAddress}}</p>
-            <p>Điện thoại: {{billinfo.ReceiverPhone}}</p>
-            <p>Ngày đặt hàng: {{billinfo.OrderDate | date: 'dd/MM/yyyy'}}</p>
-            <p>Ngày giao hàng: {{billinfo.DeliveryDate | date: 'dd/MM/yyyy'}}</p>
-            <p>Mã giảm giá: {{billinfo.DiscountCode}}</p>
+            <p>Họ tên: {{billinfo.ReceiverName}}</p>
         </div>
         <div class="col">
-                <p>Thanh toán bằng tiền mặt.</p>
-            </div>
-            <div class="col">
-                    <p>Đang giao hàng.</p>
-                </div>
+            <p>Tỉnh/Thành phố: {{billinfo.ProvinceName}}</p>
+        </div>
+        <div class="col">
+            <p>Ngày đặt hàng: {{billinfo.OrderDate | date: 'dd/MM/yyyy'}}</p>
+        </div>
+    </div>
+
+    <div class="row" style="background-color: whitesmoke;">
+        <div class="col">
+            <p>Điện thoại: {{billinfo.ReceiverPhone}}</p>
+        </div>
+        <div class="col">
+            <p>Quận/Huyện: {{billinfo.DistrictName}}</p>
+        </div>
+        <div class="col">
+            <p *ngIf="!delivered;else showdate">Ngày giao hàng:</p>
+            <ng-template #showdate>
+                <p>Ngày giao hàng: {{billinfo.DevileryDate | date: 'dd/MM/yyyy'}}</p>
+            </ng-template>
+        </div>
+    </div>
+
+    <div class="row" style="background-color: whitesmoke;">
+        <div class="col">
+            <p>Trạng thái: {{billinfo.Status}}</p>
+        </div>
+        <div class="col">
+            <p>Địa chỉ: {{billinfo.DeliveryAddress}}</p>
+        </div>
+        <div class="col">
+            <p>Phí vận chuyển: {{billinfo.DeliveryFee | number}} VNĐ</p>
+        </div>
     </div>
     <p></p>
     <div class="row">
         <div class="col">
-            <p>SẢN PHẨM</p>
+            <h3 class="d-flex justify-content-center">GIỎ HÀNG</h3>
         </div>
     </div>
     <div class="row bg-dark text-white">
-        <div class="col">
+        <div class="col d-flex justify-content-center">
             <p>Hình ảnh</p>
         </div>
-        <div class="col">
+        <div class="col d-flex justify-content-center">
             <p>Tên sản phẩm</p>
         </div>
-        <div class="col">
-            <p>Số lượng đặt mua</p>
+        <div class="col d-flex justify-content-center">
+            <p>Số lượng</p>
         </div>
-        <div class="col">
-            <p>Số lượng trong kho</p>
-        </div>
-        <div class="col">
+        <div class="col d-flex justify-content-center">
             <p>Giá</p>
         </div>
-        <div class="col">
-            <p>Tùy chọn</p>
-        </div>
     </div>
-    <div class="row" *ngFor="let item of usedcart" style="border-bottom: 1px solid black; background-color: whitesmoke;">
-        <div class="col">
-            <img class="img-fluid" height="240px" style=" margin-bottom: 10px; margin-top: 10px;" [src]="item.Image">
-        </div>
-        <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
-            <p>{{item.Name}} - Size: {{item.Size}}</p>
-        </div>
-        <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
-            <p>{{item.Amount}}<button>+</button>
-                <button>-</button></p>
-            
-        </div>
-        <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
-            <p>{{item.Quantity}}</p>
-        </div>
-        <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
-            <p *ngIf="item.OriginalPrice!=item.SalePrice" style="text-decoration: line-through;">
-                {{item.OriginalPrice | number}} VNĐ</p>
-            <p class="d-inline">{{item.SalePrice}} VNĐ</p>
-            <p *ngIf="item.OriginalPrice!=item.SalePrice" class="d-inline" style="color: red;">
-                (-{{(item.OriginalPrice-item.SalePrice)*100/item.OriginalPrice | number}}%)</p>
-        </div>
-        <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
-            <button>Remove</button>
-        </div>
-        <!-- <div class="col">
+    <div class="row" style="overflow-x: hidden;overflow-y: auto;height: 260px;">
+        <div class="row" *ngFor="let item of usedcart"
+            style="border-bottom: 1px solid black; background-color: whitesmoke; width:105%">
+            <div class="col d-flex justify-content-center">
+                <img class="img-fluid" height="240px" style=" margin-bottom: 10px; margin-top: 10px;"
+                    [src]="item.Image">
+            </div>
+            <div class="col d-flex justify-content-center" style="margin-bottom: 10px; margin-top: 10px;">
+                <p>{{item.Name}} - Size: {{item.Size}}</p>
+            </div>
+            <div class="col d-flex justify-content-center" style="margin-bottom: 10px; margin-top: 10px;">
+                <p>{{item.Amount}}</p>
+            </div>
+            <div class="col d-flex justify-content-center" style="margin-bottom: 10px; margin-top: 10px;">
+                <p *ngIf="item.OriginalPrice!=item.SalePrice" style="text-decoration: line-through;">
+                    {{item.OriginalPrice | number}} VNĐ</p>
+                <p class="d-inline">{{item.SalePrice}} VNĐ</p>
+                <p *ngIf="item.OriginalPrice!=item.SalePrice" class="d-inline" style="color: red;">
+                    (-{{(item.OriginalPrice-item.SalePrice)*100/item.OriginalPrice | number}}%)</p>
+            </div>
+            <!-- <div class="col">
             <p class="d-inline">{{item.SalePrice}} VNĐ</p>
             <p class="d-inline" style="color: red;">
                 (-{{(item.OriginalPrice-item.SalePrice)*100/item.OriginalPrice | number}}%)</p>
         </div> -->
+        </div>
     </div>
     <div class="row bg-dark text-white" style="margin-bottom: 10px;">
-        <div class="col">
+        <div class="col d-flex justify-content-center">
             <p>Tổng cộng:</p>
         </div>
         <div class="col"></div>
         <div class="col"></div>
-        <div class="col">
+        <div class="col d-flex justify-content-center">
             <p>{{billinfo.TotalPrice | number}} VNĐ</p>
         </div>
     </div>

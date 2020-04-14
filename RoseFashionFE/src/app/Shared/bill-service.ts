@@ -1,6 +1,7 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { BillModel } from './model';
 import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -8,6 +9,7 @@ const httpOptions = {
   })
 };
 
+@Injectable()
 export class BillService {
   constructor(private http: HttpClient) { }
   private billurl = 'http://localhost:62098/api/bill';
@@ -29,5 +31,9 @@ export class BillService {
 
   GetBillTable(): Observable<BillModel[]>{
     return this.http.get<BillModel[]>(this.billurl);
+  }
+
+  UpdateBill(billid: string, newstatus: string, newdate: Date): Observable<any>{
+    return this.http.post<any>(this.billurl,{billid, newstatus, newdate}, httpOptions);
   }
 }

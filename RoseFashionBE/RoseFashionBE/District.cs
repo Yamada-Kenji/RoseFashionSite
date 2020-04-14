@@ -14,18 +14,10 @@ namespace RoseFashionBE
     
     public partial class District
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public District()
-        {
-            this.Bills = new HashSet<Bill>();
-        }
-    
         public string DistrictID { get; set; }
         public string ProvinceID { get; set; }
         public string DistrictName { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Bill> Bills { get; set; }
         public virtual Province Province { get; set; }
     }
 }

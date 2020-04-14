@@ -14,17 +14,17 @@
             <p>Địa chỉ giao hàng</p>
             <textarea #address class="form-control">{{user.Address}}</textarea>
             <p>Tỉnh/Thành phố</p>
-            <select id="pvselect" [(ngModel)]="billinfo.ProvinceID" (change)="onProvinceChange()">
+            <select id="pvselect" [(ngModel)]="billinfo.ProvinceName" (change)="onProvinceChange()">
                 <option value="">Hãy chọn một địa chỉ</option>
                 <ng-container *ngFor="let pv of provincelist">
-                    <option value="{{pv.ProvinceID}}">{{pv.ProvinceName}}</option>
+                    <option value="{{pv.ProvinceName}}">{{pv.ProvinceName}}</option>
                 </ng-container>
             </select>
             <br><br><label>Quận/Huyện</label><br>
-            <select id="dtselect" [(ngModel)]="billinfo.DistrictID">
+            <select id="dtselect" [(ngModel)]="billinfo.DistrictName">
                 <option value="">Hãy chọn một địa chỉ</option>
                 <ng-container *ngFor="let dt of districtlist">
-                    <option value="{{dt.DistrictID}}">{{dt.DistrictName}}</option>
+                    <option value="{{dt.DistrictName}}">{{dt.DistrictName}}</option>
                 </ng-container>
             </select>
             <p>Phí vận chuyển</p>

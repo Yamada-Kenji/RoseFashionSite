@@ -2,6 +2,7 @@ import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CategoryModel } from './model';
+import { Injectable } from '@angular/core';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -9,6 +10,7 @@ const httpOptions = {
     })
 };
 
+@Injectable()
 export class CategoryService {
     constructor(private http: HttpClient) { }
     private categoryurl = 'http://localhost:62098/api/category';

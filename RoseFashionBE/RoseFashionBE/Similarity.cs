@@ -12,15 +12,10 @@ namespace RoseFashionBE
     using System;
     using System.Collections.Generic;
     
-    public partial class Rating
+    public partial class Similarity
     {
-        public string UserID { get; set; }
-        public string ProductID { get; set; }
-        public double Star { get; set; }
-        public string Comment { get; set; }
-        public string Title { get; set; }
-    
-        public virtual Product Product { get; set; }
-        public virtual User User { get; set; }
+        public string UserID1 { get; set; }
+        public string UserID2 { get; set; }
+        public double SimilarityRate { get; set; }
     }
 }

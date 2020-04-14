@@ -32,13 +32,15 @@ namespace RoseFashionBE
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Product_Size_Quantity> Product_Size_Quantity { get; set; }
-        public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Discount> Discounts { get; set; }
         public virtual DbSet<District> Districts { get; set; }
-        public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<Province> Provinces { get; set; }
+        public virtual DbSet<Recommendation> Recommendations { get; set; }
+        public virtual DbSet<Similarity> Similarities { get; set; }
+        public virtual DbSet<Bill> Bills { get; set; }
+        public virtual DbSet<Rating> Ratings { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -147,6 +149,20 @@ namespace RoseFashionBE
         public virtual IQueryable<FN_TOPSALE_Result> FN_TOPSALE()
         {
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<FN_TOPSALE_Result>("[RoseFashionDBEntities].[FN_TOPSALE]()");
+        }
+    
+        [DbFunction("RoseFashionDBEntities", "fn_CheckingIfProductWasPurchasedByUser")]
+        public virtual IQueryable<string> fn_CheckingIfProductWasPurchasedByUser(string userid, string productid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            var productidParameter = productid != null ?
+                new ObjectParameter("productid", productid) :
+                new ObjectParameter("productid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<string>("[RoseFashionDBEntities].[fn_CheckingIfProductWasPurchasedByUser](@userid, @productid)", useridParameter, productidParameter);
         }
     }
 }

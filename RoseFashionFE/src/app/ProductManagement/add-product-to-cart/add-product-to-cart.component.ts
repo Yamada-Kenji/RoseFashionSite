@@ -20,17 +20,25 @@ export class AddProductToCartComponent implements OnInit {
   maxamount: number;
   inputamount: number = 1;
   warning: boolean;
+  /*star: number = 3.5;
+  purchased: boolean = false;*/
 
   constructor(
     private productService: ProductService,
     private cartService: CartService,
+    //private userService: UserService,
     private messageService: MessageService,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
     window.scroll(0,0);
     var productid = this.route.snapshot.paramMap.get('productid');
-    this.productService.GetProductDetail(productid).toPromise().then(p => this.product = p);
+    this.productService.GetProductDetail(productid).toPromise()
+      .then(p => {
+        this.product = p;
+        /*this.productService.CheckingPurchased(this.userService.getCurrentUser().UserID, p.ProductID)
+          .toPromise().then(r => this.purchased = r);*/
+      });
   }
 
   AddToCart(amount: number){
@@ -39,7 +47,7 @@ export class AddProductToCartComponent implements OnInit {
       return;
     }
     this.cartService.AddToLocalCart(this.product.ProductID, this.product.Image, this.product.Name, this.selectedsize, amount, this.maxamount, (this.product.Price-this.product.Price*this.product.DiscountPercent/100), this.product.Price);
-    var msg: MessageModel = {Title:"Thông báo", Content: "Đã thêm sản phẩm vào giỏ hàng."};
+    var msg: MessageModel = {Title:"Thông báo", Content: "Đã thêm sản phẩm vào giỏ hàng.", BackToHome: false};
     this.messageService.SendMessage(msg);
   }
 

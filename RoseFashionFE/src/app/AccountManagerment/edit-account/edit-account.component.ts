@@ -35,10 +35,10 @@ export class EditAccountComponent implements OnInit {
     console.log(this.user);
       this.userService.UpdateAccount(this.user).toPromise()
       .then(result =>{
-        var msg: MessageModel = {Title:"Thông báo", Content: "Cập nhật thông tin thành công."};
+        var msg: MessageModel = {Title:"Thông báo", Content: "Cập nhật thông tin thành công.", BackToHome: false};
         this.messageService.SendMessage(msg);
       }).catch(err =>{
-        var msg: MessageModel = {Title:"Thông báo", Content: "Đã có lỗi xảy ra."};
+        var msg: MessageModel = {Title:"Thông báo", Content: "Đã có lỗi xảy ra.", BackToHome: false};
         this.messageService.SendMessage(msg);
       });
     }

@@ -43,17 +43,17 @@ export class AddBillComponent implements OnInit {
 
   onProvinceChange(){
     //console.log(this.billinfo.ProvinceID);
-    var result = this.provincelist.find(r => r.ProvinceID == this.billinfo.ProvinceID);
+    var result = this.provincelist.find(r => r.ProvinceName == this.billinfo.ProvinceName);
     if(result){
-      this.billinfo.DeliveryFee = this.provincelist.find(r => r.ProvinceID == this.billinfo.ProvinceID).DeliveryFee;
+      this.billinfo.DeliveryFee = this.provincelist.find(r => r.ProvinceID == result.ProvinceID).DeliveryFee;
     }
     else{
       this.billinfo.DeliveryFee = 0;
     }
     //console.log(this.provincelist.find(r => r.ProvinceID == this.billinfo.ProvinceID).DeliveryFee);
    
-    this.addressService.GetDistrict(this.billinfo.ProvinceID).toPromise().then(r => this.districtlist = r);
-    this.billinfo.DistrictID = '';
+    this.addressService.GetDistrict(result.ProvinceID).toPromise().then(r => this.districtlist = r);
+    this.billinfo.DistrictName = '';
   }
 
   CalTotalPrice() {
@@ -71,7 +71,7 @@ export class AddBillComponent implements OnInit {
   }
 
   AddBill(name, phone, address, discountcode) {
-    if (name == '' || phone == '' || address == '' || this.billinfo.ProvinceID == '' || this.billinfo.DistrictID == '') {
+    if (name == '' || phone == '' || address == '' || this.billinfo.ProvinceName == '' || this.billinfo.DistrictName == '') {
       this.warning = true;
       return;
     }
@@ -95,26 +95,26 @@ export class AddBillComponent implements OnInit {
     // };
 
     this.cartService.UpdateCartInDatabase(cartid, items);
-    this.cartService.UpdateProductQuantity(items).toPromise()
-      .then(() => {
+    // this.cartService.UpdateProductQuantity(items).toPromise()
+    //   .then(() => {
         this.billService.AddBillForMember(this.billinfo)
           .toPromise().then(result => this.cartService.GetLastUsedCart(this.user.UserID).toPromise()
             .then(result => {
               localStorage.setItem('CartID', result);
               this.cartService.GetItemsInCart(result);
-              var message: MessageModel = { Title: "Thông báo", Content: "Hóa đơn đã được lưu." };
+              var message: MessageModel = { Title: "Thông báo", Content: "Hóa đơn đã được lưu.", BackToHome: true };
               this.messageService.SendMessage(message);
             }))
           .catch(err => {
             console.log("Lưu hóa đơn thất bại");
-            var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau." };
+            var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau.", BackToHome: false };
             this.messageService.SendMessage(message);
           });
-      }).catch(err => {
-        console.log("Cập nhật số lượng thất bại");
-        var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau." };
-        this.messageService.SendMessage(message);
-      });
+      // }).catch(err => {
+      //   console.log("Cập nhật số lượng thất bại");
+      //   var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau." };
+      //   this.messageService.SendMessage(message);
+      // });
   }
 
   Back() {

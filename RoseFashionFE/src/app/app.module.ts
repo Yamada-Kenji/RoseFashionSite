@@ -46,7 +46,9 @@ import { ProductViewComponent } from './Others/product-view/product-view.compone
 import { TryNewCodeComponent } from './Others/try-new-code/try-new-code.component';
 import { AddressService } from './Shared/address-service';
 import { EditBillComponent } from './BillManagement/edit-bill/edit-bill.component';
-
+import { BarRatingModule } from "ngx-bar-rating";
+import { ViewUserRatingComponent } from './Others/view-user-rating/view-user-rating.component';
+import { AddUserRatingComponent } from './Others/add-user-rating/add-user-rating.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import { EditBillComponent } from './BillManagement/edit-bill/edit-bill.componen
     ViewBillForAdminComponent,
     ProductViewComponent,
     TryNewCodeComponent,
-    EditBillComponent
+    EditBillComponent,
+    ViewUserRatingComponent,
+    AddUserRatingComponent
   ],
   imports: [
     BrowserModule,
@@ -78,12 +82,12 @@ import { EditBillComponent } from './BillManagement/edit-bill/edit-bill.componen
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    BrowserAnimationsModule
-  
+    BrowserAnimationsModule,
+    BarRatingModule
   ],
 
   providers: [
-    UserService, 
+    UserService,
     ProductService, 
     CategoryService,
     CartService,

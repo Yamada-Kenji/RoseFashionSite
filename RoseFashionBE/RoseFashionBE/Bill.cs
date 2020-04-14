@@ -19,10 +19,10 @@ namespace RoseFashionBE
         public string ReceiverName { get; set; }
         public string ReceiverPhone { get; set; }
         public string DeliveryAddress { get; set; }
-        public string ProvinceID { get; set; }
-        public string DistrictID { get; set; }
+        public string ProvinceName { get; set; }
+        public string DistrictName { get; set; }
         public System.DateTime OrderDate { get; set; }
-        public Nullable<System.DateTime> DeliveryDate { get; set; }
+        public System.DateTime DeliveryDate { get; set; }
         public string DiscountCode { get; set; }
         public long TotalPrice { get; set; }
         public long DeliveryFee { get; set; }
@@ -30,7 +30,5 @@ namespace RoseFashionBE
     
         public virtual Cart Cart { get; set; }
         public virtual Discount Discount { get; set; }
-        public virtual District District { get; set; }
-        public virtual Province Province { get; set; }
     }
 }

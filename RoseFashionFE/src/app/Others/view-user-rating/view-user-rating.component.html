@@ -1,0 +1,146 @@
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+
+            <h2>Đánh giá từ khách hàng</h2>
+        </div>
+
+        <div class="row">
+            <h2 style="margin: 13px; color: red;">{{totalstar | number: '1.1-3'}}</h2>
+            <bar-rating [(rate)]="totalstar" [max]="5" [theme]="'fontawesome-o'" [readOnly]="true">Đánh giá</bar-rating>
+        </div>
+        <!-- <span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span> 
+<span class="fa fa-star"></span> -->
+
+        <hr style="border:3px solid #f1f1f1;">
+
+
+        <div class="row">
+            <div class="side">
+                <div>5 star</div>
+            </div>
+            <div class="middle">
+                <div class="bar-container">
+                    <div class="bar-5"></div>
+                </div>
+            </div>
+            <div class="side right">
+                <div>150</div>
+            </div>
+            <div class="side">
+                <div>4 star</div>
+            </div>
+            <div class="middle">
+                <div class="bar-container">
+                    <div class="bar-4"></div>
+                </div>
+            </div>
+            <div class="side right">
+                <div>63</div>
+            </div>
+            <div class="side">
+                <div>3 star</div>
+            </div>
+            <div class="middle">
+                <div class="bar-container">
+                    <div class="bar-3"></div>
+                </div>
+            </div>
+            <div class="side right">
+                <div>15</div>
+            </div>
+            <div class="side">
+                <div>2 star</div>
+            </div>
+            <div class="middle">
+                <div class="bar-container">
+                    <div class="bar-2"></div>
+                </div>
+            </div>
+            <div class="side right">
+                <div>6</div>
+            </div>
+            <div class="side">
+                <div>1 star</div>
+            </div>
+            <div class="middle">
+                <div class="bar-container">
+                    <div class="bar-1"></div>
+                </div>
+            </div>
+            <div class="side right">
+                <div>20</div>
+            </div>
+        </div>
+
+        <div class="row" style="background-color: whitesmoke; margin-top: 10px;">
+            <div class="col-sm-2" style="margin-top: 10px;"><h5 style="margin-top: 6px;">Lọc bình luận</h5></div>
+            <div class="col-sm-2" style="margin-top: 10px;">
+                <select class="form-control">
+                    <option>Mới nhất</option>
+                    <option>Cũ nhất</option>
+                    <option>Đánh giá cao</option>
+                </select>
+            </div>
+            <div class="col-sm-2" style="margin-top: 10px;">
+                <select class="form-control">
+                    <option>Tất cả sao</option>
+                    <option>1 sao</option>
+                    <option>2 sao</option>
+                    <option>3 sao</option>
+                    <option>4 sao</option>
+                    <option>5 sao</option>
+                </select>
+            </div>
+            <div class="col-sm-6" *ngIf="!addrating;else ratingform">
+                <button type="button" class="btn btn-dark" style="margin-top: 10px;" 
+                (click)="ChangeRatingForm()">Viết nhận xét</button>
+            </div>
+            <ng-template #ratingform>
+                <div class="container" style="margin-top: 10px;">
+                    <div class="row d-flex">
+                        <h4>Viết nhận xét</h4>
+                    </div>
+                    <div class="row d-flex">
+                        <bar-rating [(rate)]="userrating.Star" [max]="5" [theme]="'fontawesome-o'"></bar-rating>
+                    </div>
+                    <div class="row">
+                        <p>Tiêu đề</p>
+                    </div>
+                    <div class="row"><input type="text" style="width: 50%;" [(ngModel)]="userrating.Title"></div>
+                    <div class="row">
+                        <p>Nội dung</p>
+                    </div>
+                    <div class="row">
+                        <textarea style="width: 50%;" [(ngModel)]="userrating.Comment"></textarea>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <button type="button" class="btn btn-dark" (click)="AddUserRating()">Gửi đánh giá</button>
+                        <button type="button" class="btn btn-dark" style="margin-left: 10px;"
+                            (click)="ChangeRatingForm()">Hủy</button>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+
+        <div *ngIf="ratinglist.length==0">Hiện không có đánh giá</div>
+
+        <div class="row" *ngFor="let item of ratinglist" style="background-color:whitesmoke;">
+            <div class="col-sm-2">
+                <!-- <img class="img-rounded" src="./assets/images/logo.png"> -->
+                <p></p>
+                <i class="fas fa-user fa-3x d-flex justify-content-center"></i>
+                <p class="d-flex justify-content-center">{{item.UserName}}</p>
+            </div>
+            <div class="col-sm-10">
+                <bar-rating [(rate)]="item.Star" [max]="5" [theme]="'fontawesome'" [readOnly]="true"></bar-rating>
+                <p>{{item.Title}}</p>
+                <p>{{item.Comment}}</p>
+                <hr style="border:1.5px solid black;">
+            </div>
+        </div>
+    </div>
+</div>

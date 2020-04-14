@@ -4,8 +4,6 @@
         <div class="row">
             <div class="col">
                 <p>Hình ảnh</p>
-                {{filechanged}}
-                {{showfile()}}
                 <label for="file" class="btn btn-dark"> Chọn ảnh</label>
                 <div class="alert alert-danger" *ngIf="imagerequire">Hãy chọn một ảnh</div>
                 <input type="file" (change)="onSelectFile($event)" id="file" style="visibility: hidden;">

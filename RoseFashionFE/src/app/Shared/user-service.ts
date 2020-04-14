@@ -2,6 +2,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserModel } from './model';
 import { map } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -9,6 +10,7 @@ const httpOptions = {
     })
 };
 
+@Injectable()
 export class UserService {
 
     constructor(private http: HttpClient) {

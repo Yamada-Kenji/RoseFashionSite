@@ -55,15 +55,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Ratings">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Rating">
-        <MappingFragment StoreEntitySet="Rating">
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="Comment" ColumnName="Comment" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="sysdiagrams">
       <EntityTypeMapping TypeName="RoseFashionDBModel.sysdiagram">
         <MappingFragment StoreEntitySet="sysdiagrams">
@@ -143,6 +134,33 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Provinces">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Province">
+        <MappingFragment StoreEntitySet="Province">
+          <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+          <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Recommendations">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Recommendation">
+        <MappingFragment StoreEntitySet="Recommendation">
+          <ScalarProperty Name="PredictedStar" ColumnName="PredictedStar" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Similarities">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Similarity">
+        <MappingFragment StoreEntitySet="Similarity">
+          <ScalarProperty Name="SimilarityRate" ColumnName="SimilarityRate" />
+          <ScalarProperty Name="UserID2" ColumnName="UserID2" />
+          <ScalarProperty Name="UserID1" ColumnName="UserID1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Bills">
       <EntityTypeMapping TypeName="RoseFashionDBModel.Bill">
         <MappingFragment StoreEntitySet="Bill">
@@ -152,8 +170,8 @@
           <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
           <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
           <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-          <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
-          <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
           <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
           <ScalarProperty Name="ReceiverPhone" ColumnName="ReceiverPhone" />
           <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
@@ -162,12 +180,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Provinces">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Province">
-        <MappingFragment StoreEntitySet="Province">
-          <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
-          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
-          <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+    <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser" />
+    <EntitySetMapping Name="Ratings">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Rating">
+        <MappingFragment StoreEntitySet="Rating">
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="Star" ColumnName="Star" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

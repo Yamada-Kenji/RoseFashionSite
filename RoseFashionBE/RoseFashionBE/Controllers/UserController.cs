@@ -8,6 +8,7 @@ using System.Net;
 using System.Web.Http;
 using System.Net.Http;
 using System.Web.Http.Cors;
+using System.Threading;
 
 namespace RoseFashionBE.Controllers
 {
@@ -248,5 +249,155 @@ namespace RoseFashionBE.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("recommendation")]
+        public IHttpActionResult RunRecomendationAlgorithm()
+        {
+            Thread newthread = new Thread(UserBaseCollaborativeFiltering);
+            try
+            {
+                newthread.Start();
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                newthread.Abort();
+                return InternalServerError(ex);
+            }
+        }
+
+        private void UserBaseCollaborativeFiltering()
+        {
+            UserSimilarityCalculation();
+            PredictUserRating();
+        }
+
+        //tính mức độ giống nhau giữa 2 user dựa vào những bộ phim mà cả 2 cùng đánh giá
+        private double Cosine_Similarity(double[] v1, double[] v2)
+        {
+            if (v1.Length == 0) return 0;
+            double v1xv2 = 0;               //kết quả nhân 2 vector v1 x v2
+                                            //vd v1(a,b,c) và v2(d,e,f)
+                                            //=> v1 x v2 = a*d + b*e + c*f 
+
+            double v1_temp = 0;             //biến tạm dùng để lưu (a^2 + b^2 + c^2) đối vs vector 1
+            double v2_temp = 0;
+
+            for (int i = 0; i < v1.Length; i++)
+            {
+                v1xv2 += v1[i] * v2[i];
+                v1_temp += Math.Pow(v1[i], 2);
+                v2_temp += Math.Pow(v2[i], 2);
+            }
+
+            double v1_length = Math.Sqrt(v1_temp);      //độ dài của vector
+            double v2_length = Math.Sqrt(v2_temp);
+
+            double cosine = v1xv2 / (v1_length * v2_length);        //cosine = tích vô hướng của 2 vector / tích độ dài 2 vector
+
+            return cosine;
+        }
+
+
+        //tính độ tương thích giữa các user
+        private void UserSimilarityCalculation()
+        {
+            using(var entity = new RoseFashionDBEntities())
+            {
+                var userlist = entity.Users.Where(u => u.Role != "admin").ToList();
+                for (int i = 0; i < userlist.Count - 1; i++)    //không cần xét user cuối
+                {
+                    string userid1 = userlist[i].UserID;
+                    for (int j = i + 1; j < userlist.Count; j++)    //duyệt qua từng người phía sau user đang xét
+                    {
+                        string userid2 = userlist[j].UserID;
+
+                        //lấy 2 vector của 2 user cần so sánh
+                        // vector chỉ lấy rate value của những sp mà cả 2 cùng đánh giá
+                        var vectors = entity.fn_GetTwoVetor(userid1, userid2).ToList();
+                        double[] vector1 = new double[vectors.Count];
+                        double[] vector2 = new double[vectors.Count];
+                        for (int k = 0; k < vectors.Count; k++)
+                        {
+                            vector1[k] = (double)vectors[k].User1Rating;
+                            vector2[k] = (double)vectors[k].User2Rating;
+                        }
+
+                        //tính và lưu lại độ tương thích của 2 user vào database
+                        Similarity newrecord = new Similarity();
+                        newrecord.UserID1 = userid1;
+                        newrecord.UserID2 = userid2;
+                        newrecord.SimilarityRate = Cosine_Similarity(vector1, vector2);
+
+                        var existedrecord = entity.Similarities.FirstOrDefault(r => 
+                            r.UserID1 == newrecord.UserID1 && r.UserID2 == newrecord.UserID2);
+
+                        if (existedrecord != null)
+                        {
+                            existedrecord.SimilarityRate = newrecord.SimilarityRate;
+                        }
+                        else
+                        {
+                            entity.Similarities.Add(newrecord);
+                        }
+                        entity.SaveChanges();
+                    }
+                }
+            }
+        }
+
+
+        //dự đoán số sao cho các sp mà user chưa mua
+        private void PredictUserRating()
+        {
+            using(var entity = new RoseFashionDBEntities())
+            {
+                var userlist = entity.Users.Where(u => u.Role != "admin").ToList();
+                foreach(User user in userlist)
+                {
+                    //tìm những sp mà 1 user chưa xem
+                    var unratedproduct = entity.fn_GetUnRatedProduct(user.UserID).ToList();
+
+                    //với mỗi sp 
+                    foreach (string productid in unratedproduct)
+                    {
+                        //tìm ra tất cả những người đã đánh giá sp đó
+                        // sau đó lọc lấy 10 người trong ds vừa tìm được có độ tương thích lớn nhất so với user đang cần gợi ý
+                        var toprating = entity.fn_GetProductRatingFromTopSimilarUser(user.UserID, productid).ToList();
+
+                        //nếu ko có user nào đánh giá cho sp này => ds rỗng
+                        if (toprating.Count != 0)
+                        {
+                            //dự đoán rating của user cho sp đó
+                            double sum = 0;
+                            for (int i = 0; i < toprating.Count; i++)
+                            {
+                                sum += (double)toprating[i].Star;
+                            }
+
+                            double predictrating = sum / toprating.Count;   //tổng số sao / tổng số người đánh giá
+
+                            //lưu kết quả dự đoán vào database
+                            var oldrecord = entity.Recommendations.FirstOrDefault(r => 
+                                r.UserID == user.UserID && r.ProductID == productid);
+                            if (oldrecord != null)
+                            {
+                                oldrecord.PredictedStar = predictrating;
+                            }
+                            else
+                            {
+                                entity.Recommendations.Add(new Recommendation
+                                {
+                                    UserID = user.UserID,
+                                    ProductID = productid,
+                                    PredictedStar = predictrating
+                                });
+                            }
+                            entity.SaveChanges();
+                        }
+                    }
+                }
+            }
+        }
     }
 }

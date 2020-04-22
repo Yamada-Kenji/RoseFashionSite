@@ -19,8 +19,9 @@ namespace RoseFashionBE
         public double Star { get; set; }
         public string Comment { get; set; }
         public string Title { get; set; }
+        public System.DateTime RatingDate { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual User User { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

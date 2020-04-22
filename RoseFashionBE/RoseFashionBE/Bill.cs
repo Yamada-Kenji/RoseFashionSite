@@ -27,6 +27,7 @@ namespace RoseFashionBE
         public long TotalPrice { get; set; }
         public long DeliveryFee { get; set; }
         public string Status { get; set; }
+        public bool IsDeleted { get; set; }
     
         public virtual Cart Cart { get; set; }
         public virtual Discount Discount { get; set; }

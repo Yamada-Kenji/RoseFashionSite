@@ -8,27 +8,27 @@
         <EntityTypeShape EntityType="RoseFashionDBModel.Cart" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="RoseFashionDBModel.Cart_Product" Width="1.5" PointX="5.25" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="RoseFashionDBModel.Category" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.Product" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="RoseFashionDBModel.Product_Size_Quantity" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="RoseFashionDBModel.sysdiagram" Width="1.5" PointX="7.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="RoseFashionDBModel.User" Width="1.5" PointX="3" PointY="12.125" IsExpanded="true" />
         <AssociationConnector Association="RoseFashionDBModel.FK_Cart_Product_Cart" ManuallyRouted="false" />
         <AssociationConnector Association="RoseFashionDBModel.FK_Cart_User" ManuallyRouted="false" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Cart_Product_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Product_Category" ManuallyRouted="false" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Product_Size_Quantity_Product" ManuallyRouted="false" />
         <EntityTypeShape EntityType="RoseFashionDBModel.Discount" Width="1.5" PointX="3" PointY="1" />
         <EntityTypeShape EntityType="RoseFashionDBModel.District" Width="1.5" PointX="3" PointY="17.125" />
         <EntityTypeShape EntityType="RoseFashionDBModel.Province" Width="1.5" PointX="0.75" PointY="17.125" />
         <AssociationConnector Association="RoseFashionDBModel.FK_District_Province" />
         <EntityTypeShape EntityType="RoseFashionDBModel.Recommendation" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="RoseFashionDBModel.Similarity" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.Bill" Width="1.5" PointX="10.25" PointY="1.75" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.Rating" Width="1.5" PointX="8.25" PointY="10.125" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Rating_User" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.Product" Width="1.5" PointX="3" PointY="7.375" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Cart_Product_Product" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Product_Category" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Product_Size_Quantity_Product" />
+        <AssociationConnector Association="RoseFashionDBModel.FK_Rating_Product" />
+        <EntityTypeShape EntityType="RoseFashionDBModel.Bill" Width="1.5" PointX="10.25" PointY="1.625" />
         <AssociationConnector Association="RoseFashionDBModel.FK_Bill_Cart" />
         <AssociationConnector Association="RoseFashionDBModel.FK_Bill_Discount" />
-        <EntityTypeShape EntityType="RoseFashionDBModel.Rating" Width="1.5" PointX="8.25" PointY="10.25" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Rating_Product" />
-        <AssociationConnector Association="RoseFashionDBModel.FK_Rating_User" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

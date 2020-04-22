@@ -22,6 +22,7 @@
           <Property Name="TotalPrice" Type="bigint" Nullable="false" />
           <Property Name="DeliveryFee" Type="bigint" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Cart">
           <Key>
@@ -83,6 +84,7 @@
           <Property Name="Price" Type="bigint" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="DiscountPercent" Type="int" Nullable="false" />
+          <Property Name="ImportDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Product_Size_Quantity">
           <Key>
@@ -111,6 +113,7 @@
           <Property Name="Star" Type="float" Nullable="false" />
           <Property Name="Comment" Type="nvarchar(max)" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="RatingDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Recommendation">
           <Key>
@@ -286,6 +289,51 @@
           </ReturnType>
         </Function>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="fn_GetProductRatingFromTopSimilarUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="varchar" Mode="In" />
+          <Parameter Name="productid" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="SimilarityRate" Type="float" />
+                <Property Name="UserID" Type="varchar" MaxLength="50" />
+                <Property Name="Star" Type="float" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="fn_GetRecommendedProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ProductID" Type="varchar" MaxLength="50" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="fn_GetTwoVetor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid1" Type="varchar" Mode="In" />
+          <Parameter Name="userid2" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="User1Rating" Type="float" />
+                <Property Name="User2Rating" Type="float" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="fn_GetUnRatedProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ProductID" Type="varchar" MaxLength="50" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="FN_TOPSALE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <ReturnType>
             <CollectionType>
@@ -407,9 +455,9 @@
           <Property Name="Amount" Type="Int32" Nullable="false" />
           <Property Name="SalePrice" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Cart" Relationship="Self.FK_Cart_Product_Cart" FromRole="Cart_Product" ToRole="Cart" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_Cart_Product_Product" FromRole="Cart_Product" ToRole="Product" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="OriginalPrice" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="RoseFashionDBModel.FK_Cart_Product_Product" FromRole="Cart_Product" ToRole="Product" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -418,25 +466,7 @@
           <Property Name="CategoryID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MainCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Products" Relationship="Self.FK_Product_Category" FromRole="Category" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="ProductID" />
-          </Key>
-          <Property Name="ProductID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CategoryID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Price" Type="Int64" Nullable="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Cart_Product" Relationship="Self.FK_Cart_Product_Product" FromRole="Product" ToRole="Cart_Product" />
-          <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
-          <NavigationProperty Name="Product_Size_Quantity" Relationship="Self.FK_Product_Size_Quantity_Product" FromRole="Product" ToRole="Product_Size_Quantity" />
-          <Property Name="DiscountPercent" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Ratings" Relationship="RoseFashionDBModel.FK_Rating_Product" FromRole="Product" ToRole="Rating" />
+          <NavigationProperty Name="Products" Relationship="RoseFashionDBModel.FK_Product_Category" FromRole="Category" ToRole="Product" />
         </EntityType>
         <EntityType Name="Product_Size_Quantity">
           <Key>
@@ -446,7 +476,7 @@
           <Property Name="ProductID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Size_Quantity_Product" FromRole="Product_Size_Quantity" ToRole="Product" />
+          <NavigationProperty Name="Product" Relationship="RoseFashionDBModel.FK_Product_Size_Quantity_Product" FromRole="Product_Size_Quantity" ToRole="Product" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -498,47 +528,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Cart_Product_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="Cart_Product" Type="Self.Cart_Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="Cart_Product">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_Category">
-          <End Role="Category" Type="Self.Category" Multiplicity="1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_Size_Quantity_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="Product_Size_Quantity" Type="Self.Product_Size_Quantity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="Product_Size_Quantity">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="RoseFashionDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Carts" EntityType="Self.Cart" />
           <EntitySet Name="Cart_Product" EntityType="Self.Cart_Product" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
-          <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="Product_Size_Quantity" EntityType="Self.Product_Size_Quantity" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Users" EntityType="Self.User" />
@@ -549,18 +542,6 @@
           <AssociationSet Name="FK_Cart_User" Association="Self.FK_Cart_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Cart" EntitySet="Carts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Cart_Product_Product" Association="Self.FK_Cart_Product_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Cart_Product" EntitySet="Cart_Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Size_Quantity_Product" Association="Self.FK_Product_Size_Quantity_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Product_Size_Quantity" EntitySet="Product_Size_Quantity" />
           </AssociationSet>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -602,6 +583,46 @@
           </AssociationSet>
           <EntitySet Name="Recommendations" EntityType="RoseFashionDBModel.Recommendation" />
           <EntitySet Name="Similarities" EntityType="RoseFashionDBModel.Similarity" />
+          <FunctionImport Name="fn_CheckingIfProductWasPurchasedByUser" IsComposable="true" ReturnType="Collection(String)">
+            <Parameter Name="userid" Mode="In" Type="String" />
+            <Parameter Name="productid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="fn_GetProductRatingFromTopSimilarUser" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetProductRatingFromTopSimilarUser_Result)">
+            <Parameter Name="userid" Mode="In" Type="String" />
+            <Parameter Name="productid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="fn_GetRecommendedProduct" IsComposable="true" ReturnType="Collection(String)">
+          <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="fn_GetTwoVetor" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetTwoVetor_Result)">
+            <Parameter Name="userid1" Mode="In" Type="String" />
+            <Parameter Name="userid2" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="fn_GetUnRatedProduct" IsComposable="true" ReturnType="Collection(String)">
+          <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Ratings" EntityType="RoseFashionDBModel.Rating" />
+          <AssociationSet Name="FK_Rating_User" Association="RoseFashionDBModel.FK_Rating_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <EntitySet Name="Products" EntityType="RoseFashionDBModel.Product" />
+          <AssociationSet Name="FK_Cart_Product_Product" Association="RoseFashionDBModel.FK_Cart_Product_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Cart_Product" EntitySet="Cart_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category" Association="RoseFashionDBModel.FK_Product_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Size_Quantity_Product" Association="RoseFashionDBModel.FK_Product_Size_Quantity_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Product_Size_Quantity" EntitySet="Product_Size_Quantity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rating_Product" Association="RoseFashionDBModel.FK_Rating_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
           <EntitySet Name="Bills" EntityType="RoseFashionDBModel.Bill" />
           <AssociationSet Name="FK_Bill_Cart" Association="RoseFashionDBModel.FK_Bill_Cart">
             <End Role="Cart" EntitySet="Carts" />
@@ -610,19 +631,6 @@
           <AssociationSet Name="FK_Bill_Discount" Association="RoseFashionDBModel.FK_Bill_Discount">
             <End Role="Discount" EntitySet="Discounts" />
             <End Role="Bill" EntitySet="Bills" />
-          </AssociationSet>
-          <FunctionImport Name="fn_CheckingIfProductWasPurchasedByUser" IsComposable="true" ReturnType="Collection(String)">
-            <Parameter Name="userid" Mode="In" Type="String" />
-            <Parameter Name="productid" Mode="In" Type="String" />
-          </FunctionImport>
-          <EntitySet Name="Ratings" EntityType="RoseFashionDBModel.Rating" />
-          <AssociationSet Name="FK_Rating_Product" Association="RoseFashionDBModel.FK_Rating_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Rating" EntitySet="Ratings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Rating_User" Association="RoseFashionDBModel.FK_Rating_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -700,6 +708,108 @@
           <Property Name="UserID2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SimilarityRate" Type="Double" Nullable="false" />
         </EntityType>
+        <ComplexType Name="fn_GetProductRatingFromTopSimilarUser_Result">
+          <Property Type="Double" Name="SimilarityRate" Nullable="true" />
+          <Property Type="String" Name="UserID" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Star" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="fn_GetTwoVetor_Result">
+          <Property Type="Double" Name="User1Rating" Nullable="true" />
+          <Property Type="Double" Name="User2Rating" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="UserID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Star" Type="Double" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RatingDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="User" Relationship="RoseFashionDBModel.FK_Rating_User" FromRole="Rating" ToRole="User" />
+          <NavigationProperty Name="Product" Relationship="RoseFashionDBModel.FK_Rating_Product" FromRole="Rating" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Rating_User">
+          <End Type="RoseFashionDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="RoseFashionDBModel.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Int64" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="DiscountPercent" Type="Int32" Nullable="false" />
+          <Property Name="ImportDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Cart_Product" Relationship="RoseFashionDBModel.FK_Cart_Product_Product" FromRole="Product" ToRole="Cart_Product" />
+          <NavigationProperty Name="Category" Relationship="RoseFashionDBModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="Product_Size_Quantity" Relationship="RoseFashionDBModel.FK_Product_Size_Quantity_Product" FromRole="Product" ToRole="Product_Size_Quantity" />
+          <NavigationProperty Name="Ratings" Relationship="RoseFashionDBModel.FK_Rating_Product" FromRole="Product" ToRole="Rating" />
+        </EntityType>
+        <Association Name="FK_Cart_Product_Product">
+          <End Type="RoseFashionDBModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="RoseFashionDBModel.Cart_Product" Role="Cart_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Cart_Product">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category">
+          <End Type="RoseFashionDBModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="RoseFashionDBModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Size_Quantity_Product">
+          <End Type="RoseFashionDBModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="RoseFashionDBModel.Product_Size_Quantity" Role="Product_Size_Quantity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Product_Size_Quantity">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rating_Product">
+          <End Type="RoseFashionDBModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="RoseFashionDBModel.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Bill">
           <Key>
             <PropertyRef Name="BillID" />
@@ -717,6 +827,7 @@
           <Property Name="TotalPrice" Type="Int64" Nullable="false" />
           <Property Name="DeliveryFee" Type="Int64" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Cart" Relationship="RoseFashionDBModel.FK_Bill_Cart" FromRole="Bill" ToRole="Cart" />
           <NavigationProperty Name="Discount" Relationship="RoseFashionDBModel.FK_Bill_Discount" FromRole="Bill" ToRole="Discount" />
         </EntityType>
@@ -741,43 +852,6 @@
             </Principal>
             <Dependent Role="Bill">
               <PropertyRef Name="DiscountCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Rating">
-          <Key>
-            <PropertyRef Name="UserID" />
-            <PropertyRef Name="ProductID" />
-          </Key>
-          <Property Name="UserID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Star" Type="Double" Nullable="false" />
-          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Product" Relationship="RoseFashionDBModel.FK_Rating_Product" FromRole="Rating" ToRole="Product" />
-          <NavigationProperty Name="User" Relationship="RoseFashionDBModel.FK_Rating_User" FromRole="Rating" ToRole="User" />
-        </EntityType>
-        <Association Name="FK_Rating_Product">
-          <End Type="RoseFashionDBModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="RoseFashionDBModel.Rating" Role="Rating" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="Rating">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Rating_User">
-          <End Type="RoseFashionDBModel.User" Role="User" Multiplicity="1" />
-          <End Type="RoseFashionDBModel.Rating" Role="Rating" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="Rating">
-              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -814,21 +888,6 @@
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="MainCategory" ColumnName="MainCategory" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
-              <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Color" ColumnName="Color" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -947,9 +1006,58 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser" />
+          <FunctionImportMapping FunctionImportName="fn_GetProductRatingFromTopSimilarUser" FunctionName="RoseFashionDBModel.Store.fn_GetProductRatingFromTopSimilarUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetProductRatingFromTopSimilarUser_Result">
+                <ScalarProperty Name="SimilarityRate" ColumnName="SimilarityRate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Star" ColumnName="Star" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="fn_GetRecommendedProduct" FunctionName="RoseFashionDBModel.Store.fn_GetRecommendedProduct" />
+          <FunctionImportMapping FunctionImportName="fn_GetTwoVetor" FunctionName="RoseFashionDBModel.Store.fn_GetTwoVetor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetTwoVetor_Result">
+                <ScalarProperty Name="User1Rating" ColumnName="User1Rating" />
+                <ScalarProperty Name="User2Rating" ColumnName="User2Rating" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="fn_GetUnRatedProduct" FunctionName="RoseFashionDBModel.Store.fn_GetUnRatedProduct" />
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="RoseFashionDBModel.Rating">
+              <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="RatingDate" ColumnName="RatingDate" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Star" ColumnName="Star" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Bills">
             <EntityTypeMapping TypeName="RoseFashionDBModel.Bill">
               <MappingFragment StoreEntitySet="Bill">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
@@ -963,18 +1071,6 @@
                 <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
                 <ScalarProperty Name="CartID" ColumnName="CartID" />
                 <ScalarProperty Name="BillID" ColumnName="BillID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser" />
-          <EntitySetMapping Name="Ratings">
-            <EntityTypeMapping TypeName="RoseFashionDBModel.Rating">
-              <MappingFragment StoreEntitySet="Rating">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Star" ColumnName="Star" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

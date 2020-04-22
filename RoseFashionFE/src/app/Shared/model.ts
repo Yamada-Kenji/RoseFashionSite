@@ -26,6 +26,7 @@ export class ProductModel{
     Price: number;
     DiscountPercent: number;
     SoldOut: boolean = false;
+    ImportDate: Date;
 
     constructor(){
         this.ProductID = '';
@@ -36,7 +37,8 @@ export class ProductModel{
         this.Image = '';
         this.Price = 0;
         this.DiscountPercent = 0;
-        this.SoldOut = false; 
+        this.SoldOut = false;
+        this.ImportDate = null;
     }
 }
 
@@ -144,4 +146,5 @@ export class RatingModel{
     Title: string;
     Comment: string;
     Star: number;
+    RatingDate: Date;
 }

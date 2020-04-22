@@ -1,0 +1,149 @@
+<h2 class="d-flex justify-content-center">Có thể bạn cũng thích</h2>
+<div class="container">
+    <!--Carousel Wrapper-->
+    <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+
+
+        <!--Slides-->
+        <div class="carousel-inner" role="listbox">
+
+            <!--First slide-->
+            <div class="carousel-item active">
+                <div class="row">
+
+                    <div class="col-md-3" *ngFor="let item of list1">
+                        <div class="card mb-2" style="border: none;">
+
+                            <div class="container" style="position: relative;">
+                                <span *ngIf="item.DiscountPercent!=0" class="badge badge-primary"
+                                    style="position: absolute;">
+                                    <h6>-{{item.DiscountPercent}}%</h6>
+                                </span>
+                                <img class="img-fluid" [src]="item.Image"
+                                    [routerLink]="['/add-product-to-cart', item.ProductID]">
+                                <p class="wrap-text-center">
+                                    <a [routerLink]="['/add-product-to-cart', item.ProductID]" style="color: black;">
+                                        {{item.Name}}
+                                    </a>
+                                    <br>
+                                    {{item.Price | number}} VNĐ
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--/.First slide-->
+
+            <!--Second slide-->
+            <div class="carousel-item">
+                <div class="row">
+
+                    <div class="col-md-3" *ngFor="let item of list2">
+                        <div class="card mb-2" style="border: none;">
+
+                            <div class="container" style="position: relative;">
+                                <span *ngIf="item.DiscountPercent!=0" class="badge badge-primary"
+                                    style="position: absolute;">
+                                    <h6>-{{item.DiscountPercent}}%</h6>
+                                </span>
+                                <img class="img-fluid" [src]="item.Image"
+                                    [routerLink]="['/add-product-to-cart', item.ProductID]">
+                                <p class="wrap-text-center">
+                                    <a [routerLink]="['/add-product-to-cart', item.ProductID]" style="color: black;">
+                                        {{item.Name}}
+                                    </a>
+                                    <br>
+                                    {{item.Price | number}} VNĐ
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--/.Second slide-->
+
+        </div>
+        <!--/.Slides-->
+
+        <!--Controls-->
+        <div class="d-flex justify-content-center">
+            <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i
+                    class="fas fa-chevron-circle-left fa-3x" style="margin-right: 10px;"></i></a>
+
+            <a class="btn-floating" href="#multi-item-example" data-slide="next"><i
+                    class="fas fa-chevron-circle-right fa-3x" style="margin-left: 10px;"></i></a>
+        </div>
+        <!--/.Controls-->
+
+    </div>
+    <!--/.Carousel Wrapper-->
+</div>
+
+
+<!-- For phone devices-->
+<div id="carousel-example-multi" class="carousel slide carousel-multi-item v-2" data-ride="carousel">
+
+    <div class="carousel-inner v-2" role="listbox">
+
+        <div class="carousel-item active">
+            <div class="col-12 col-md-4">
+                <div class="card mb-2" style="border: none;">
+
+                    <div class="container" style="position: relative;">
+                        <span *ngIf="firstproduct.DiscountPercent!=0" class="badge badge-primary" style="position: absolute;">
+                            <h6>-{{firstproduct.DiscountPercent}}%</h6>
+                        </span>
+                        <img class="img-fluid" [src]="firstproduct.Image"
+                            [routerLink]="['/add-product-to-cart', firstproduct.ProductID]">
+                        <p class="wrap-text-center">
+                            <a [routerLink]="['/add-product-to-cart', firstproduct.ProductID]" style="color: black;">
+                                {{firstproduct.Name}}
+                            </a>
+                            <br>
+                            {{firstproduct.Price | number}} VNĐ
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item" *ngFor="let item of productlist">
+            <div class="col-12 col-md-4">
+                <div class="card mb-2" style="border: none;">
+
+                    <div class="container" style="position: relative;">
+                        <span *ngIf="item.DiscountPercent!=0" class="badge badge-primary" style="position: absolute;">
+                            <h6>-{{item.DiscountPercent}}%</h6>
+                        </span>
+                        <img class="img-fluid" [src]="item.Image"
+                            [routerLink]="['/add-product-to-cart', item.ProductID]">
+                        <p class="wrap-text-center">
+                            <a [routerLink]="['/add-product-to-cart', item.ProductID]" style="color: black;">
+                                {{item.Name}}
+                            </a>
+                            <br>
+                            {{item.Price | number}} VNĐ
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+     <!--Controls-->
+     <div class="d-flex justify-content-center">
+        <a class="btn-floating" href="#carousel-example-multi" data-slide="prev"><i
+                class="fas fa-chevron-circle-left fa-3x" style="margin-right: 10px;"></i></a>
+
+        <a class="btn-floating" href="#carousel-example-multi" data-slide="next"><i
+                class="fas fa-chevron-circle-right fa-3x" style="margin-left: 10px;"></i></a>
+    </div>
+    <!--/.Controls-->
+
+</div>

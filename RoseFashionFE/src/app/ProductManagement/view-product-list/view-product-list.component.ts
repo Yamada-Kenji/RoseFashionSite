@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductModel } from 'src/app/Shared/model';
 import { ProductService } from 'src/app/Shared/product-service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-view-product-list',
@@ -12,7 +13,7 @@ export class ViewProductListComponent implements OnInit {
   productlist: ProductModel[] = [];
   pageconfig: any;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private route: ActivatedRoute) {
     this.pageconfig = {
       itemsPerPage: 10,
       currentPage: 1
@@ -21,10 +22,12 @@ export class ViewProductListComponent implements OnInit {
 
   async ngOnInit() {
     await this.GetProductList();
+    this.pageconfig.currentPage = localStorage.getItem('currentpage');
   }
 
   pageChanged(event) {
     this.pageconfig.currentPage = event;
+    localStorage.setItem('currentpage', event);
   }
 
   async GetProductList() {
@@ -36,5 +39,9 @@ export class ViewProductListComponent implements OnInit {
       await this.productService.DeleteProduct(productid).toPromise().then(result => console.log(result));
       this.GetProductList();
     }
+  }
+
+  SortByPrice(){
+    this.productlist = this.productlist.sort((a, b) => a.Price - b.Price);
   }
 }

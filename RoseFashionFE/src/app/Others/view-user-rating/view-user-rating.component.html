@@ -24,55 +24,55 @@
             </div>
             <div class="middle">
                 <div class="bar-container">
-                    <div class="bar-5"></div>
+                    <div class="bar-5" id="bar5"></div>
                 </div>
             </div>
             <div class="side right">
-                <div>150</div>
+                <div>{{ratecount[4]}}</div>
             </div>
             <div class="side">
                 <div>4 star</div>
             </div>
             <div class="middle">
                 <div class="bar-container">
-                    <div class="bar-4"></div>
+                    <div class="bar-4" id="bar4"></div>
                 </div>
             </div>
             <div class="side right">
-                <div>63</div>
+                <div>{{ratecount[3]}}</div>
             </div>
             <div class="side">
                 <div>3 star</div>
             </div>
             <div class="middle">
                 <div class="bar-container">
-                    <div class="bar-3"></div>
+                    <div class="bar-3" id="bar3"></div>
                 </div>
             </div>
             <div class="side right">
-                <div>15</div>
+                <div>{{ratecount[2]}}</div>
             </div>
             <div class="side">
                 <div>2 star</div>
             </div>
             <div class="middle">
                 <div class="bar-container">
-                    <div class="bar-2"></div>
+                    <div class="bar-2" id="bar2"></div>
                 </div>
             </div>
             <div class="side right">
-                <div>6</div>
+                <div>{{ratecount[1]}}</div>
             </div>
             <div class="side">
                 <div>1 star</div>
             </div>
             <div class="middle">
                 <div class="bar-container">
-                    <div class="bar-1"></div>
+                    <div class="bar-1" id="bar1"></div>
                 </div>
             </div>
             <div class="side right">
-                <div>20</div>
+                <div>{{ratecount[0]}}</div>
             </div>
         </div>
 
@@ -96,7 +96,7 @@
                 </select>
             </div>
             <div class="col-sm-6" *ngIf="!addrating;else ratingform">
-                <button type="button" class="btn btn-dark" style="margin-top: 10px;" 
+                <button *ngIf="purchased" type="button" class="btn btn-dark" style="margin-top: 10px;" 
                 (click)="ChangeRatingForm()">Viết nhận xét</button>
             </div>
             <ng-template #ratingform>
@@ -126,7 +126,7 @@
             </ng-template>
         </div>
 
-        <div *ngIf="ratinglist.length==0">Hiện không có đánh giá</div>
+        <div *ngIf="ready;else notready">
 
         <div class="row" *ngFor="let item of ratinglist" style="background-color:whitesmoke;">
             <div class="col-sm-2">
@@ -134,6 +134,7 @@
                 <p></p>
                 <i class="fas fa-user fa-3x d-flex justify-content-center"></i>
                 <p class="d-flex justify-content-center">{{item.UserName}}</p>
+                <p class="d-flex justify-content-center">{{item.RatingDate | date:"dd/MM/yyyy"}}</p>
             </div>
             <div class="col-sm-10">
                 <bar-rating [(rate)]="item.Star" [max]="5" [theme]="'fontawesome'" [readOnly]="true"></bar-rating>
@@ -142,5 +143,7 @@
                 <hr style="border:1.5px solid black;">
             </div>
         </div>
+        </div>
+        <ng-template #notready><div>Hiện không có đánh giá</div></ng-template>
     </div>
 </div>

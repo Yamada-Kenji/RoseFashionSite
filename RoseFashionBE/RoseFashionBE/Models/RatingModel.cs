@@ -13,5 +13,6 @@ namespace RoseFashionBE.Models
         public string Title;
         public string Comment;
         public double Star;
+        public DateTime RatingDate;
     }
 }

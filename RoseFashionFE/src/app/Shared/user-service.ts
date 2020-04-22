@@ -62,4 +62,8 @@ export class UserService {
         return this.http.get<any>(editedurl);
     }
 
+    RunRecommendationAlgorithm(): Observable<any>{
+        const editedurl = `${this.userurl}/recommendation`;
+        return this.http.post<any>(editedurl, httpOptions);
+    }
 }

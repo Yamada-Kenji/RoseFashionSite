@@ -20,16 +20,33 @@ export class ViewUserRatingComponent implements OnInit {
   totalstar: number = 0;
   userrating: RatingModel;
   ratinglist: RatingModel[] = [];
+  ready: boolean = false;
+
+  ratecount: number[] = [0, 0, 0, 0, 0];
+  barname: string[] = ["bar1", "bar2", "bar3", "bar4", "bar5"];
 
   constructor(private productService: ProductService,
     private userService: UserService,
     private messageService: MessageService) { }
 
   async ngOnInit() {
-    await this.productService.CheckingPurchased(this.userService.getCurrentUser().UserID, this.productid)
-      .toPromise().then(r => this.purchased = r);
+    var user = this.userService.getCurrentUser();
+    await this.productService.CheckingPurchased(user.UserID, this.productid)
+      .toPromise().then(r => 
+        {
+          this.purchased = r;
+          if(user.Role=="admin") this.purchased = true;
+        });
     await this.productService.GetRatingList(this.productid)
-      .toPromise().then(r => this.ratinglist = r);
+      .toPromise().then(r => {
+        this.ratinglist = r;
+        if (this.ratinglist.length > 0) {
+          this.CountStar();
+          this.CalPercent();
+          this.ready = true;
+          console.log()
+        };
+      });
     await this.productService.GetTotalStar(this.productid)
       .toPromise().then(r => this.totalstar = r);
   }
@@ -46,10 +63,36 @@ export class ViewUserRatingComponent implements OnInit {
         var msg: MessageModel = { Title: "Thông báo", Content: "Gửi đánh giá thành công", BackToHome: false };
         this.messageService.SendMessage(msg);
         this.productService.GetRatingList(this.productid)
-          .toPromise().then(r => this.ratinglist = r);
+          .subscribe(r => 
+            {
+              this.ratinglist = r;
+              if (this.ratinglist.length > 0) {
+                this.CountStar();
+                this.CalPercent();
+                this.ready = true;
+              }
+            });
         this.addrating = !this.addrating;
       }).catch(err => alert("Gửi đánh giá thất bại"));
+  }
 
+  CountStar() {
+    this.ratinglist.forEach(r => {
+      if (r.Star == 1) this.ratecount[0]++;
+      if (r.Star == 2) this.ratecount[1]++;
+      if (r.Star == 3) this.ratecount[2]++;
+      if (r.Star == 4) this.ratecount[3]++;
+      if (r.Star == 5) this.ratecount[4]++;
+    });
+  }
+
+  CalPercent() {
+    var i = 0;
+    for (i; i < this.ratecount.length; i++) {
+      var percent = this.ratecount[i] / this.ratinglist.length;
+      var x = document.getElementById(this.barname[i]) as HTMLElement;
+      x.style.width = percent.toString() + "%";
+    }
   }
 
 }

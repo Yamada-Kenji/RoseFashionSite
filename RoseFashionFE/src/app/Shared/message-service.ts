@@ -16,4 +16,8 @@ export class MessageService{
         ViewProductListForCustomerComponent.searchkeyword=keyword;
         ViewProductListForCustomerComponent.searchbtn.click();
     }
+
+    ResetCurrentPage(){
+        localStorage.setItem('currentpage', '1');
+    }
 }

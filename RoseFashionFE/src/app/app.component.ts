@@ -162,4 +162,8 @@ export class AppComponent {
     this.userservice.logout();
     this.getCurrentUser();
   }
+
+  ResetCurrentPage(){
+    this.messageService.ResetCurrentPage();
+  }
 }

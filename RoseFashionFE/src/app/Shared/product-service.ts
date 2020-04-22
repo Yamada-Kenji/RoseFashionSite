@@ -97,4 +97,14 @@ const httpOptions = {
         const editedurl = `${this.producturl}/addrating`;
         return this.http.post<any>(editedurl,newrating,httpOptions);
     }
+
+    AddDefaultRating(cartid: string): Observable<any>{
+        const editedurl = `${this.producturl}/defaultrating?cartid=${cartid}`;
+        return this.http.post(editedurl, httpOptions);
+    }
+
+    GetRecommendedProduct(userid: string): Observable<ProductModel[]>{
+        const editedurl = `${this.producturl}/recommended?userid=${userid}`;
+        return this.http.get<ProductModel[]>(editedurl);
+    }
 }

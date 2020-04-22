@@ -38,7 +38,8 @@ namespace RoseFashionBE.Controllers
                         //Description = newproduct.Description,
                         Image = imagepath,
                         Price = newproduct.Price,
-                        DiscountPercent = newproduct.DiscountPercent
+                        DiscountPercent = newproduct.DiscountPercent,
+                        ImportDate = newproduct.ImportDate
                     });
                     entity.SaveChanges();
 
@@ -380,21 +381,29 @@ namespace RoseFashionBE.Controllers
 
         [HttpPost]
         [Route("defaultrating")]
-        public IHttpActionResult DefaultRating(string[] pids, string userid)
+        public IHttpActionResult DefaultRating(string cartid)
         {
             try
             {
                 using(var entity = new RoseFashionDBEntities())
                 {
-                    for(int i = 0; i < pids.Length; i++)
+                    var items = entity.Cart_Product.Where(cp => cp.CartID == cartid).ToList();
+                    for(int i = 0; i < items.Count; i++)
                     {
-                        string pid = pids[i];
-                        entity.Ratings.Add(new Rating()
+                        string pid = items[i].ProductID;
+                        string userid = items[i].Cart.UserID;
+                        var existed = entity.Ratings.Where(r => r.UserID == userid && r.ProductID == pid).FirstOrDefault();
+                        if (existed == null)
                         {
-                            UserID = userid,
-                            ProductID = pid
-                        });
+                            entity.Ratings.Add(new Rating()
+                            {
+                                UserID = userid,
+                                ProductID = pid,
+                                Star = 3
+                            });
+                        }
                     }
+                    entity.SaveChanges();
                     return Ok();
                 }
             }
@@ -438,7 +447,8 @@ namespace RoseFashionBE.Controllers
                             UserName = r.User.FullName,
                             Title = r.Title,
                             Comment = r. Comment,
-                            Star = r.Star
+                            Star = r.Star,
+                            RatingDate = r.RatingDate
                         }).ToList();
                     return Ok(result);
                 }
@@ -463,6 +473,7 @@ namespace RoseFashionBE.Controllers
                         oldrating.Title = newrating.Title;
                         oldrating.Comment = newrating.Comment;
                         oldrating.Star = newrating.Star;
+                        oldrating.RatingDate = DateTime.Now.Date;
                         entity.SaveChanges();
                     }
                     else
@@ -473,7 +484,8 @@ namespace RoseFashionBE.Controllers
                             ProductID = newrating.ProductID,
                             Title = newrating.Title,
                             Comment = newrating.Comment,
-                            Star = newrating.Star
+                            Star = newrating.Star,
+                            RatingDate = DateTime.Now.Date
                         });
                         entity.SaveChanges();
                     }
@@ -535,6 +547,41 @@ namespace RoseFashionBE.Controllers
                 }
             }
             catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("recommend")]
+        public IHttpActionResult GetRecommendedProduct(string userid)
+        {
+            try
+            {
+                using(var entity = new RoseFashionDBEntities())
+                {
+                    //chọn top 10 sp mà user có rating dự đoán cao
+                    var recommendedproducts = entity.fn_GetRecommendedProduct(userid).ToList();
+
+                    var result = new List<ProductModel>();
+                    foreach(string productid in recommendedproducts)
+                    {
+                        var item = entity.Products.Where(p => p.ProductID == productid)
+                            .Select(p => new ProductModel()
+                            {
+                                ProductID = p.ProductID,
+                                Name = p.Name,
+                                Image = p.Image,
+                                Price = p.Price,
+                                CategoryID = p.CategoryID,
+                                DiscountPercent = p.DiscountPercent
+                            }).FirstOrDefault();
+                        result.Add(item);
+                    }
+                    return Ok(result);
+                }
+            }
+            catch(Exception ex)
             {
                 return InternalServerError(ex);
             }

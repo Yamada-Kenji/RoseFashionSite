@@ -31,6 +31,7 @@ export class AddProductComponent implements OnInit {
   namerequire: boolean;
   imagerequire: boolean;
   addfunction: boolean = true;
+  loading: boolean = false;
   sizes = [
     { name: 'S', quantity: 0, checked: false },
     { name: 'M', quantity: 0, checked: false },
@@ -52,6 +53,7 @@ export class AddProductComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.categoryService.GetAllCategory()
       .toPromise().then(result => {
         this.categorylist = result;
@@ -170,6 +172,7 @@ export class AddProductComponent implements OnInit {
   }
 
   async AddProduct() {
+    this.loading = true;
     await this.productService.AddProduct(this.product)
       .toPromise().then(r => {
         const formData = new FormData();
@@ -179,6 +182,7 @@ export class AddProductComponent implements OnInit {
         console.log(formData.get('productid'));
         this.productService.UploadImage(formData).subscribe(
           res => {
+            this.loading = false;
             alert('Thêm sản phẩm thành công');
             this.location.back();
           },
@@ -208,6 +212,7 @@ export class AddProductComponent implements OnInit {
   }
 
   UpdateProduct() {
+    this.loading = true;
     this.productService.UpdateProduct(this.product)
       .toPromise().then(() => {
         if (this.filechanged) {
@@ -218,18 +223,26 @@ export class AddProductComponent implements OnInit {
           console.log(formData.get('productid'));
           this.productService.UploadImage(formData).subscribe(
             res => {
+              this.loading = false;
               alert('Cập nhật sản phẩm thành công');
               this.location.back();
             },
-            err => alert('Đã có lỗi xảy ra. (error 02)')
+            err => {
+              this.loading = false;
+              alert('Đã có lỗi xảy ra. (error 02)');
+            }
           );
         }
         else {
+          this.loading = false;
           alert('Cập nhật sản phẩm thành công');
           this.location.back();
         }
       })
-      .catch(() => alert('Đã có lỗi xảy ra.(error 01)'));
+      .catch(() => {
+        this.loading = false;
+        alert('Đã có lỗi xảy ra.(error 01)');
+      });
   }
 
   Save() {

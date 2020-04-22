@@ -33,7 +33,13 @@ export class BillService {
     return this.http.get<BillModel[]>(this.billurl);
   }
 
-  UpdateBill(billid: string, newstatus: string, newdate: Date): Observable<any>{
-    return this.http.post<any>(this.billurl,{billid, newstatus, newdate}, httpOptions);
+  UpdateBill(billinfo: BillModel): Observable<any>{
+    const editedurl = `${this.billurl}/updatebill`;
+    return this.http.post<any>(editedurl,billinfo, httpOptions);
+  }
+
+  DeleteBill(billid: string): Observable<any>{
+    const editedurl = `${this.billurl}?billid=${billid}`;
+    return this.http.delete(editedurl);
   }
 }

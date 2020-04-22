@@ -31,21 +31,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Products">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
-        <MappingFragment StoreEntitySet="Product">
-          <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Color" ColumnName="Color" />
-          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Image" ColumnName="Image" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Product_Size_Quantity">
       <EntityTypeMapping TypeName="RoseFashionDBModel.Product_Size_Quantity">
         <MappingFragment StoreEntitySet="Product_Size_Quantity">
@@ -161,9 +146,58 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser" />
+    <FunctionImportMapping FunctionImportName="fn_GetProductRatingFromTopSimilarUser" FunctionName="RoseFashionDBModel.Store.fn_GetProductRatingFromTopSimilarUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetProductRatingFromTopSimilarUser_Result">
+          <ScalarProperty Name="SimilarityRate" ColumnName="SimilarityRate" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Star" ColumnName="Star" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="fn_GetRecommendedProduct" FunctionName="RoseFashionDBModel.Store.fn_GetRecommendedProduct" />
+    <FunctionImportMapping FunctionImportName="fn_GetTwoVetor" FunctionName="RoseFashionDBModel.Store.fn_GetTwoVetor">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetTwoVetor_Result">
+          <ScalarProperty Name="User1Rating" ColumnName="User1Rating" />
+          <ScalarProperty Name="User2Rating" ColumnName="User2Rating" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="fn_GetUnRatedProduct" FunctionName="RoseFashionDBModel.Store.fn_GetUnRatedProduct" />
+    <EntitySetMapping Name="Ratings">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Rating">
+        <MappingFragment StoreEntitySet="Rating">
+          <ScalarProperty Name="RatingDate" ColumnName="RatingDate" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="Star" ColumnName="Star" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
+          <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Bills">
       <EntityTypeMapping TypeName="RoseFashionDBModel.Bill">
         <MappingFragment StoreEntitySet="Bill">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
           <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
@@ -177,18 +211,6 @@
           <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
           <ScalarProperty Name="CartID" ColumnName="CartID" />
           <ScalarProperty Name="BillID" ColumnName="BillID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser" />
-    <EntitySetMapping Name="Ratings">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Rating">
-        <MappingFragment StoreEntitySet="Rating">
-          <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="Comment" ColumnName="Comment" />
-          <ScalarProperty Name="Star" ColumnName="Star" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

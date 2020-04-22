@@ -30,7 +30,6 @@ namespace RoseFashionBE
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Cart_Product> Cart_Product { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Product_Size_Quantity> Product_Size_Quantity { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -39,8 +38,9 @@ namespace RoseFashionBE
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<Recommendation> Recommendations { get; set; }
         public virtual DbSet<Similarity> Similarities { get; set; }
-        public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Bill> Bills { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -163,6 +163,54 @@ namespace RoseFashionBE
                 new ObjectParameter("productid", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<string>("[RoseFashionDBEntities].[fn_CheckingIfProductWasPurchasedByUser](@userid, @productid)", useridParameter, productidParameter);
+        }
+    
+        [DbFunction("RoseFashionDBEntities", "fn_GetProductRatingFromTopSimilarUser")]
+        public virtual IQueryable<fn_GetProductRatingFromTopSimilarUser_Result> fn_GetProductRatingFromTopSimilarUser(string userid, string productid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            var productidParameter = productid != null ?
+                new ObjectParameter("productid", productid) :
+                new ObjectParameter("productid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fn_GetProductRatingFromTopSimilarUser_Result>("[RoseFashionDBEntities].[fn_GetProductRatingFromTopSimilarUser](@userid, @productid)", useridParameter, productidParameter);
+        }
+    
+        [DbFunction("RoseFashionDBEntities", "fn_GetRecommendedProduct")]
+        public virtual IQueryable<string> fn_GetRecommendedProduct(string userid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<string>("[RoseFashionDBEntities].[fn_GetRecommendedProduct](@userid)", useridParameter);
+        }
+    
+        [DbFunction("RoseFashionDBEntities", "fn_GetTwoVetor")]
+        public virtual IQueryable<fn_GetTwoVetor_Result> fn_GetTwoVetor(string userid1, string userid2)
+        {
+            var userid1Parameter = userid1 != null ?
+                new ObjectParameter("userid1", userid1) :
+                new ObjectParameter("userid1", typeof(string));
+    
+            var userid2Parameter = userid2 != null ?
+                new ObjectParameter("userid2", userid2) :
+                new ObjectParameter("userid2", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fn_GetTwoVetor_Result>("[RoseFashionDBEntities].[fn_GetTwoVetor](@userid1, @userid2)", userid1Parameter, userid2Parameter);
+        }
+    
+        [DbFunction("RoseFashionDBEntities", "fn_GetUnRatedProduct")]
+        public virtual IQueryable<string> fn_GetUnRatedProduct(string userid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<string>("[RoseFashionDBEntities].[fn_GetUnRatedProduct](@userid)", useridParameter);
         }
     }
 }

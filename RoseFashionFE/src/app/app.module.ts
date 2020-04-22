@@ -49,6 +49,7 @@ import { EditBillComponent } from './BillManagement/edit-bill/edit-bill.componen
 import { BarRatingModule } from "ngx-bar-rating";
 import { ViewUserRatingComponent } from './Others/view-user-rating/view-user-rating.component';
 import { AddUserRatingComponent } from './Others/add-user-rating/add-user-rating.component';
+import { ViewRecommendedProductComponent } from './Others/view-recommended-product/view-recommended-product.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { AddUserRatingComponent } from './Others/add-user-rating/add-user-rating
     TryNewCodeComponent,
     EditBillComponent,
     ViewUserRatingComponent,
-    AddUserRatingComponent
+    AddUserRatingComponent,
+    ViewRecommendedProductComponent
   ],
   imports: [
     BrowserModule,

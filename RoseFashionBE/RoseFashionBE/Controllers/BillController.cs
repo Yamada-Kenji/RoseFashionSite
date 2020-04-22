@@ -10,6 +10,7 @@ using System.Web.Http.Cors;
 namespace RoseFashionBE.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [RoutePrefix("api/bill")]
     public class BillController : ApiController
     {
         /*[HttpPost]
@@ -79,7 +80,8 @@ namespace RoseFashionBE.Controllers
                         DistrictName = billinfo.DistrictName,
                         TotalPrice = billinfo.TotalPrice,
                         DeliveryFee = billinfo.DeliveryFee,
-                        Status = "Đang chờ xác nhận"
+                        Status = "Đang chờ xác nhận",
+                        IsDeleted = false
                     });
                     var usercart = entity.Carts.Where(c => c.CartID == billinfo.CartID).FirstOrDefault();
                     usercart.IsUsing = false;
@@ -101,11 +103,14 @@ namespace RoseFashionBE.Controllers
                 using(var entity = new RoseFashionDBEntities())
                 {
 
-                    var result = entity.Bills.Select(b => new BillModel
+                    var result = entity.Bills.Where(b => b.IsDeleted == false).Select(b => new BillModel
                     {
                         BillID = b.BillID,
                         CartID = b.CartID,
+                        ReceiverName = b.ReceiverName,
                         OrderDate = b.OrderDate,
+                        DeliveryDate = b.DeliveryDate,
+                        TotalPrice = b.TotalPrice,
                         Status = b.Status
                     }).ToList();
                     return Ok(result);
@@ -182,15 +187,35 @@ namespace RoseFashionBE.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult UpdateBill(string billid, string newstatus, DateTime newdate)
+        [Route("updatebill")]
+        public IHttpActionResult UpdateBill(BillModel billinfo)
         {
             try
             {
                 using (var entity = new RoseFashionDBEntities())
                 {
-                    var bill = entity.Bills.Where(s => s.BillID == billid).FirstOrDefault();
-                    bill.Status = newstatus;
-                    bill.DeliveryDate = newdate;
+                    var bill = entity.Bills.Where(s => s.BillID == billinfo.BillID).FirstOrDefault();
+                    bill.Status = billinfo.Status;
+                    bill.DeliveryDate = billinfo.DeliveryDate;
+                    entity.SaveChanges();
+                    return Ok();
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpDelete]
+        public IHttpActionResult RemoveBill(string billid)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    var oldbill = entity.Bills.Where(s => s.BillID == billid).FirstOrDefault();
+                    if (oldbill != null) oldbill.IsDeleted = true;
                     entity.SaveChanges();
                     return Ok();
                 }

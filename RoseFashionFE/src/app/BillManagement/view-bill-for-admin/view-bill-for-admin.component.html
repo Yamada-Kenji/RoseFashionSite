@@ -8,7 +8,9 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Mã hóa đơn</th>
+                    <th>Tên khách hàng</th>
                     <th>Ngày đặt hàng</th>
+                    <th>Tổng giá (VNĐ)</th>
                     <th>Tình trạng</th>
                     <th>Tùy chọn</th>
                 </tr>
@@ -16,7 +18,9 @@
             <tbody *ngFor="let item of billtable | paginate: pageconfig">
                 <tr>
                     <td>{{item.BillID}}</td>
+                    <td>{{item.ReceiverName}}</td>
                     <td>{{item.OrderDate | date: "dd/MM/yyyy"}}</td>
+                    <td>{{item.TotalPrice | number}}</td>
                     <td>{{item.Status}}</td>
                     <!-- <td><button class="btn btn-dark" style="margin-left: 5px"
                             [routerLink]="['/update-product', item.ProductID]"
@@ -27,7 +31,7 @@
                         <i class="fas fa-edit" style="margin-left: 5px;"
                             [routerLink]="['/edit-bill',item.BillID]"
                             title="Edit"></i>
-                        <i class="fas fa-trash" style="margin-left: 5px;" (click)="DeleteProduct(item.BillID)"
+                        <i class="fas fa-trash" style="margin-left: 5px;" (click)="DeleteBill(item.BillID)"
                             title="Delete"></i>
                     </td>
                 </tr>

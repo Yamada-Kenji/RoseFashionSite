@@ -4,6 +4,7 @@ import { BillService } from 'src/app/Shared/bill-service';
 import { CartService } from 'src/app/Shared/cart-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { ProductService } from 'src/app/Shared/product-service';
 
 @Component({
   selector: 'app-edit-bill',
@@ -17,6 +18,7 @@ export class EditBillComponent implements OnInit {
   billid: string;
   constructor(private billService: BillService,
     private cartService: CartService,
+    private productService: ProductService,
     private route: ActivatedRoute,
     private router: Router,
     private lc: Location) { }
@@ -43,13 +45,23 @@ export class EditBillComponent implements OnInit {
       }
     }
     document.getElementById("dldate").style.color = "black";
-    this.billService.UpdateBill(this.billinfo.BillID, this.billinfo.Status, this.billinfo.DeliveryDate).toPromise()
-      .then(() => alert("Cập nhật thành công.")).catch(() => alert("Cập nhật thất bại."))
+    this.billService.UpdateBill(this.billinfo).toPromise()
+      .then(() => {
+        if (this.billinfo.Status == "Đã thanh toán") {
+          this.productService.AddDefaultRating(this.billinfo.CartID)
+          .toPromise().then().catch(err => console.log(err));
+        }
+        alert("Cập nhật thành công.");
+    }).catch(err => console.log(err));
   }
 
   Cancel() {
     if (confirm('Bạn có muốn hủy toàn bộ thay đổi đã thực hiện tại trang này không?')) {
       this.lc.back();
     }
+  }
+
+  AddDefaultRating(){
+
   }
 }

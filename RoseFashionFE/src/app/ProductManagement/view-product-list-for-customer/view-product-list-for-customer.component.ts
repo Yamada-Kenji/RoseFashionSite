@@ -47,6 +47,7 @@ export class ViewProductListForCustomerComponent implements OnInit {
     //this.GetProductList();
     this.FindProduct();
     this.GetAllCategory();
+    this.pageconfig.currentPage = localStorage.getItem('currentpage');
   }
 
   ngOnDestroy() {
@@ -59,6 +60,7 @@ export class ViewProductListForCustomerComponent implements OnInit {
 
   pageChanged(event) {
     this.pageconfig.currentPage = event;
+    localStorage.setItem('currentpage', event);
   }
 
   async GetAllCategory() {

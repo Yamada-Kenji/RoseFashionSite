@@ -11,19 +11,21 @@
                     <span>Toggle Sidebar</span>
                 </button> -->
   <!-- Brand/logo -->
-  <a class="navbar-brand" [routerLink]="['/home']" routerLinkActive="router-link-active"><img style="height: 50px;" [src]="logopath"></a>
+  <a class="navbar-brand" [routerLink]="['/home']" routerLinkActive="router-link-active" (click)="ResetCurrentPage()">
+    <img style="height: 50px;" [src]="logopath">
+  </a>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <!-- Links -->
     <ul class="navbar-nav">
       <!-- Narbar for Admin -->
       <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
-        <a class="nav-link" [routerLink]="['/view-product-list']">Danh sách sản phẩm</a>
+        <a class="nav-link" [routerLink]="['/view-product-list']" (click)="ResetCurrentPage()">Danh sách sản phẩm</a>
       </li>
       <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
-        <a class="nav-link" [routerLink]="['/showcategory']">Danh sách các danh mục</a>
+        <a class="nav-link" [routerLink]="['/showcategory']" (click)="ResetCurrentPage()">Danh sách các danh mục</a>
       </li>
       <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
-        <a class="nav-link" [routerLink]="['/view-bill-for-admin']">Danh sách hóa đơn</a>
+        <a class="nav-link" [routerLink]="['/view-bill-for-admin']" (click)="ResetCurrentPage()">Danh sách hóa đơn</a>
       </li>
 
 
@@ -36,7 +38,7 @@
  
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2"  aria-label="Search" [(ngModel)]="keyword" [ngModelOptions]="{standalone: true}" >
-      <button class="btn btn-outline-light my-2 my-sm-0" type="submit" (click)="Find()" >Tìm kiếm</button>
+      <button class="btn btn-outline-light my-2 my-sm-0" (click)="Find()" >Tìm kiếm</button>
     </form>
     </div>
 

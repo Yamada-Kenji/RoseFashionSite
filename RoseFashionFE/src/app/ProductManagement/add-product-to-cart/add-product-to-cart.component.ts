@@ -36,9 +36,11 @@ export class AddProductToCartComponent implements OnInit {
     this.productService.GetProductDetail(productid).toPromise()
       .then(p => {
         this.product = p;
+        
         /*this.productService.CheckingPurchased(this.userService.getCurrentUser().UserID, p.ProductID)
           .toPromise().then(r => this.purchased = r);*/
       });
+    
   }
 
   AddToCart(amount: number){

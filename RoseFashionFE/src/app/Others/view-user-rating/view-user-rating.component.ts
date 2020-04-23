@@ -44,7 +44,6 @@ export class ViewUserRatingComponent implements OnInit {
           this.CountStar();
           this.CalPercent();
           this.ready = true;
-          console.log()
         };
       });
     await this.productService.GetTotalStar(this.productid)

@@ -11,9 +11,9 @@ namespace RoseFashionBE
 {
     using System;
     
-    public partial class FN_TOPSALE_Result
+    public partial class fn_GetNewestProduct_Result
     {
         public string PID { get; set; }
-        public Nullable<int> TOTAL { get; set; }
+        public Nullable<System.DateTime> ImportDate { get; set; }
     }
 }

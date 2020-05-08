@@ -69,5 +69,24 @@
 </div>
 <hr style="border: 2px solid black; width: 30%;">
 <h2 class="d-flex justify-content-center">CÁC SẢN PHẨM MỚI</h2>
+<div class="container" style="margin-top: 10px;">
+    <div class="row">
+        <div *ngFor="let item of newproducts" class="col">
+            <div class="container" style="position: relative;">
+                <span *ngIf="item.DiscountPercent!=0" class="badge badge-primary" style="position: absolute;">
+                    <h6>-{{item.DiscountPercent}}%</h6>
+                </span>
+                <img [src]="item.Image" [routerLink]="['/add-product-to-cart', item.ProductID]">
+                <p class="wrap-text-center">
+                    <a [routerLink]="['/add-product-to-cart', item.ProductID]" style="color: black;">
+                        {{item.Name}}
+                    </a>
+                    <br>
+                    {{item.Price | number}} VNĐ
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 <hr style="border: 2px solid black; width: 30%;">
 <app-view-recommended-product></app-view-recommended-product>

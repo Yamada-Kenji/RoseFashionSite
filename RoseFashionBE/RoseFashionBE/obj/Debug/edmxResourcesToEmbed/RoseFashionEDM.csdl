@@ -221,6 +221,9 @@
     <FunctionImport Name="fn_GetTopSales" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetTopSales_Result)">
       <Parameter Name="quantity" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="fn_GetNewestProduct" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetNewestProduct_Result)">
+      <Parameter Name="quantity" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -232,10 +235,6 @@
     <Property Type="Int32" Name="ID" Nullable="false" />
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
-  </ComplexType>
-  <ComplexType Name="FN_TOPSALE_Result">
-    <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="TOTAL" Nullable="true" />
   </ComplexType>
   <EntityType Name="Discount">
     <Key>
@@ -498,5 +497,9 @@
   <ComplexType Name="fn_GetTopSales_Result">
     <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="TOTAL" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="fn_GetNewestProduct_Result">
+    <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="ImportDate" Nullable="true" Precision="10" />
   </ComplexType>
 </Schema>

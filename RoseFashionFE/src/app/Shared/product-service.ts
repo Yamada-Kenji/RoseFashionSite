@@ -52,6 +52,11 @@ const httpOptions = {
         return this.http.get<ProductModel[]>(editedurl);
     }
 
+    GetNewestProducts(): Observable<ProductModel[]>{
+        const editedurl = `${this.producturl}/newproducts`;
+        return this.http.get<ProductModel[]>(editedurl);
+    }
+
      // get Product when find
     FindProduct(keyword: string): Observable<ProductModel[]>{
         const editedurl = `${this.producturl}?keyword=${keyword}`;

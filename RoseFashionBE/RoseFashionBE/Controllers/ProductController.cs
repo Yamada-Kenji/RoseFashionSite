@@ -303,6 +303,39 @@ namespace RoseFashionBE.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("newproducts")]
+        public IHttpActionResult GetNewestProducts()
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    var topsale = entity.fn_GetNewestProduct(8).Select(p => p.PID).ToList();
+                    List<ProductModel> result = new List<ProductModel>();
+                    for (int i = 0; i < topsale.Count(); i++)
+                    {
+                        string pid = topsale[i];
+                        var product = entity.Products.Where(p => p.ProductID == pid)
+                            .Select(p => new ProductModel
+                            {
+                                ProductID = p.ProductID,
+                                Name = p.Name,
+                                Image = p.Image,
+                                Price = p.Price,
+                                DiscountPercent = p.DiscountPercent
+                            }).FirstOrDefault();
+                        result.Add(product);
+                    }
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         /*[HttpGet]
         [Route("page")]
         public IHttpActionResult GetOnePage(string[] idlist)

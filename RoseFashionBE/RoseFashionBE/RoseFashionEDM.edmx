@@ -337,6 +337,17 @@
           </ReturnType>
         </Function>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="fn_GetNewestProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="quantity" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="PID" Type="varchar" MaxLength="50" />
+                <Property Name="ImportDate" Type="date" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="fn_GetProductRatingFromTopSimilarUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid" Type="varchar" Mode="In" />
           <Parameter Name="productid" Type="varchar" Mode="In" />
@@ -718,6 +729,9 @@
             <End Role="Similarity" EntitySet="Similarities" />
           </AssociationSet>
           <FunctionImport Name="fn_GetTopSales" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetTopSales_Result)">
+          <Parameter Name="quantity" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="fn_GetNewestProduct" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetNewestProduct_Result)">
             <Parameter Name="quantity" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
@@ -731,10 +745,6 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="FN_TOPSALE_Result">
-          <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="TOTAL" Nullable="true" />
         </ComplexType>
         <EntityType Name="Discount">
           <Key>
@@ -998,6 +1008,10 @@
           <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="TOTAL" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="fn_GetNewestProduct_Result">
+          <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="ImportDate" Nullable="true" Precision="10" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1214,6 +1228,14 @@
               <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetTopSales_Result">
                 <ScalarProperty Name="PID" ColumnName="PID" />
                 <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="fn_GetNewestProduct" FunctionName="RoseFashionDBModel.Store.fn_GetNewestProduct">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetNewestProduct_Result">
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

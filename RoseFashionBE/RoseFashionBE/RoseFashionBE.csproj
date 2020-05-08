@@ -181,6 +181,9 @@
     <Compile Include="District.cs">
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="fn_GetNewestProduct_Result.cs">
+      <DependentUpon>RoseFashionEDM.tt</DependentUpon>
+    </Compile>
     <Compile Include="fn_GetProductRatingFromTopSimilarUser_Result.cs">
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
     </Compile>
@@ -188,9 +191,6 @@
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="fn_GetTwoVetor_Result.cs">
-      <DependentUpon>RoseFashionEDM.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FN_TOPSALE_Result.cs">
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">

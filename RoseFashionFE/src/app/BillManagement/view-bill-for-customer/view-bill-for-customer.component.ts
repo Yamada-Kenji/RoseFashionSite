@@ -12,6 +12,7 @@ export class ViewBillForCustomerComponent implements OnInit {
 
   idUser: string
   history: BillModel[]
+  foo: number[] = [1,5,2];
 
   constructor( private userservice: UserService,private billservice: BillService) { }
 
@@ -22,8 +23,21 @@ export class ViewBillForCustomerComponent implements OnInit {
   }
 
   getPurchaseHistory(): void {
-    this.billservice.GetPurchaseById(this.idUser).subscribe(history => {this.history = history; console.log(history);});
-    console.log(this.history);
+   /* this.billservice.GetPurchaseById(this.idUser).subscribe(history => {this.history = history; console.log(history);});
+    this.history.sort((a,b) => {
+    return <any>new Date(a.OrderDate) - <any>new Date(b.OrderDate);
+    });
+    console.log(this.history); */
+
+   this.billservice.GetPurchaseById(this.idUser).toPromise()
+  .then( history =>{ this.history = history;
+    
+    this.history.sort((b,a) => {
+      return <any>new Date(a.OrderDate) - <any>new Date(b.OrderDate);
+      });
+      console.log(history);
+  });
   }
+  
 
 }

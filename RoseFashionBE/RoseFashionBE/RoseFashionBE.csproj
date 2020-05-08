@@ -173,6 +173,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\StatisticalController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Discount.cs">
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
@@ -199,6 +200,7 @@
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\ProvinceModel.cs" />
     <Compile Include="Models\RatingModel.cs" />
+    <Compile Include="Models\StatisticalModel.cs" />
     <Compile Include="Models\TestModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Product.cs">

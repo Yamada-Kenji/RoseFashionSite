@@ -27,7 +27,15 @@
       <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
         <a class="nav-link" [routerLink]="['/view-bill-for-admin']" (click)="ResetCurrentPage()">Danh sách hóa đơn</a>
       </li>
+      <li class="nav-item dropdown" *ngIf="currentUser.Role == 'admin'">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Doanh thu</a>
+        <div class="dropdown-menu">
 
+          <a class="dropdown-item" *ngIf="currentUser.Role == 'admin'" [routerLink]="['/statistic-by-month']">Doanh thu theo tháng</a>
+          <a class="dropdown-item" *ngIf="currentUser.Role == 'admin'" [routerLink]="['/statistic-by-year']">Doanh thu theo năm</a>
+  
+        </div>
+      </li>
 
       <!-- Narbar for user -->
       <li class="nav-item" *ngIf="currentUser.Role != 'admin'">
@@ -58,7 +66,7 @@
 
     <li class="nav-item dropdown" *ngIf="islogon">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        {{currentUser.Email}}
+        {{currentUser.FullName}}
       </a>
       <div class="dropdown-menu">
 
@@ -92,23 +100,53 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <label>Email</label>
+        <form>
+          <div class="md-form">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email</label>
+              <input type="email" #email class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nhập email">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Mật khẩu</label>
+              <div class="input-group">
+                <input type="password"  #password name="password" id="password" class="form-control" data-toggle="password" placeholder="Nhập mật khẩu">
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fa fa-eye"></i>
+                  </span>
+                </div>
+              </div>
+            
+            </div>
+            <button type="button" style="margin-top: 25px;" class="btn btn-dark btn-block" (click)="login(email.value, password.value)"
+              data-dismiss="modal">Đăng nhập</button>
+          </div>
+          <div class="hr-sect" style="margin-top: 20px;">Đăng nhập với</div>
+          <div class="md-form">
+          <button type="button" class="btn btn-primary btn-block" style="background-color: #385998;border-color: #385998;" data-dismiss="modal" (click)="socialSignIn('facebook')"><i class="fa fa-facebook fa-fw"></i>Facebook</button>  
+          <button type="button" class="btn btn-primary btn-block" style="background-color: #DD4B39;border-color: #DD4B39;" data-dismiss="modal" (click)="socialSignIn('google')"><i class="fa fa-google fa-fw"></i>Google</button>    
+         
+          </div>
+        </form>
+        <!-- <label>Email</label>
         <input type="text" class="form-control" #email>
         <label>Mật khẩu</label>
-        <input type="password" class="form-control" #password>
+        <input type="password" class="form-control" #password> -->
+        
       </div>
 
+      
       <!-- Modal footer -->
-      <div class="modal-footer">
+      <!-- <div class="modal-footer" >
         <button type="button" class="btn btn-dark" (click)="login(email.value, password.value)"
           data-dismiss="modal">Đăng nhập</button>
-        <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
-      </div>
-
+        <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button> 
+      </div> -->
 
     </div>
   </div>
 </div>
+<!-- modal -->
 
 <div id="GoToTopIcon" *ngIf="showbutton" (click)="BackToTop()">
 <i class="fas fa-arrow-circle-up fa-2x" style="color: white;"></i>

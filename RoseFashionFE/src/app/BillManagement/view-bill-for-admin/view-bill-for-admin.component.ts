@@ -19,7 +19,10 @@ export class ViewBillForAdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.billService.GetBillTable().toPromise().then(r => this.billtable = r).catch(err => alert(err));
+    this.billService.GetBillTable().toPromise().then(r => {this.billtable = r;
+      this.billtable.sort((b,a) => {
+        return <any>new Date(a.OrderDate) - <any>new Date(b.OrderDate);
+        });}).catch(err => alert(err));
     this.pageconfig.currentPage = localStorage.getItem('currentpage');
   }
 

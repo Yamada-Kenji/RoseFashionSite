@@ -1,0 +1,32 @@
+<div class="container " style="width: device-width;">
+    <h1 style="margin-bottom: 10px; text-align: center">Doanh thu theo năm</h1>
+
+    <form class="form-inline" action="/action_page.php">
+
+        <label>Từ:  </label>
+        <select #fromyear class="form-control" type="text" class="form-control" placeholder="province" >
+             <option *ngFor="let each of statistics" [value]="each.Year"> {{each.Year}} </option>
+        </select>
+
+        <label style="margin-left: 45px;">Đến:  </label>
+        <select #toyear class="form-control" type="text" class="form-control" placeholder="province" >
+            <option *ngFor="let each of statistics" [value]="each.Year"> {{each.Year}} </option>
+        </select>
+        <button class="btn btn-dark float-right" (click)="getsumbyyear(fromyear.value, toyear.value)" type="submit" style="margin-left: 50px;">View </button>
+
+
+    </form>
+    <div class="chart-container" >    
+        <canvas id="canvas"></canvas>    
+      </div>
+    <!-- <div class="chart-wrapper">
+        <canvas baseChart 
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [plugins]="barChartPlugins"
+        [legend]="barChartLegend"
+        [chartType]="barChartType">
+      </canvas>
+    </div> -->
+</div>

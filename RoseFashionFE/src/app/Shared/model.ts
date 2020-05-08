@@ -148,3 +148,13 @@ export class RatingModel{
     Star: number;
     RatingDate: Date;
 }
+
+export class StatisticModel{
+
+    Year: Number;
+    // FromYear: Number;
+    // ToYear: Number;
+    StaticMonth: number[] = [];
+    StaticYear: number[] = [];
+
+}

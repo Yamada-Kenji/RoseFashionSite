@@ -13,6 +13,7 @@ const httpOptions = {
 @Injectable()
 export class UserService {
 
+     url;
     constructor(private http: HttpClient) {
     }
 
@@ -65,5 +66,20 @@ export class UserService {
     RunRecommendationAlgorithm(): Observable<any>{
         const editedurl = `${this.userurl}/recommendation`;
         return this.http.post<any>(editedurl, httpOptions);
+    }
+
+    //social login
+    Savesresponse(users: UserModel): Observable<any>{
+        this.url =  'http://localhost:62098/api/user/registerSocial';
+        return this.http.post(this.url, users, httpOptions);
+    }
+    loginsocial(UserID: string): Observable<UserModel> {
+        const editedurl = `${this.userurl}/loginsocial`;
+        const account: UserModel = { UserID } as UserModel;
+        return this.http.post<UserModel>(editedurl, account, httpOptions)
+            .pipe(map(user => {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                return user;
+            }));
     }
 }

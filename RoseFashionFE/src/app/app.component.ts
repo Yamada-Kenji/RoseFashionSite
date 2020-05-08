@@ -4,6 +4,8 @@ import { UserService } from './Shared/user-service';
 import { CartService } from './Shared/cart-service';
 import { MessageService } from './Shared/message-service';
 import { Router } from '@angular/router';
+//social login
+import { GoogleLoginProvider, FacebookLoginProvider, AuthService } from 'angularx-social-login';  
 
 
 @Component({
@@ -59,7 +61,7 @@ export class AppComponent {
     private userservice: UserService,
     private cartService: CartService,
     private messageService: MessageService,
-    private router: Router) { }
+    private router: Router, public OAuth: AuthService) { }
 
   ngOnInit() {
     this.getCurrentUser();
@@ -166,4 +168,59 @@ export class AppComponent {
   ResetCurrentPage(){
     this.messageService.ResetCurrentPage();
   }
+  //Soacial login
+  getCurrentSocialUser() {
+    var temp = this.userservice.getCurrentUser();
+      this.currentUser = temp;
+      this.islogon = true;
+    this.cartService.GetLastUsedCart(this.currentUser.UserID).toPromise()
+      .then(result => {
+        localStorage.setItem('CartID', result);
+        this.cartService.GetItemsInCart(result);
+      });
+    }
+
+    async loginsocial(userid: string) {
+
+      this.loginmessage = null;
+  
+      this.currentUser = await this.userservice.loginsocial(userid).toPromise().then(data => this.currentUser = data, error => this.loginmessage = error);
+      if (this.loginmessage != null) {
+        var msg: MessageModel = { Title: 'Thông báo', Content: 'Tài khoản hoặc mật khẩu không chính xác.',BackToHome: false };
+        this.messageService.SendMessage(msg);
+      } else {
+        var msg: MessageModel = { Title: 'Thông báo', Content: 'Đăng nhập thành công.',BackToHome: false };
+        this.messageService.SendMessage(msg);
+        this.router.navigate(['/home']);
+      }
+      this.getCurrentSocialUser();
+    }
+
+    public socialSignIn(socialProvider: string) {  
+      let socialPlatformProvider;  
+      if (socialProvider === 'facebook') {  
+        socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;  
+      } else if (socialProvider === 'google') {  
+        socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;  
+      }  
+      this.OAuth.signIn(socialPlatformProvider).then(async socialusers => {  
+        // console.log(socialProvider, socialusers);  
+         this.creatAccount(socialusers.id, socialusers.name);  
+        
+      });  
+    }  
+
+    creatAccount(UserID: string,FullName: string): void {
+      var creAccount: UserModel;
+      var msg: MessageModel = { Title: "Thông báo", Content: "" ,BackToHome: false};
+      creAccount = {UserID ,FullName } as UserModel
+      this.userservice.Savesresponse(creAccount).toPromise()
+        .then(result => {
+          this.loginsocial( UserID );
+          // msg.Content = 'Đăng ký thành công.';
+          // this.messageService.SendMessage(msg);
+          
+        });
+        
+    }
 }

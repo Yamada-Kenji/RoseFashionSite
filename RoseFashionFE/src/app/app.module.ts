@@ -50,7 +50,30 @@ import { BarRatingModule } from "ngx-bar-rating";
 import { ViewUserRatingComponent } from './Others/view-user-rating/view-user-rating.component';
 import { AddUserRatingComponent } from './Others/add-user-rating/add-user-rating.component';
 import { ViewRecommendedProductComponent } from './Others/view-recommended-product/view-recommended-product.component';
+//chart
+import { ChartsModule } from 'ng2-charts';
+import { StatisticByYearComponent } from './Statistic/StatisticByYear/statistic-by-year/statistic-by-year.component';
+import { StatisticByMonthComponent } from './Statistic/StatisticByMonth/statistic-by-month/statistic-by-month.component';
+import { StatisticService } from './Shared/statistic-service';
+//Social Login
+import { SocialLoginModule, AuthServiceConfig,AuthService } from "angularx-social-login";
+import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
 
+export function socialConfigs() {  
+  const config = new AuthServiceConfig(  
+    [  
+      {  
+        id: FacebookLoginProvider.PROVIDER_ID,  
+        provider: new FacebookLoginProvider('224081915477787')  
+      },  
+      {  
+        id: GoogleLoginProvider.PROVIDER_ID,  
+        provider: new GoogleLoginProvider('843816834979-5p804krlg4q47bnf7cfjejr2mljo8jvf.apps.googleusercontent.com')  
+      }  
+    ]  
+  );  
+  return config;  
+} 
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +98,9 @@ import { ViewRecommendedProductComponent } from './Others/view-recommended-produ
     EditBillComponent,
     ViewUserRatingComponent,
     AddUserRatingComponent,
-    ViewRecommendedProductComponent
+    ViewRecommendedProductComponent,
+    StatisticByYearComponent,
+    StatisticByMonthComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +110,9 @@ import { ViewRecommendedProductComponent } from './Others/view-recommended-produ
     ReactiveFormsModule,
     NgxPaginationModule,
     BrowserAnimationsModule,
-    BarRatingModule
+    BarRatingModule,
+    ChartsModule,
+    SocialLoginModule
   ],
 
   providers: [
@@ -97,7 +124,13 @@ import { ViewRecommendedProductComponent } from './Others/view-recommended-produ
     MessageService,
     AddressService,
     AuthGuard,
-    KeyWord
+    KeyWord,
+    StatisticService,
+    AuthService,  
+    {  
+      provide: AuthServiceConfig,  
+      useFactory: socialConfigs  
+    } 
   ],
 
 

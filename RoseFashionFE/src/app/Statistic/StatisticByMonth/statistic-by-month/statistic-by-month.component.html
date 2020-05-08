@@ -1,0 +1,26 @@
+
+<div class="container " style="width: device-width;">
+    <h1 style="margin-bottom: 10px; text-align: center">Doanh thu theo tháng</h1>
+
+    <form class="form-inline" action="/action_page.php">
+        <label>Năm: </label>
+        <select #year class="form-control" type="text" class="form-control" placeholder="province" (change)="getsumbymonth(year.value)">
+            <option>Chọn năm</option>
+            <option *ngFor="let each of statistics" [value]="each.Year"> {{each.Year}} </option>
+        </select>
+    </form>
+    <div class="chart-container" style="margin-top: 50px;">    
+        <canvas id="canvas"></canvas>    
+      </div>
+    <!-- <div class="chart-wrapper">
+        <canvas baseChart 
+            [datasets]="lineChartData" 
+            [labels]="lineChartLabels" 
+            [options]="lineChartOptions"
+            [colors]="lineChartColors" 
+            [legend]="lineChartLegend" 
+            [chartType]="lineChartType" 
+            [plugins]="lineChartPlugins">
+        </canvas>
+    </div> -->
+</div>

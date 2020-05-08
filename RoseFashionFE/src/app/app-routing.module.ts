@@ -23,6 +23,10 @@ import { ViewBillForAdminComponent } from './BillManagement/view-bill-for-admin/
 import { TryNewCodeComponent } from './Others/try-new-code/try-new-code.component';
 import { EditBillComponent } from './BillManagement/edit-bill/edit-bill.component';
 
+//statistic
+import { StatisticByMonthComponent } from './Statistic/StatisticByMonth/statistic-by-month/statistic-by-month.component';
+import { StatisticByYearComponent } from './Statistic/StatisticByYear/statistic-by-year/statistic-by-year.component';
+
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -48,7 +52,10 @@ const routes: Routes = [
   {path: 'edit-bill/:billid', component: EditBillComponent},
 
   {path: 'image-upload', component: ViewBillForAdminComponent},
-  {path: 'trynewcode', component: TryNewCodeComponent}
+  {path: 'trynewcode', component: TryNewCodeComponent},
+
+  {path: 'statistic-by-month', component: StatisticByMonthComponent},
+  {path: 'statistic-by-year', component: StatisticByYearComponent}
 
 ];
 

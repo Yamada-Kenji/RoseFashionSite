@@ -399,5 +399,82 @@ namespace RoseFashionBE.Controllers
                 }
             }
         }
+
+        //Socaial Logim
+        [HttpPost]
+        [Route("loginsocial")]
+        public IHttpActionResult LoginWithID(UserModel acc)
+        {
+            //nếu có truyền vào model thì thêm
+            if (!ModelState.IsValid) return BadRequest("Invalid data.");
+            try
+            {
+                var result = new UserModel();
+                using (var ctx = new RoseFashionDBEntities())
+                {
+
+
+                    result = ctx.Users
+                        .Where(s => s.UserID.ToLower().Equals(acc.UserID.ToLower()))
+                        .Select(s => new UserModel()
+                        {
+                            UserID = s.UserID,
+                            FullName = s.FullName,
+                            Email = s.Email,
+                            Phone = s.Phone,
+                            Address = s.Address,
+                            Role = s.Role
+                        }).FirstOrDefault();
+
+
+                }
+
+                if (result != null)
+                {
+
+
+                    return Ok(result);
+
+
+                }
+                return BadRequest("Login fail.");
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("registerSocial")]
+        public IHttpActionResult RegisterSocial(UserModel user)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    int existedemail = entity.Users.Count(u => u.UserID.Equals(user.UserID));
+                    if (existedemail < 1)
+                    {
+                        entity.Users.Add(new User()
+                        {
+                            UserID = user.UserID,
+                            FullName = user.FullName,
+                            Password = "12345670",
+                            Role = "user"
+                        });
+
+                    }
+                    entity.SaveChanges();
+                    return Ok("Register successfully.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

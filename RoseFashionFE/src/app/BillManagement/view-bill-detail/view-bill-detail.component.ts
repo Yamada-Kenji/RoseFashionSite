@@ -24,6 +24,7 @@ export class ViewBillDetailComponent implements OnInit {
     this.billService.GetOneBillInfo(this.billid).toPromise()
     .then(result => {
       this.billinfo = result;
+      console.log(this.billinfo);
       if(this.billinfo.Status=='Đã thanh toán') this.delivered = true;
       this.cartService.GetItemsInBill(this.billinfo.CartID).toPromise()
       .then(items => this.usedcart = items);

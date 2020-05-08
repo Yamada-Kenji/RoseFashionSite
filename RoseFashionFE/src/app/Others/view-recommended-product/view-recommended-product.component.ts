@@ -21,7 +21,7 @@ export class ViewRecommendedProductComponent implements OnInit {
   ngOnInit() {
     var user = this.userService.getCurrentUser();
     //this.productService.GetRecommendedProduct(user.UserID).toPromise().then(r => this.productlist = r);
-    this.productService.GetTopSales().toPromise().then(r => {
+    this.productService.GetRecommendedProduct(this.userService.getCurrentUser().UserID).toPromise().then(r => {
       this.productlist = r;
       var templist: ProductModel[] = [];
       this.productlist.forEach(p => templist.push(p))

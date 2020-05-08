@@ -77,9 +77,7 @@
           </Key>
           <Property Name="ProductID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Color" Type="varchar" MaxLength="50" />
           <Property Name="CategoryID" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Image" Type="varchar(max)" />
           <Property Name="Price" Type="bigint" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -156,6 +154,8 @@
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Phone" Type="varchar" MaxLength="10" />
           <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Province" Type="nvarchar" MaxLength="50" />
+          <Property Name="District" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Bill_Cart">
           <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
@@ -277,6 +277,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Recommendation_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Recommendation" Type="Self.Recommendation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Recommendation">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recommendation_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Recommendation" Type="Self.Recommendation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Recommendation">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Similarity_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Similarity" Type="Self.Similarity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Similarity">
+              <PropertyRef Name="UserID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Similarity_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Similarity" Type="Self.Similarity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Similarity">
+              <PropertyRef Name="UserID2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_CheckingIfProductWasPurchasedByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid" Type="varchar" Mode="In" />
           <Parameter Name="productid" Type="varchar" Mode="In" />
@@ -312,6 +360,17 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="fn_GetTopSales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="quantity" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="PID" Type="varchar" MaxLength="50" />
+                <Property Name="TOTAL" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="fn_GetTwoVetor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid1" Type="varchar" Mode="In" />
           <Parameter Name="userid2" Type="varchar" Mode="In" />
@@ -330,16 +389,6 @@
             <CollectionType>
               <RowType>
                 <Property Name="ProductID" Type="varchar" MaxLength="50" />
-              </RowType>
-            </CollectionType>
-          </ReturnType>
-        </Function>
-        <Function Name="FN_TOPSALE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <ReturnType>
-            <CollectionType>
-              <RowType>
-                <Property Name="PID" Type="varchar" MaxLength="50" />
-                <Property Name="TOTAL" Type="int" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -429,6 +478,22 @@
             <End Role="User" EntitySet="User" />
             <End Role="Rating" EntitySet="Rating" />
           </AssociationSet>
+          <AssociationSet Name="FK_Recommendation_Product" Association="Self.FK_Recommendation_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Recommendation" EntitySet="Recommendation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recommendation_User" Association="Self.FK_Recommendation_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Recommendation" EntitySet="Recommendation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Similarity_User" Association="Self.FK_Similarity_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Similarity" EntitySet="Similarity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Similarity_User1" Association="Self.FK_Similarity_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Similarity" EntitySet="Similarity" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -503,6 +568,11 @@
           <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Carts" Relationship="Self.FK_Cart_User" FromRole="User" ToRole="Cart" />
           <NavigationProperty Name="Ratings" Relationship="RoseFashionDBModel.FK_Rating_User" FromRole="User" ToRole="Rating" />
+          <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="District" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Recommendations" Relationship="RoseFashionDBModel.FK_Recommendation_User" FromRole="User" ToRole="Recommendation" />
+          <NavigationProperty Name="Similarities" Relationship="RoseFashionDBModel.FK_Similarity_User" FromRole="User" ToRole="Similarity" />
+          <NavigationProperty Name="Similarities1" Relationship="RoseFashionDBModel.FK_Similarity_User1" FromRole="User" ToRole="Similarity" />
         </EntityType>
         <Association Name="FK_Cart_Product_Cart">
           <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
@@ -573,7 +643,6 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <FunctionImport Name="FN_TOPSALE" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.FN_TOPSALE_Result)" />
           <EntitySet Name="Discounts" EntityType="RoseFashionDBModel.Discount" />
           <EntitySet Name="Districts" EntityType="RoseFashionDBModel.District" />
           <EntitySet Name="Provinces" EntityType="RoseFashionDBModel.Province" />
@@ -606,6 +675,15 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
+          <EntitySet Name="Bills" EntityType="RoseFashionDBModel.Bill" />
+          <AssociationSet Name="FK_Bill_Cart" Association="RoseFashionDBModel.FK_Bill_Cart">
+            <End Role="Cart" EntitySet="Carts" />
+            <End Role="Bill" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bill_Discount" Association="RoseFashionDBModel.FK_Bill_Discount">
+            <End Role="Discount" EntitySet="Discounts" />
+            <End Role="Bill" EntitySet="Bills" />
+          </AssociationSet>
           <EntitySet Name="Products" EntityType="RoseFashionDBModel.Product" />
           <AssociationSet Name="FK_Cart_Product_Product" Association="RoseFashionDBModel.FK_Cart_Product_Product">
             <End Role="Product" EntitySet="Products" />
@@ -623,15 +701,25 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
-          <EntitySet Name="Bills" EntityType="RoseFashionDBModel.Bill" />
-          <AssociationSet Name="FK_Bill_Cart" Association="RoseFashionDBModel.FK_Bill_Cart">
-            <End Role="Cart" EntitySet="Carts" />
-            <End Role="Bill" EntitySet="Bills" />
+          <AssociationSet Name="FK_Recommendation_Product" Association="RoseFashionDBModel.FK_Recommendation_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Recommendation" EntitySet="Recommendations" />
           </AssociationSet>
-          <AssociationSet Name="FK_Bill_Discount" Association="RoseFashionDBModel.FK_Bill_Discount">
-            <End Role="Discount" EntitySet="Discounts" />
-            <End Role="Bill" EntitySet="Bills" />
+          <AssociationSet Name="FK_Recommendation_User" Association="RoseFashionDBModel.FK_Recommendation_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Recommendation" EntitySet="Recommendations" />
           </AssociationSet>
+          <AssociationSet Name="FK_Similarity_User" Association="RoseFashionDBModel.FK_Similarity_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Similarity" EntitySet="Similarities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Similarity_User1" Association="RoseFashionDBModel.FK_Similarity_User1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Similarity" EntitySet="Similarities" />
+          </AssociationSet>
+          <FunctionImport Name="fn_GetTopSales" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetTopSales_Result)">
+            <Parameter Name="quantity" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -698,6 +786,8 @@
           <Property Name="UserID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PredictedStar" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="RoseFashionDBModel.FK_Recommendation_Product" FromRole="Recommendation" ToRole="Product" />
+          <NavigationProperty Name="User" Relationship="RoseFashionDBModel.FK_Recommendation_User" FromRole="Recommendation" ToRole="User" />
         </EntityType>
         <EntityType Name="Similarity">
           <Key>
@@ -707,6 +797,8 @@
           <Property Name="UserID1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UserID2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SimilarityRate" Type="Double" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="RoseFashionDBModel.FK_Similarity_User" FromRole="Similarity" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="RoseFashionDBModel.FK_Similarity_User1" FromRole="Similarity" ToRole="User" />
         </EntityType>
         <ComplexType Name="fn_GetProductRatingFromTopSimilarUser_Result">
           <Property Type="Double" Name="SimilarityRate" Nullable="true" />
@@ -743,15 +835,58 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="BillID" />
+          </Key>
+          <Property Name="BillID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CartID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiverName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReceiverPhone" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DeliveryAddress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProvinceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DistrictName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DiscountCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TotalPrice" Type="Int64" Nullable="false" />
+          <Property Name="DeliveryFee" Type="Int64" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Cart" Relationship="RoseFashionDBModel.FK_Bill_Cart" FromRole="Bill" ToRole="Cart" />
+          <NavigationProperty Name="Discount" Relationship="RoseFashionDBModel.FK_Bill_Discount" FromRole="Bill" ToRole="Discount" />
+        </EntityType>
+        <Association Name="FK_Bill_Cart">
+          <End Type="RoseFashionDBModel.Cart" Role="Cart" Multiplicity="1" />
+          <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart">
+              <PropertyRef Name="CartID" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="CartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bill_Discount">
+          <End Type="RoseFashionDBModel.Discount" Role="Discount" Multiplicity="0..1" />
+          <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discount">
+              <PropertyRef Name="DiscountCode" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="DiscountCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ProductID" />
           </Key>
           <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CategoryID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Price" Type="Int64" Nullable="false" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
@@ -761,6 +896,7 @@
           <NavigationProperty Name="Category" Relationship="RoseFashionDBModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="Product_Size_Quantity" Relationship="RoseFashionDBModel.FK_Product_Size_Quantity_Product" FromRole="Product" ToRole="Product_Size_Quantity" />
           <NavigationProperty Name="Ratings" Relationship="RoseFashionDBModel.FK_Rating_Product" FromRole="Product" ToRole="Rating" />
+          <NavigationProperty Name="Recommendations" Relationship="RoseFashionDBModel.FK_Recommendation_Product" FromRole="Product" ToRole="Recommendation" />
         </EntityType>
         <Association Name="FK_Cart_Product_Product">
           <End Type="RoseFashionDBModel.Product" Role="Product" Multiplicity="1" />
@@ -810,51 +946,58 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Bill">
-          <Key>
-            <PropertyRef Name="BillID" />
-          </Key>
-          <Property Name="BillID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CartID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ReceiverName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ReceiverPhone" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="DeliveryAddress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ProvinceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DistrictName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DiscountCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TotalPrice" Type="Int64" Nullable="false" />
-          <Property Name="DeliveryFee" Type="Int64" Nullable="false" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Cart" Relationship="RoseFashionDBModel.FK_Bill_Cart" FromRole="Bill" ToRole="Cart" />
-          <NavigationProperty Name="Discount" Relationship="RoseFashionDBModel.FK_Bill_Discount" FromRole="Bill" ToRole="Discount" />
-        </EntityType>
-        <Association Name="FK_Bill_Cart">
-          <End Type="RoseFashionDBModel.Cart" Role="Cart" Multiplicity="1" />
-          <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
+        <Association Name="FK_Recommendation_Product">
+          <End Type="RoseFashionDBModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="RoseFashionDBModel.Recommendation" Role="Recommendation" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Cart">
-              <PropertyRef Name="CartID" />
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
             </Principal>
-            <Dependent Role="Bill">
-              <PropertyRef Name="CartID" />
+            <Dependent Role="Recommendation">
+              <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Bill_Discount">
-          <End Type="RoseFashionDBModel.Discount" Role="Discount" Multiplicity="0..1" />
-          <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
+        <Association Name="FK_Recommendation_User">
+          <End Type="RoseFashionDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="RoseFashionDBModel.Recommendation" Role="Recommendation" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Discount">
-              <PropertyRef Name="DiscountCode" />
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
             </Principal>
-            <Dependent Role="Bill">
-              <PropertyRef Name="DiscountCode" />
+            <Dependent Role="Recommendation">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Similarity_User">
+          <End Type="RoseFashionDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="RoseFashionDBModel.Similarity" Role="Similarity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Similarity">
+              <PropertyRef Name="UserID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Similarity_User1">
+          <End Type="RoseFashionDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="RoseFashionDBModel.Similarity" Role="Similarity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Similarity">
+              <PropertyRef Name="UserID2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="fn_GetTopSales_Result">
+          <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TOTAL" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -914,6 +1057,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="RoseFashionDBModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
@@ -950,14 +1095,6 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="RoseFashionDBModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="RoseFashionDBModel.Store.sp_upgraddiagrams" />
-          <FunctionImportMapping FunctionImportName="FN_TOPSALE" FunctionName="RoseFashionDBModel.Store.FN_TOPSALE">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RoseFashionDBModel.FN_TOPSALE_Result">
-                <ScalarProperty Name="PID" ColumnName="PID" />
-                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Discounts">
             <EntityTypeMapping TypeName="RoseFashionDBModel.Discount">
               <MappingFragment StoreEntitySet="Discount">
@@ -1038,22 +1175,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
-              <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
-                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="Color" ColumnName="Color" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Bills">
             <EntityTypeMapping TypeName="RoseFashionDBModel.Bill">
               <MappingFragment StoreEntitySet="Bill">
@@ -1074,6 +1195,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="fn_GetTopSales" FunctionName="RoseFashionDBModel.Store.fn_GetTopSales">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetTopSales_Result">
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

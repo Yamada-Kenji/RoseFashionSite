@@ -67,6 +67,7 @@ export class AppComponent {
 
   Find() {
     this.messageService.SendKeyword(this.keyword);
+    this.keyword = '';
   }
 
   BackToTop() {

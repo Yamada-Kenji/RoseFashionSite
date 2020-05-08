@@ -17,5 +17,8 @@ namespace RoseFashionBE
         public string UserID1 { get; set; }
         public string UserID2 { get; set; }
         public double SimilarityRate { get; set; }
+    
+        public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
     }
 }

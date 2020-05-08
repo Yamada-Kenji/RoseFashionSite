@@ -54,6 +54,8 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="RoseFashionDBModel.User">
         <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="District" ColumnName="District" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="FullName" ColumnName="FullName" />
@@ -90,14 +92,6 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="RoseFashionDBModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="RoseFashionDBModel.Store.sp_upgraddiagrams" />
-    <FunctionImportMapping FunctionImportName="FN_TOPSALE" FunctionName="RoseFashionDBModel.Store.FN_TOPSALE">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="RoseFashionDBModel.FN_TOPSALE_Result">
-          <ScalarProperty Name="PID" ColumnName="PID" />
-          <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <EntitySetMapping Name="Discounts">
       <EntityTypeMapping TypeName="RoseFashionDBModel.Discount">
         <MappingFragment StoreEntitySet="Discount">
@@ -178,22 +172,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Products">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
-        <MappingFragment StoreEntitySet="Product">
-          <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
-          <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
-          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="Image" ColumnName="Image" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-          <ScalarProperty Name="Color" ColumnName="Color" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Bills">
       <EntityTypeMapping TypeName="RoseFashionDBModel.Bill">
         <MappingFragment StoreEntitySet="Bill">
@@ -214,5 +192,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
+          <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="fn_GetTopSales" FunctionName="RoseFashionDBModel.Store.fn_GetTopSales">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetTopSales_Result">
+          <ScalarProperty Name="PID" ColumnName="PID" />
+          <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

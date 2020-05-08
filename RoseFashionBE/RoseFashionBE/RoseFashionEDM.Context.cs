@@ -39,8 +39,8 @@ namespace RoseFashionBE
         public virtual DbSet<Recommendation> Recommendations { get; set; }
         public virtual DbSet<Similarity> Similarities { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Bill> Bills { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -145,12 +145,6 @@ namespace RoseFashionBE
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
     
-        [DbFunction("RoseFashionDBEntities", "FN_TOPSALE")]
-        public virtual IQueryable<FN_TOPSALE_Result> FN_TOPSALE()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<FN_TOPSALE_Result>("[RoseFashionDBEntities].[FN_TOPSALE]()");
-        }
-    
         [DbFunction("RoseFashionDBEntities", "fn_CheckingIfProductWasPurchasedByUser")]
         public virtual IQueryable<string> fn_CheckingIfProductWasPurchasedByUser(string userid, string productid)
         {
@@ -211,6 +205,16 @@ namespace RoseFashionBE
                 new ObjectParameter("userid", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<string>("[RoseFashionDBEntities].[fn_GetUnRatedProduct](@userid)", useridParameter);
+        }
+    
+        [DbFunction("RoseFashionDBEntities", "fn_GetTopSales")]
+        public virtual IQueryable<fn_GetTopSales_Result> fn_GetTopSales(Nullable<int> quantity)
+        {
+            var quantityParameter = quantity.HasValue ?
+                new ObjectParameter("quantity", quantity) :
+                new ObjectParameter("quantity", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fn_GetTopSales_Result>("[RoseFashionDBEntities].[fn_GetTopSales](@quantity)", quantityParameter);
         }
     }
 }

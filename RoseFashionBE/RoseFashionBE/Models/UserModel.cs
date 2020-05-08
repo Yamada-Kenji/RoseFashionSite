@@ -13,6 +13,8 @@ namespace RoseFashionBE.Models
         public string Gender;
         public Nullable<DateTime> DOB;
         public string Email;
+        public string Province;
+        public string District;
         public string Address;
         public string Phone;
         public string Role;

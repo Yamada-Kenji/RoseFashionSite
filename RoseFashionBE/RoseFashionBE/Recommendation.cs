@@ -17,5 +17,8 @@ namespace RoseFashionBE
         public string UserID { get; set; }
         public string ProductID { get; set; }
         public double PredictedStar { get; set; }
+    
+        public virtual Product Product { get; set; }
+        public virtual User User { get; set; }
     }
 }

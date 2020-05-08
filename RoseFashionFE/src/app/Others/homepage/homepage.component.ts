@@ -20,11 +20,17 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ResetLocalStorage();
     this.productService.GetTopSales().toPromise().then(result => this.productlist = result);
   }
 
   pageChanged(event) {
     this.pageconfig.currentPage = event;
+  }
+
+  ResetLocalStorage(){
+    localStorage.setItem('category', 'all');
+    localStorage.setItem('keyword', '');
   }
 
 }

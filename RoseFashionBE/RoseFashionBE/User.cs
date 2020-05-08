@@ -19,6 +19,9 @@ namespace RoseFashionBE
         {
             this.Carts = new HashSet<Cart>();
             this.Ratings = new HashSet<Rating>();
+            this.Recommendations = new HashSet<Recommendation>();
+            this.Similarities = new HashSet<Similarity>();
+            this.Similarities1 = new HashSet<Similarity>();
         }
     
         public string UserID { get; set; }
@@ -30,10 +33,18 @@ namespace RoseFashionBE
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Role { get; set; }
+        public string Province { get; set; }
+        public string District { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cart> Carts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rating> Ratings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Recommendation> Recommendations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Similarity> Similarities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Similarity> Similarities1 { get; set; }
     }
 }

@@ -8,7 +8,6 @@ using System.Net;
 using System.Web.Http;
 using System.Net.Http;
 using System.Web.Http.Cors;
-using System.Threading;
 
 namespace RoseFashionBE.Controllers
 {
@@ -252,16 +251,14 @@ namespace RoseFashionBE.Controllers
         [HttpPost]
         [Route("recommendation")]
         public IHttpActionResult RunRecomendationAlgorithm()
-        {
-            Thread newthread = new Thread(UserBaseCollaborativeFiltering);
+        {         
             try
             {
-                newthread.Start();
-                return Ok();
+                UserBaseCollaborativeFiltering();
+                return Ok("Run Algorithm completed.");
             }
             catch(Exception ex)
             {
-                newthread.Abort();
                 return InternalServerError(ex);
             }
         }
@@ -315,6 +312,7 @@ namespace RoseFashionBE.Controllers
                         //lấy 2 vector của 2 user cần so sánh
                         // vector chỉ lấy rate value của những sp mà cả 2 cùng đánh giá
                         var vectors = entity.fn_GetTwoVetor(userid1, userid2).ToList();
+
                         double[] vector1 = new double[vectors.Count];
                         double[] vector2 = new double[vectors.Count];
                         for (int k = 0; k < vectors.Count; k++)
@@ -329,7 +327,7 @@ namespace RoseFashionBE.Controllers
                         newrecord.UserID2 = userid2;
                         newrecord.SimilarityRate = Cosine_Similarity(vector1, vector2);
 
-                        var existedrecord = entity.Similarities.FirstOrDefault(r => 
+                        var existedrecord = entity.Similarities.FirstOrDefault(r =>
                             r.UserID1 == newrecord.UserID1 && r.UserID2 == newrecord.UserID2);
 
                         if (existedrecord != null)

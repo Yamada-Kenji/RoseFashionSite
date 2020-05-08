@@ -14,6 +14,7 @@ export class MessageService{
     SendKeyword(keyword: string){
         this.router.navigate(['/view-product-list-for-customer']);
         ViewProductListForCustomerComponent.searchkeyword=keyword;
+        localStorage.setItem('keyword', keyword);
         ViewProductListForCustomerComponent.searchbtn.click();
     }
 

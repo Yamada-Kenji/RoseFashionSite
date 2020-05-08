@@ -72,8 +72,9 @@ export class ViewProductListForCustomerComponent implements OnInit {
   }
   // find product
   async FindProduct() {
-    this.keyword = ViewProductListForCustomerComponent.searchkeyword;
-    if (this.keyword) {
+    //this.keyword = ViewProductListForCustomerComponent.searchkeyword;
+    this.keyword = localStorage.getItem('keyword');
+    if (this.keyword!='') {
       /*if (this.keyword.trim() == '') {
         this.GetProductList();
         this.selectedcategory = 'all';
@@ -86,8 +87,14 @@ export class ViewProductListForCustomerComponent implements OnInit {
       //}
     }
     else {
-      this.GetProductList();
-      this.selectedcategory = 'all';
+      this.selectedcategory = localStorage.getItem('category');
+      if(this.selectedcategory!='all'){
+        this.GetProductByCategory(this.selectedcategory);
+      }
+      else{
+        this.GetProductList();
+        this.selectedcategory = 'all';
+      }
     }
   }
 
@@ -97,7 +104,9 @@ export class ViewProductListForCustomerComponent implements OnInit {
 
   async onSelectCategory(categoryid) {
     this.keyword = undefined;
+    localStorage.setItem('keyword', '');
     this.selectedcategory = categoryid;
+    localStorage.setItem('category', this.selectedcategory);
     if (categoryid == 'all') await this.GetProductList();
     else await this.GetProductByCategory(categoryid);
     this.pageconfig.currentPage = 1;

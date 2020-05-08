@@ -63,8 +63,11 @@
 </nav> -->
 
     <div class="container-fluid" style="margin-bottom: 10px;">
-        <div class="row" *ngIf="selectedcategory==''">Kết quả tìm kiếm cho từ khóa "{{keyword}}": {{productlist.length}}
-            kết quả</div>
+        <div class="row" *ngIf="selectedcategory==''">
+            <div style="margin-left: 5px; display: inline-block;">
+                Kết quả tìm kiếm cho từ khóa "<strong>{{keyword}}</strong>": {{productlist.length}} kết quả
+            </div>
+        </div>
         <button hidden id="searchbtn" (click)="FindProduct()">Tìm kiếm</button>
         <!-- <div class="row">
         <div class="col-sm-2">

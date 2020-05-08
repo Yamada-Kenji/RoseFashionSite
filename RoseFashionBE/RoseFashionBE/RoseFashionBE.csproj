@@ -184,6 +184,9 @@
     <Compile Include="fn_GetProductRatingFromTopSimilarUser_Result.cs">
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="fn_GetTopSales_Result.cs">
+      <DependentUpon>RoseFashionEDM.tt</DependentUpon>
+    </Compile>
     <Compile Include="fn_GetTwoVetor_Result.cs">
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
     </Compile>

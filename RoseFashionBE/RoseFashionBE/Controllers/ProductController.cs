@@ -20,11 +20,10 @@ namespace RoseFashionBE.Controllers
         {
             try
             {
-                //const string serverAddress = "http://localhost:62098";
                 using (var entity = new RoseFashionDBEntities())
                 {
                     //kiểm tra sản phẩm đã tồn tại chưa
-                    bool existedproduct = entity.Products.Any(p => p.Name == newproduct.Name && p.Color == newproduct.Color);
+                    bool existedproduct = entity.Products.Any(p => p.Name == newproduct.Name);
                     if (existedproduct == true) return BadRequest("This product already exists.");
 
                     newproduct.ProductID = "PR-" + (entity.Products.Count() + 1);
@@ -33,13 +32,11 @@ namespace RoseFashionBE.Controllers
                     {
                         ProductID = newproduct.ProductID,
                         Name = newproduct.Name,
-                        Color = newproduct.Color,
                         CategoryID = newproduct.CategoryID,
-                        //Description = newproduct.Description,
                         Image = imagepath,
                         Price = newproduct.Price,
                         DiscountPercent = newproduct.DiscountPercent,
-                        ImportDate = newproduct.ImportDate
+                        ImportDate = DateTime.Now.Date
                     });
                     entity.SaveChanges();
 
@@ -74,10 +71,8 @@ namespace RoseFashionBE.Controllers
                     if (existedproduct == null) return BadRequest("Product not found.");
                     //nếu có => thay đổi các thuộc tính
                     existedproduct.Name = editedproduct.Name;
-                    existedproduct.Color = editedproduct.Color;
                     existedproduct.Image = serverAddress + "/images/" + editedproduct.ProductID + ".png";
                     existedproduct.CategoryID = editedproduct.CategoryID;
-                    existedproduct.Description = editedproduct.Description;
                     existedproduct.Price = editedproduct.Price;
                     existedproduct.DiscountPercent = editedproduct.DiscountPercent;
                     for (int i = 0; i < editedproduct.Size.Count(); i++)
@@ -129,10 +124,8 @@ namespace RoseFashionBE.Controllers
                         {
                             ProductID = p.ProductID,
                             Name = p.Name,
-                            Color = p.Color,
                             Image = p.Image,
                             CategoryID = p.CategoryID,
-                            Description = p.Description,
                             Price = p.Price,
                             DiscountPercent = p.DiscountPercent
                         }).FirstOrDefault();
@@ -286,7 +279,7 @@ namespace RoseFashionBE.Controllers
             {
                 using(var entity = new RoseFashionDBEntities())
                 {
-                    var topsale = entity.FN_TOPSALE().Select(p=>p.PID).ToList();
+                    var topsale = entity.fn_GetTopSales(8).Select(p=>p.PID).ToList();
                     List<ProductModel> result = new List<ProductModel>();
                     for (int i = 0; i < topsale.Count(); i++)
                     {

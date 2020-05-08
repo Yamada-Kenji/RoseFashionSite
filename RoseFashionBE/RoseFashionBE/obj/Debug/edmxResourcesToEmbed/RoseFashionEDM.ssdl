@@ -72,9 +72,7 @@
     </Key>
     <Property Name="ProductID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Color" Type="varchar" MaxLength="50" />
     <Property Name="CategoryID" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="Image" Type="varchar(max)" />
     <Property Name="Price" Type="bigint" Nullable="false" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -151,6 +149,8 @@
     <Property Name="Address" Type="nvarchar(max)" />
     <Property Name="Phone" Type="varchar" MaxLength="10" />
     <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Province" Type="nvarchar" MaxLength="50" />
+    <Property Name="District" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <Association Name="FK_Bill_Cart">
     <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
@@ -272,6 +272,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Recommendation_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Recommendation" Type="Self.Recommendation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Recommendation">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recommendation_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Recommendation" Type="Self.Recommendation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Recommendation">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Similarity_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Similarity" Type="Self.Similarity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Similarity">
+        <PropertyRef Name="UserID1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Similarity_User1">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Similarity" Type="Self.Similarity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Similarity">
+        <PropertyRef Name="UserID2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Function Name="fn_CheckingIfProductWasPurchasedByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="userid" Type="varchar" Mode="In" />
     <Parameter Name="productid" Type="varchar" Mode="In" />
@@ -307,6 +355,17 @@
       </CollectionType>
     </ReturnType>
   </Function>
+  <Function Name="fn_GetTopSales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="quantity" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="PID" Type="varchar" MaxLength="50" />
+          <Property Name="TOTAL" Type="int" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
   <Function Name="fn_GetTwoVetor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="userid1" Type="varchar" Mode="In" />
     <Parameter Name="userid2" Type="varchar" Mode="In" />
@@ -325,16 +384,6 @@
       <CollectionType>
         <RowType>
           <Property Name="ProductID" Type="varchar" MaxLength="50" />
-        </RowType>
-      </CollectionType>
-    </ReturnType>
-  </Function>
-  <Function Name="FN_TOPSALE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <ReturnType>
-      <CollectionType>
-        <RowType>
-          <Property Name="PID" Type="varchar" MaxLength="50" />
-          <Property Name="TOTAL" Type="int" />
         </RowType>
       </CollectionType>
     </ReturnType>
@@ -423,6 +472,22 @@
     <AssociationSet Name="FK_Rating_User" Association="Self.FK_Rating_User">
       <End Role="User" EntitySet="User" />
       <End Role="Rating" EntitySet="Rating" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recommendation_Product" Association="Self.FK_Recommendation_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Recommendation" EntitySet="Recommendation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recommendation_User" Association="Self.FK_Recommendation_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Recommendation" EntitySet="Recommendation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Similarity_User" Association="Self.FK_Similarity_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Similarity" EntitySet="Similarity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Similarity_User1" Association="Self.FK_Similarity_User1">
+      <End Role="User" EntitySet="User" />
+      <End Role="Similarity" EntitySet="Similarity" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

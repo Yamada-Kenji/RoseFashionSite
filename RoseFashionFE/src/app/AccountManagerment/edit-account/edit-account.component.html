@@ -21,11 +21,6 @@
     </div>
 
     <div class="form-group">
-      <label>Địa chỉ</label>
-      <input class="form-control" [(ngModel)]="user.Address" [ngModelOptions]="{standalone: true}">
-    </div>
-
-    <div class="form-group">
       <label>Số điện thoại</label>
       <input class="form-control" [(ngModel)]="user.Phone" [ngModelOptions]="{standalone: true}" (change)="CheckingPhoneNumber()">
     </div>
@@ -34,6 +29,33 @@
         Số điện thoại không hợp lệ.
       </div>
     </div> 
+
+    <div class="form-group">
+      <label>Địa chỉ</label>
+      <textarea class="form-control" [(ngModel)]="user.Address" [ngModelOptions]="{standalone: true}"></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label>Tỉnh/Thành phố</label><br>
+            <select id="pvselect" [(ngModel)]="billinfo.ProvinceName" (change)="onProvinceChange()">
+                <option value="">Hãy chọn một địa chỉ</option>
+                <ng-container *ngFor="let pv of provincelist">
+                    <option value="{{pv.ProvinceName}}">{{pv.ProvinceName}}</option>
+                </ng-container>
+            </select>
+    </div>
+
+    <div class="form-group">
+      <label>Quận/Huyện</label><br>
+            <select id="dtselect" [(ngModel)]="billinfo.DistrictName">
+                <option value="">Hãy chọn một địa chỉ</option>
+                <ng-container *ngFor="let dt of districtlist">
+                    <option value="{{dt.DistrictName}}">{{dt.DistrictName}}</option>
+                </ng-container>
+            </select>
+    </div>
+
+    
 
 
     <div class="d-flex justify-content-end" style="margin-bottom: 10px;">

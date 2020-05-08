@@ -9,10 +9,8 @@ namespace RoseFashionBE.Models
     {
         public string ProductID;
         public string Name;
-        public string Color;
         public string[] Size;
         public string CategoryID;
-        public string Description;
         public int[] Quantity;
         public string Image;
         public long Price;

@@ -104,7 +104,7 @@ const httpOptions = {
     }
 
     GetRecommendedProduct(userid: string): Observable<ProductModel[]>{
-        const editedurl = `${this.producturl}/recommended?userid=${userid}`;
+        const editedurl = `${this.producturl}/recommend?userid=${userid}`;
         return this.http.get<ProductModel[]>(editedurl);
     }
 }

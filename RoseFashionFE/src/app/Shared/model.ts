@@ -5,6 +5,8 @@ export class UserModel{
     Gender: string;
     DOB: Date;
     Email: string;
+    Province: string;
+    District: string;
     Address: string;
     Phone: string;
     Role: string;
@@ -17,10 +19,8 @@ export class UserModel{
 export class ProductModel{
     ProductID: string;
     Name: string;
-    Color: string;
     Size: string[] = [];
     CategoryID: string;
-    Description: string;
     Quantity: number[] = [];
     Image: string;
     Price: number;

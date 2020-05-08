@@ -44,7 +44,6 @@ export class ViewUserRatingComponent implements OnInit {
           this.CountStar();
           this.CalPercent();
           this.ready = true;
-          console.log()
         };
       });
     await this.productService.GetTotalStar(this.productid)
@@ -89,7 +88,7 @@ export class ViewUserRatingComponent implements OnInit {
   CalPercent() {
     var i = 0;
     for (i; i < this.ratecount.length; i++) {
-      var percent = this.ratecount[i] / this.ratinglist.length;
+      var percent = (this.ratecount[i] / this.ratinglist.length)*100;
       var x = document.getElementById(this.barname[i]) as HTMLElement;
       x.style.width = percent.toString() + "%";
     }

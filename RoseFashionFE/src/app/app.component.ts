@@ -157,6 +157,7 @@ export class AppComponent {
       var msg: MessageModel = { Title: 'Thông báo', Content: 'Đăng nhập thành công.', BackToHome: false };
       this.messageService.SendMessage(msg);
       this.router.navigate(['/home']);
+      //window.location.reload();
     }
     this.getCurrentUser();
   }

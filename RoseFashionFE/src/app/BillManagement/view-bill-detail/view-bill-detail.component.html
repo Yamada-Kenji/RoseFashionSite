@@ -34,7 +34,7 @@
         <div class="col">
             <p *ngIf="!delivered;else showdate">Ngày giao hàng:</p>
             <ng-template #showdate>
-                <p>Ngày giao hàng: {{billinfo.DevileryDate | date: 'dd/MM/yyyy'}}</p>
+                <p>Ngày giao hàng: {{billinfo.DeliveryDate | date: 'dd/MM/yyyy'}}</p>
             </ng-template>
         </div>
     </div>
@@ -75,10 +75,10 @@
             style="border-bottom: 1px solid black; background-color: whitesmoke; width:105%">
             <div class="col d-flex justify-content-center">
                 <img class="img-fluid" height="240px" style=" margin-bottom: 10px; margin-top: 10px;"
-                    [src]="item.Image">
+                    [src]="item.Image" [routerLink]="['/add-product-to-cart', item.ProductID]">
             </div>
             <div class="col d-flex justify-content-center" style="margin-bottom: 10px; margin-top: 10px;">
-                <p>{{item.Name}} - Size: {{item.Size}}</p>
+                <a href="/add-product-to-cart/{{item.ProductID}}">{{item.Name}} - Size: {{item.Size}}</a>
             </div>
             <div class="col d-flex justify-content-center" style="margin-bottom: 10px; margin-top: 10px;">
                 <p>{{item.Amount}}</p>

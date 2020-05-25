@@ -49,10 +49,18 @@ export class EditBillComponent implements OnInit {
       .then(() => {
         if (this.billinfo.Status == "Đã thanh toán") {
           this.productService.AddDefaultRating(this.billinfo.CartID)
-          .toPromise().then().catch(err => console.log(err));
+            .toPromise().then().catch(err => console.log(err));
+        }
+        if (this.billinfo.Status == "Đã xác nhận") {
+          this.cartService.UpdateProductQuantity("accept",this.usedcart).toPromise()
+            .then().catch(err => { confirm("Đã có lỗi xảy ra"); });
+        }
+        if (this.billinfo.Status == "Đã hủy") {
+          this.cartService.UpdateProductQuantity("cancel",this.usedcart).toPromise()
+            .then().catch(err => { confirm("Đã có lỗi xảy ra"); });
         }
         alert("Cập nhật thành công.");
-    }).catch(err => console.log(err));
+      }).catch(err => console.log(err));
   }
 
   Cancel() {
@@ -61,7 +69,7 @@ export class EditBillComponent implements OnInit {
     }
   }
 
-  AddDefaultRating(){
+  AddDefaultRating() {
 
   }
 }

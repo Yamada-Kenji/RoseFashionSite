@@ -58,6 +58,7 @@ import { StatisticService } from './Shared/statistic-service';
 //Social Login
 import { SocialLoginModule, AuthServiceConfig,AuthService } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+import { QuickRatingComponent } from './Others/quick-rating/quick-rating.component';
 
 export function socialConfigs() {  
   const config = new AuthServiceConfig(  
@@ -100,7 +101,8 @@ export function socialConfigs() {
     AddUserRatingComponent,
     ViewRecommendedProductComponent,
     StatisticByYearComponent,
-    StatisticByMonthComponent
+    StatisticByMonthComponent,
+    QuickRatingComponent
   ],
   imports: [
     BrowserModule,

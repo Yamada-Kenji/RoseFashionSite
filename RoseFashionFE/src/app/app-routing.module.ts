@@ -26,6 +26,7 @@ import { EditBillComponent } from './BillManagement/edit-bill/edit-bill.componen
 //statistic
 import { StatisticByMonthComponent } from './Statistic/StatisticByMonth/statistic-by-month/statistic-by-month.component';
 import { StatisticByYearComponent } from './Statistic/StatisticByYear/statistic-by-year/statistic-by-year.component';
+import { QuickRatingComponent } from './Others/quick-rating/quick-rating.component';
 
 
 const routes: Routes = [
@@ -55,7 +56,9 @@ const routes: Routes = [
   {path: 'trynewcode', component: TryNewCodeComponent},
 
   {path: 'statistic-by-month', component: StatisticByMonthComponent},
-  {path: 'statistic-by-year', component: StatisticByYearComponent}
+  {path: 'statistic-by-year', component: StatisticByYearComponent},
+
+  {path: 'quick-rating', component: QuickRatingComponent}
 
 ];
 

@@ -7,12 +7,45 @@
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th>Mã hóa đơn</th>
-                    <th>Tên khách hàng</th>
-                    <th>Ngày đặt hàng</th>
-                    <th>Tổng giá (VNĐ)</th>
-                    <th>Tình trạng</th>
-                    <th>Tùy chọn</th>
+                    <th class="col-head" (click)="ChangeSortColumn(1)">Mã hóa đơn 
+                        <i *ngIf="sortcolumn!=1; else updown1" class="fas fa-sort"></i>
+                        <ng-template #updown1>
+                            <i *ngIf="asc" class="fas fa-sort-up"></i>
+                        <i *ngIf="!asc" class="fas fa-sort-down"></i>
+                        </ng-template>
+                    </th>
+                    <th class="col-head" (click)="ChangeSortColumn(2)">Tên khách hàng 
+                        <i *ngIf="sortcolumn!=2; else updown2" class="fas fa-sort"></i>
+                        <ng-template #updown2>
+                            <i *ngIf="asc" class="fas fa-sort-up"></i>
+                        <i *ngIf="!asc" class="fas fa-sort-down"></i>
+                        </ng-template>
+                    </th>
+                    <th class="col-head" (click)="ChangeSortColumn(3)">Ngày đặt hàng
+                        <i *ngIf="sortcolumn!=3; else updown3" class="fas fa-sort"></i>
+                        <ng-template #updown3>
+                            <i *ngIf="asc" class="fas fa-sort-up"></i>
+                        <i *ngIf="!asc" class="fas fa-sort-down"></i>
+                        </ng-template>
+                    </th>
+                    <th class="col-head" (click)="ChangeSortColumn(4)">Tổng giá (VNĐ)
+                        <i *ngIf="sortcolumn!=4; else updown4" class="fas fa-sort"></i>
+                        <ng-template #updown4>
+                            <i *ngIf="asc" class="fas fa-sort-up"></i>
+                        <i *ngIf="!asc" class="fas fa-sort-down"></i>
+                        </ng-template>
+                    </th>
+                    <th class="col-head">Trạng thái
+                        <select style="margin-left: 10px;">
+                            <option value="Tất cả">Tất cả</option>
+                            <option value="Đang chờ xác nhận">Đang chờ xác nhận</option>
+                            <option value="Đã xác nhận">Đã xác nhận</option>
+                            <option value="Đang giao hàng">Đang giao hàng</option>
+                            <option value="Đã thanh toán">Đã thanh toán</option>
+                            <option value="Đã hủy">Đã hủy</option>
+                        </select>
+                    </th>
+                    <th class="col-head">Tùy chọn</th>
                 </tr>
             </thead>
             <tbody *ngFor="let item of billtable | paginate: pageconfig">

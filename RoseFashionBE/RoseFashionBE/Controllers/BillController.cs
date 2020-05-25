@@ -140,7 +140,8 @@ namespace RoseFashionBE.Controllers
                             {
                                 BillID = b.BillID,
                                 OrderDate = b.OrderDate,
-                                TotalPrice = b.TotalPrice
+                                TotalPrice = b.TotalPrice,
+                                Status = b.Status
                             }).FirstOrDefault();
                         result.Add(bill);
                     }

@@ -173,6 +173,44 @@ namespace RoseFashionBE.Controllers
             }
         }
 
+        void GetProductSizeAndQuantity(ProductModel product, string pid)
+        {
+            using(var entity = new RoseFashionDBEntities())
+            {
+                //mảng dùng để sắp xếp size và số lượng
+                string[] sizeorder = new string[] { "S", "M", "L", "XL", "XXL" };
+
+                //tìm các size của sản phẩm và số lượng tương ứng với mỗi size 
+                product.Size = entity.Product_Size_Quantity.Where(p => p.ProductID == pid)
+                    .Select(p => p.Size).ToArray();
+                product.Quantity = entity.Product_Size_Quantity.Where(p => p.ProductID == pid)
+                    .Select(p => p.Quantity).ToArray();
+
+                //tạo list lưu vị trí của từng phần tử của mảng sizeorder trong mảng product.Size vừa tìm được
+                //vd: product.Size = [M, L, S, X, XXL] thì phần tử sizeorder[0] = S sẽ có index là 2 
+                //==> indexarr     = [2, 0, 1, 3, 4]
+                List<int> indexarr = new List<int>();
+                for (int i = 0; i < sizeorder.Count(); i++)
+                {
+                    indexarr.Add(Array.IndexOf(sizeorder, product.Size[i]));
+                }
+
+                //tạo mảng tạm để lưu giá trị hiện tại của mảng product.Size 
+                int[] temp = new int[sizeorder.Count()];
+                Array.Copy(product.Quantity, temp, sizeorder.Count());
+                //sắp xếp lại giá trị quantity theo thứ tự của mảng indexarr
+                //result.Quantity[0] sẽ chứa số lượng của size S 
+                //nhưng theo indexarr thì vị trí chứa số lượng của size S hiện tại đang nằm ở index = 2
+                //==> result.Quantity[0] = temp[2]
+                for (int i = 0; i < temp.Count(); i++)
+                {
+                    product.Quantity[i] = temp[indexarr[i]];
+                }
+                //sắp xếp giá trị của mảng product.Size theo mảng sizeorder
+                product.Size = product.Size.OrderBy(s => Array.IndexOf(sizeorder, s)).ToArray();
+            }
+        }
+
         [HttpGet]
         public IHttpActionResult GetAllProduct()
         {
@@ -192,6 +230,9 @@ namespace RoseFashionBE.Controllers
                     for(int i = 0; i < result.Count; i++)
                     {
                         string id = result[i].ProductID;
+                        result[i].Quantity = new int[1];
+                        result[i].Quantity[0] = entity.Product_Size_Quantity.Where(p => p.ProductID == id).Sum(p => p.Quantity);
+                        //GetProductSizeAndQuantity(result[i], id);
                         if (entity.Product_Size_Quantity.Any(p => p.ProductID == id && p.Quantity > 0))
                         {
                             result[i].SoldOut = false;   

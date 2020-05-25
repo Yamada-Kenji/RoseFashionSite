@@ -25,7 +25,7 @@
             <p>Quận/Huyện: {{billinfo.DistrictName}}</p>
         </div>
         <div class="col">
-            <p>Ngày nhận hàng: <input id="dldate" type="date" [ngModel]="billinfo.DeliveryDate | date: 'yyyy-MM-dd'"
+            <p>Ngày nhận hàng: <input *ngIf="billinfo.Status=='Đã thanh toán'" id="dldate" type="date" [ngModel]="billinfo.DeliveryDate | date: 'yyyy-MM-dd'"
                     (ngModelChange)="billinfo.DeliveryDate=$event"></p>
         </div>
     </div>
@@ -38,6 +38,7 @@
                     <option value="Đã xác nhận">Đã xác nhận</option>
                     <option value="Đang giao hàng">Đang giao hàng</option>
                     <option value="Đã thanh toán">Đã thanh toán</option>
+                    <option value="Đã hủy">Đã hủy</option>
                 </select>
             </p>
         </div>

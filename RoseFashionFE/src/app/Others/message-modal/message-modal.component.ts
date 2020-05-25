@@ -16,6 +16,7 @@ export class MessageModalComponent implements OnInit {
   constructor(private router: Router) { }
   ngOnInit() {
     MessageModalComponent.hiddenbutton = document.getElementById('hiddenbtn') as HTMLElement;
+    this.getMessage();
   }
 
   getMessage(){

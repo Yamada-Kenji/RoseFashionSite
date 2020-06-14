@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
 import { CartModel, BillModel, UserModel, MessageModel, ProvinceModel, DistrictModel } from 'src/app/Shared/model';
 import { CartService } from 'src/app/Shared/cart-service';
 import { BillService } from 'src/app/Shared/bill-service';
@@ -19,9 +19,15 @@ export class AddBillComponent implements OnInit {
   user: UserModel = new UserModel();
   mycart: CartModel[] = [];
   totalprice: number = 0;
+  totalpriceUSD: string = "0";
   warning: boolean = false;
   provincelist: ProvinceModel[] = [];
   districtlist: DistrictModel[] = [];
+  creditcard: boolean = false;
+  loading: boolean = false;
+
+  jsonstring: string;
+
 
   constructor(private cartService: CartService,
     private billService: BillService,
@@ -39,19 +45,20 @@ export class AddBillComponent implements OnInit {
       this.user.Email = '';
     }
     this.CalTotalPrice();
+    this.LoadPayPalScript();
   }
 
-  onProvinceChange(){
+  onProvinceChange() {
     //console.log(this.billinfo.ProvinceID);
     var result = this.provincelist.find(r => r.ProvinceName == this.billinfo.ProvinceName);
-    if(result){
+    if (result) {
       this.billinfo.DeliveryFee = this.provincelist.find(r => r.ProvinceID == result.ProvinceID).DeliveryFee;
     }
-    else{
+    else {
       this.billinfo.DeliveryFee = 0;
     }
     //console.log(this.provincelist.find(r => r.ProvinceID == this.billinfo.ProvinceID).DeliveryFee);
-   
+
     this.addressService.GetDistrict(result.ProvinceID).toPromise().then(r => this.districtlist = r);
     this.billinfo.DistrictName = '';
   }
@@ -71,6 +78,7 @@ export class AddBillComponent implements OnInit {
   }
 
   AddBill(name, phone, address, discountcode) {
+    this.loading = true;
     if (name == '' || phone == '' || address == '' || this.billinfo.ProvinceName == '' || this.billinfo.DistrictName == '') {
       this.warning = true;
       return;
@@ -83,6 +91,10 @@ export class AddBillComponent implements OnInit {
     this.billinfo.DeliveryAddress = address;
     this.billinfo.DiscountCode = discountcode;
     this.billinfo.TotalPrice = this.totalprice;
+    this.billinfo.PaymentMethod = "Tiền mặt";
+    if (this.creditcard == true) {
+      this.billinfo.PaymentMethod = "Thẻ tín dụng";
+    }
     // var billinfo: BillModel = {
     //   BillID: '',
     //   CartID: cartid,
@@ -97,27 +109,98 @@ export class AddBillComponent implements OnInit {
     this.cartService.UpdateCartInDatabase(cartid, items);
     // this.cartService.UpdateProductQuantity(items).toPromise()
     //   .then(() => {
-        this.billService.AddBillForMember(this.billinfo)
-          .toPromise().then(result => this.cartService.GetLastUsedCart(this.user.UserID).toPromise()
-            .then(result => {
-              localStorage.setItem('CartID', result);
-              this.cartService.GetItemsInCart(result);
-              var message: MessageModel = { Title: "Thông báo", Content: "Hóa đơn đã được lưu.", BackToHome: true };
-              this.messageService.SendMessage(message);
-            }))
-          .catch(err => {
-            console.log("Lưu hóa đơn thất bại");
-            var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau.", BackToHome: false };
-            this.messageService.SendMessage(message);
-          });
-      // }).catch(err => {
-      //   console.log("Cập nhật số lượng thất bại");
-      //   var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau." };
-      //   this.messageService.SendMessage(message);
-      // });
+    this.billService.AddBillForMember(this.billinfo)
+      .toPromise().then(result => this.cartService.GetLastUsedCart(this.user.UserID).toPromise()
+        .then(result => {
+          this.loading = false;
+          localStorage.setItem('CartID', result);
+          this.cartService.GetItemsInCart(result);
+          var message: MessageModel = { Title: "Thông báo", Content: "Hóa đơn đã được lưu.", BackToHome: true };
+          this.messageService.SendMessage(message);
+        }))
+      .catch(err => {
+        this.loading = false;
+        console.log("Lưu hóa đơn thất bại");
+        var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau.", BackToHome: false };
+        this.messageService.SendMessage(message);
+      });
+    // }).catch(err => {
+    //   console.log("Cập nhật số lượng thất bại");
+    //   var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau." };
+    //   this.messageService.SendMessage(message);
+    // });
+  }
+
+  ShowPaypalButton() {
+    var paypalbtn = document.getElementById("paypal-button-container") as HTMLElement;
+    paypalbtn.hidden = false;
+    //paypalbtn.style.display = 'block';
+  }
+
+  CashPayment() {
+    var normalbtn = document.getElementById("order") as HTMLElement;
+    var paypalbtn = document.getElementById("paypal-button-container") as HTMLElement;
+    paypalbtn.hidden = true;
+    normalbtn.hidden = false;
+    this.creditcard = false;
+  }
+
+  OnlinePayment() {
+    this.DataToJSON();
+    this.creditcard = true;
+    var normalbtn = document.getElementById("order") as HTMLElement;
+    normalbtn.hidden = true;
   }
 
   Back() {
     this.location.back();
+  }
+
+  LoadPayPalScript() {
+    var x = document.getElementById("reloadscript") as HTMLElement;
+    x.click();
+    //alert(stringify(script));
+  }
+
+  DataToJSON() {
+    var amount_data = {
+      currency_code: "USD",
+      value: ((this.totalprice + this.billinfo.DeliveryFee) * 0.000043).toFixed(2),
+      breakdown: {
+        item_total: {
+          currency_code: "USD",
+          value: (this.totalprice * 0.000043).toFixed(2)
+        },
+        shipping: {
+          currency_code: "USD",
+          value: (this.billinfo.DeliveryFee * 0.000043).toFixed(2)
+        },
+      }
+    };
+    
+    var items_data = [];
+    for (var i = 0; i < this.mycart.length; i++) {
+      var item = {
+        name: this.mycart[i].Name,
+        description: "Size: " + this.mycart[i].Size,
+        unit_amount: {
+          currency_code: "USD",
+          value: (this.mycart[i].SalePrice * 0.000043).toFixed(2)
+        },
+        quantity: this.mycart[i].Amount
+      }
+      items_data.push(item);
+    }
+    
+    var temp = {
+      amount: amount_data,
+      items: items_data
+    };
+
+    var purchase_unit_data = [];
+    purchase_unit_data.push(temp);
+
+    this.jsonstring = JSON.stringify(purchase_unit_data);
+    //console.log(JSON.parse(this.jsonstring));
   }
 }

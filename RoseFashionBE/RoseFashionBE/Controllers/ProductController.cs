@@ -111,6 +111,31 @@ namespace RoseFashionBE.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("remove")]
+        public IHttpActionResult DeleteMultipleProduct(string[] pids)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    for (int i = 0; i < pids.Count(); i++)
+                    {
+                        string id = pids[i];
+                        var existedproduct = entity.Products.Where(p => p.ProductID == id).FirstOrDefault();
+                        if (existedproduct == null) return BadRequest("Product not found.");
+                        existedproduct.IsDeleted = true;
+                        entity.SaveChanges();
+                    }
+                    return Ok("Remove products successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [HttpGet]
         public IHttpActionResult GetProductDetail(string pid)
         {

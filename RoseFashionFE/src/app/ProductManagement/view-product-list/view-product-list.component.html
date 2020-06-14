@@ -1,25 +1,58 @@
 <div class="container" style="width:device-width;">
     <h1 class="d-flex justify-content-center">Danh sách sản phẩm</h1>
+
     <button class="btn btn-dark" [routerLink]="['/add-product']" routerLinkActive="router-link-active">Thêm sản
         phẩm</button>
-    <button (click)="SortByPrice()">Sort by price</button>    
+    <button class="btn btn-secondary" *ngIf="removelist.length==0" disabled style="margin-left: 10px;">Xóa</button>
+    <button class="btn btn-danger" *ngIf="removelist.length>0" style="margin-left: 10px;" (click)="DeleteMultipleProduct()">Xóa</button>
     <p></p>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th>Mã sản phẩm</th>
+                    <th></th>
+                    <th class="col-head" (click)="ChangeSortColumn(1)">Mã sản phẩm
+                        <i *ngIf="sortcolumn!=1; else updown1" class="fas fa-sort"></i>
+                        <ng-template #updown1>
+                            <i *ngIf="asc" class="fas fa-sort-up"></i>
+                            <i *ngIf="!asc" class="fas fa-sort-down"></i>
+                        </ng-template>
+                    </th>
                     <th>Hình ảnh</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Số lượng</th>
-                    <th>Giá (VNĐ)</th>
+                    <th class="col-head" (click)="ChangeSortColumn(2)">Tên sản phẩm
+                        <i *ngIf="sortcolumn!=2; else updown2" class="fas fa-sort"></i>
+                        <ng-template #updown2>
+                            <i *ngIf="asc" class="fas fa-sort-up"></i>
+                            <i *ngIf="!asc" class="fas fa-sort-down"></i>
+                        </ng-template>
+                    </th>
+                    <th class="col-head" (click)="ChangeSortColumn(3)">Số lượng
+                        <i *ngIf="sortcolumn!=3; else updown3" class="fas fa-sort"></i>
+                        <ng-template #updown3>
+                            <i *ngIf="asc" class="fas fa-sort-up"></i>
+                            <i *ngIf="!asc" class="fas fa-sort-down"></i>
+                        </ng-template>
+                    </th>
+                    <th class="col-head" (click)="ChangeSortColumn(4)">Giá (VNĐ)
+                        <i *ngIf="sortcolumn!=4; else updown4" class="fas fa-sort"></i>
+                        <ng-template #updown4>
+                            <i *ngIf="asc" class="fas fa-sort-up"></i>
+                            <i *ngIf="!asc" class="fas fa-sort-down"></i>
+                        </ng-template>
+                    </th>
                     <th>Tùy chọn</th>
                 </tr>
             </thead>
             <tbody *ngFor="let item of productlist | paginate: pageconfig">
                 <tr>
+                    <td style="vertical-align: middle; text-align: center;">
+                        <input type="checkbox" style="width: 20px; height: 20px;"
+                            (click)="UpdateRemoveList(item.ProductID)"></td>
                     <td>{{item.ProductID}}</td>
-                    <td><img src="{{item.Image}}" style="width: 40px; height: 40px;"></td>
+                    <td>
+                        <div class="d-flex justify-content-center"><img src="{{item.Image}}"
+                                style="width: 40px; height: 40px;"></div>
+                    </td>
                     <td>{{item.Name}}</td>
                     <td>{{item.Quantity[0]}}</td>
                     <td>{{item.Price | number}}</td>
@@ -28,12 +61,12 @@
                             routerLinkActive="router-link-active">Sửa</button>
                         <button class="btn btn-dark" style="margin-left: 5px;"
                             (click)="DeleteProduct(item.ProductID)">Xóa</button> -->
-                    <td>
-                        <i class="fas fa-edit" style="margin-left: 5px;"
+                    <td style="vertical-align: middle; text-align: center;">
+                        <i class="fas fa-edit fa-lg" style="margin-left: 5px;"
                             [routerLink]="['/update-product', item.ProductID]" routerLinkActive="router-link-active"
                             title="Edit"></i>
-                        <i class="fas fa-trash" style="margin-left: 5px;" (click)="DeleteProduct(item.ProductID)"
-                            title="Delete"></i>
+                        <!-- <i class="fas fa-trash" style="margin-left: 5px;" (click)="DeleteProduct(item.ProductID)"
+                            title="Delete"></i> -->
                     </td>
                 </tr>
             </tbody>

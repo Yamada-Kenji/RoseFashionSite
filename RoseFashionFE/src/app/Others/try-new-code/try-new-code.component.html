@@ -1,2 +1,13 @@
-<button class="btn btn-dark" (click)="RunAlgorithm()">Run Algorithm</button>
-<p>{{message}}</p>
+<div id="paypal-button-container"></div>
+
+<button (click)="CreateJSON()">Create JSON Array</button>
+
+<input type="hidden" id="jsondata" value="{{jsondata}}">
+<input type="hidden" id="total" value="{{totalprice}}">
+
+<div id="view">{{jsondata}}}</div>
+
+<button id="runcode">Run code</button>
+
+<button id="code" (click)="dosomething()">do something</button>
+

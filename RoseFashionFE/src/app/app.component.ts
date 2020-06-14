@@ -149,7 +149,8 @@ export class AppComponent {
 
     this.loginmessage = null;
 
-    this.currentUser = await this.userservice.login(email, password).toPromise().then(data => this.currentUser = data, error => this.loginmessage = error);
+    this.currentUser = await this.userservice.login(email, password).toPromise()
+      .then(data => this.currentUser = data, error => this.loginmessage = error);
     if (this.loginmessage != null) {
       var msg: MessageModel = { Title: 'Thông báo', Content: 'Tài khoản hoặc mật khẩu không chính xác.', BackToHome: false};
       this.messageService.SendMessage(msg);

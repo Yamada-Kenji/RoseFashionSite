@@ -1,7 +1,7 @@
 <h2 class="d-flex justify-content-center">Thanh toán giỏ hàng</h2>
-<div class="container" style="margin-bottom: 20px;">
+<div class="container-fluid" style="margin-bottom: 20px;">
     <div class="row">
-        <div class="col-sm-4" style="border-right: 1px solid black;">
+        <div class="col-sm-3" style="border-right: 1px solid black;">
             <h4>Thông tin hóa đơn</h4>
             <div class="alert alert-danger" *ngIf="warning">Xin hãy điền đầy đủ thông tin.</div>
             <p>Họ và tên</p>
@@ -12,7 +12,7 @@
             <p>SDT</p>
             <input #phone class="form-control" type="text" value="{{user.Phone}}">
             <p>Địa chỉ giao hàng</p>
-            <textarea #address class="form-control">{{user.Address}}</textarea>
+            <textarea #address class="form-control" rows="3">{{user.Address}}</textarea>
             <p>Tỉnh/Thành phố</p>
             <select id="pvselect" [(ngModel)]="billinfo.ProvinceName" (change)="onProvinceChange()">
                 <option value="">Hãy chọn một địa chỉ</option>
@@ -30,21 +30,39 @@
             <p>Phí vận chuyển</p>
             {{billinfo.DeliveryFee | number}} VNĐ
         </div>
-        <div class="col-sm-8">
-            <h4>Thông tin giỏ hàng</h4>
-            <div class="row">
-                <div class="col"><p>Tên sản phẩm</p></div>
-                <div class="col"><p>Size</p></div>
-                <div class="col"><p>Số lượng</p></div>
-                <div class="col"><p>Giá</p></div>
+        <div class="col-sm-6" style="border-right: 1px solid black;">
+            <h4 class="d-flex justify-content-center">Thông tin giỏ hàng</h4>
+            <div class="row" style="border-bottom: 1px solid black;">
+                <div class="col">
+                    <h6>Tên sản phẩm</h6>
+                </div>
+                <div class="col">
+                    <h6>Size</h6>
+                </div>
+                <div class="col">
+                    <h6>Số lượng</h6>
+                </div>
+                <div class="col">
+                    <h6>Giá</h6>
+                </div>
             </div>
+
             <div class="row" *ngFor="let item of mycart" style="border-bottom: 1px solid black;">
-                <div class="col"><p>{{item.Name}}</p></div>
-                <div class="col"><p>{{item.Size}}</p></div>
-                <div class="col"><p>{{item.Amount}}</p></div>
-                <div class="col"><p>{{item.SalePrice | number}} VNĐ</p>
-                    <div *ngIf="CheckDiscount(item.OriginalPrice, item.SalePrice)" style="text-decoration: line-through; color: red;">
-                        <p>{{item.OriginalPrice | number}} VNĐ</p></div>
+                <div class="col">
+                    <p>{{item.Name}}</p>
+                </div>
+                <div class="col">
+                    <p>{{item.Size}}</p>
+                </div>
+                <div class="col">
+                    <p>{{item.Amount}}</p>
+                </div>
+                <div class="col">
+                    <p>{{item.SalePrice | number}} VNĐ</p>
+                    <div *ngIf="CheckDiscount(item.OriginalPrice, item.SalePrice)"
+                        style="text-decoration: line-through; color: red;">
+                        <p>{{item.OriginalPrice | number}} VNĐ</p>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -57,14 +75,59 @@
                     <p>{{totalprice | number}} VNĐ</p>
                 </div>
             </div>
+        </div>
+        <div class="col-sm-3">
             <div class="row">
                 <div class="col">
-                    <div class="d-flex justify-content-end">
-                        <button class="btn btn-dark" style="margin-right: 10px;" [routerLink]="['/view-product-list-for-customer']" routerLinkActive="router-link-active" >Tiếp tục mua hàng</button>
-                        <button class="btn btn-dark" (click)="AddBill(receivername.value, phone.value, address.value, discount.value)">Xác nhận thanh toán</button>
+                    <h4>Phương thức thanh toán:</h4>
+                    <label for="cash">
+                        <input type="radio" name="method" value="1" (change)="CashPayment()" id="cash" checked="checked"
+                            style="margin-right: 5px;">Tiền mặt</label><br>
+                    <label for="credit">
+                        <input type="radio" name="method" value="2" (change)="OnlinePayment()" id="credit"
+                            style="margin-right: 5px;">Thẻ tín dụng</label><br>
+                    <div *ngIf="creditcard">
+                        <i class="fab fa-cc-mastercard fa-3x"></i>
+                        <i class="fab fa-cc-visa fa-3x"></i>
+                        <i class="fab fa-cc-paypal fa-3x" (click)="ShowPaypalButton()"></i>
+                        <i class="fab fa-cc-jcb fa-3x"></i>
+                    </div>
+                    <div hidden id="paypal-button-container"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex justify-content-start">
+                        <button class="btn btn-dark" style="margin-right: 10px;"
+                            [routerLink]="['/view-product-list-for-customer']"
+                            routerLinkActive="router-link-active">Quay lại</button>
+                        <button class="btn btn-dark" id="order"
+                            (click)="AddBill(receivername.value, phone.value, address.value, discount.value)">Đặt
+                            hàng</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="sticky" *ngIf="loading">
+    <div class="d-flex flex-column align-items-center justify-content-center"
+        style="width: 30%; margin: auto; padding: 50px; background-color: #343a40;">
+        <div class="row">
+            <p>Đang xử lý, vui lòng đợi trong giây lát...</p>
+        </div>
+        <div class="row">
+            <div class="spinner-border text-light" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- hidden field-->
+<input type="hidden" id="jsonstring" value="{{jsonstring}}">
+<!-- <input type="hidden" id="total" value="{{totalpriceUSD}}">
+<input type="hidden" id="shippinginfo" value="{{shippinginfo}}"> -->
+<div id="view">{{jsonstring}}</div>
+<button hidden id="reloadscript" onclick="RenderPaypalBtn()"></button>

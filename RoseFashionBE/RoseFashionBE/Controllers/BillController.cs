@@ -71,6 +71,7 @@ namespace RoseFashionBE.Controllers
                     {
                         BillID = "BL-" + (entity.Bills.Count() + 1),
                         CartID = billinfo.CartID,
+                        PaymentMethod = billinfo.PaymentMethod,
                         OrderDate = DateTime.Now.Date,
                         DeliveryDate = DateTime.Now.Date,
                         ReceiverName = billinfo.ReceiverName,
@@ -166,6 +167,7 @@ namespace RoseFashionBE.Controllers
                         {
                             BillID = b.BillID,
                             CartID = b.CartID,
+                            PaymentMethod = b.PaymentMethod,
                             ReceiverName = b.ReceiverName,
                             ReceiverPhone = b.ReceiverPhone,
                             DeliveryAddress = b.DeliveryAddress,

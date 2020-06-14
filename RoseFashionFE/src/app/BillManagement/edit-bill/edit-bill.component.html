@@ -10,6 +10,60 @@
             <p>Họ tên: {{billinfo.ReceiverName}}</p>
         </div>
         <div class="col">
+            <p>Ngày đặt hàng: {{billinfo.OrderDate | date: 'dd/MM/yyyy'}}</p>
+        </div>
+    </div>
+
+    <div class="row" style="background-color: whitesmoke;">
+        <div class="col">
+            <p>Điện thoại: {{billinfo.ReceiverPhone}}</p>
+        </div>
+        <div class="col">
+            <p>Ngày nhận hàng: <input *ngIf="statuscode==3" id="dldate" type="date" [ngModel]="billinfo.DeliveryDate | date: 'yyyy-MM-dd'"
+                (ngModelChange)="billinfo.DeliveryDate=$event"></p>
+        </div>
+    </div>
+
+    <div class="row" style="background-color: whitesmoke;">
+        <div class="col">
+            <p>Tỉnh/Thành phố: {{billinfo.ProvinceName}}</p>
+        </div>
+        <div class="col">
+            <p>Phí vận chuyển: {{billinfo.DeliveryFee | number}} VNĐ</p>
+        </div>
+    </div>
+
+    <div class="row" style="background-color: whitesmoke;">
+        <div class="col">
+            <p>Quận/Huyện: {{billinfo.DistrictName}}</p>
+        </div>
+        <div class="col">
+            <p>Phương thức thanh toán: {{billinfo.PaymentMethod}}</p>
+        </div>
+    </div>
+
+    <div class="row" style="background-color: whitesmoke;">
+        <div class="col">
+            <p>Địa chỉ: {{billinfo.DeliveryAddress}}</p>
+        </div>
+        <div class="col">
+            <p>Trạng thái:
+                <select [(ngModel)]="statuscode">
+                    <option value="0">Đang chờ xác nhận</option>
+                    <option value="1">Đã xác nhận</option>
+                    <option value="2">Đang giao hàng</option>
+                    <option value="3">Đã thanh toán</option>
+                    <option value="4">Đã hủy</option>
+                </select>
+            </p>
+        </div>
+    </div>
+
+    <!-- <div class="row" style="background-color: whitesmoke;">
+        <div class="col">
+            <p>Họ tên: {{billinfo.ReceiverName}}</p>
+        </div>
+        <div class="col">
             <p>Tỉnh/Thành phố: {{billinfo.ProvinceName}}</p>
         </div>
         <div class="col">
@@ -48,7 +102,7 @@
         <div class="col">
             <p>Phí vận chuyển: {{billinfo.DeliveryFee | number}} VNĐ</p>
         </div>
-    </div>
+    </div> -->
 
     <div class="row d-flex justify-content-end" style="background-color: whitesmoke;">
         <button class="btn btn-dark" (click)="Save()">Lưu</button>
@@ -90,9 +144,9 @@
     </div>
     <div class="row" style="overflow-x: hidden;overflow-y: auto;height: 260px;">
         <div class="row" *ngFor="let item of usedcart"
-            style="border-bottom: 1px solid black; background-color: whitesmoke;">
+            style="border-bottom: 1px solid black; background-color: whitesmoke; width: -webkit-fill-available;">
             <div class="col">
-                <img class="img-fluid" height="240px" style=" margin-bottom: 10px; margin-top: 10px;"
+                <img width="204px" height="240px" style="margin-bottom: 10px; margin-top: 10px;"
                     [src]="item.Image">
             </div>
             <div class="col" style="margin-bottom: 10px; margin-top: 10px;">

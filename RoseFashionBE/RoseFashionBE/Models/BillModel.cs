@@ -20,5 +20,6 @@ namespace RoseFashionBE.Models
         public long TotalPrice;
         public long DeliveryFee;
         public string Status;
+        public string PaymentMethod;
     }
 }

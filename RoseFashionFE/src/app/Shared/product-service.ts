@@ -57,21 +57,16 @@ const httpOptions = {
         return this.http.get<ProductModel[]>(editedurl);
     }
 
-     // get Product when find
+     // get Product when click search
     FindProduct(keyword: string): Observable<ProductModel[]>{
         const editedurl = `${this.producturl}?keyword=${keyword}`;
         return this.http.get<ProductModel[]>(editedurl);
     }
 
-    /*FindProductVer2(keyword: string): Observable<string[]>{
-        const editedurl = `${this.producturl}?keyword=${keyword}`;
-        return this.http.get<string[]>(editedurl);
+    DeleteMultipleProducts(pid: string[]):Observable<any>{
+        const editedurl = `${this.producturl}/remove`;
+        return this.http.post(editedurl, pid);
     }
-
-    GetProductIDList(): Observable<string[]>{
-        const editedurl = `${this.producturl}/list`;
-        return this.http.get<string[]>(editedurl);
-    }*/
 
     UploadImage(data: FormData): Observable<any>{
         const editedurl = `${this.producturl}/imgupload`;

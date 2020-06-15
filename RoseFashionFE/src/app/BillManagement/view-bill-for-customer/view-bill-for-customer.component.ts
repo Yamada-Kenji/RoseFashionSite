@@ -31,12 +31,10 @@ export class ViewBillForCustomerComponent implements OnInit {
 
    this.billservice.GetPurchaseById(this.idUser).toPromise()
   .then( history =>{ this.history = history;
-    
     this.history.sort((b,a) => {
       return <any>new Date(a.OrderDate) - <any>new Date(b.OrderDate);
       });
-      console.log(history);
-  });
+      console.log(history);});
   }
   
 

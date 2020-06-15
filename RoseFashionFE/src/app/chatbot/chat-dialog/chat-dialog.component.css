@@ -1,0 +1,71 @@
+body {
+    margin: 0 auto;
+    max-width: 375px;
+    padding: 0 20px;
+  }
+ .message {
+    border-radius: 50px;
+    margin: 0 15px 10px;
+    padding: 15px 20px;
+    position: relative;
+    font-weight: bold;
+}
+.message.to {
+    background-color: #343A40;
+    color: #fff;
+    margin-left: 100px;
+    text-align: right;
+}
+.message.from {
+    background-color: #E5E4E9;
+    color: #363636;
+    margin-right: 100px;
+
+}
+.message.to + .message.to,
+.message.from + .message.from {
+margin-top: -10px;
+} 
+
+
+.container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    overflow-y: auto;
+    height: 500px;
+    z-index: 90;
+  }
+
+  .hr-sect {
+	display: flex;
+	flex-basis: 100%;
+	align-items: center;
+	color: rgba(0, 0, 0, 0.35);
+	margin: 8px 0px;
+}
+
+.hr-sect::before,
+.hr-sect::after {
+	content: "";
+	flex-grow: 1;
+	background: rgba(0, 0, 0, 0.35);
+	height: 1px;
+	font-size: 0px;
+	line-height: 0px;
+	margin: 0px 0px;
+} 
+.form-inline{
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 96;
+}
+
+
+

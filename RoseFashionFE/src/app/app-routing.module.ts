@@ -26,6 +26,10 @@ import { EditBillComponent } from './BillManagement/edit-bill/edit-bill.componen
 //statistic
 import { StatisticByMonthComponent } from './Statistic/StatisticByMonth/statistic-by-month/statistic-by-month.component';
 import { StatisticByYearComponent } from './Statistic/StatisticByYear/statistic-by-year/statistic-by-year.component';
+//chatbot
+import { ChatDialogComponent } from './chatbot/chat-dialog/chat-dialog.component';
+//forgot pass
+import { SendEmailComponent } from './accountmanagerment/reset-password/send-email/send-email.component';
 
 
 const routes: Routes = [
@@ -55,7 +59,11 @@ const routes: Routes = [
   {path: 'trynewcode', component: TryNewCodeComponent},
 
   {path: 'statistic-by-month', component: StatisticByMonthComponent},
-  {path: 'statistic-by-year', component: StatisticByYearComponent}
+  {path: 'statistic-by-year', component: StatisticByYearComponent},
+
+  {path: 'chatbot', component: ChatDialogComponent},
+
+  {path: 'forgotpassword', component: SendEmailComponent,},
 
 ];
 

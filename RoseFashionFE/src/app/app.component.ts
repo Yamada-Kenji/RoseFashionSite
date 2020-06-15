@@ -205,16 +205,16 @@ export class AppComponent {
         socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;  
       }  
       this.OAuth.signIn(socialPlatformProvider).then(async socialusers => {  
-        // console.log(socialProvider, socialusers);  
-         this.creatAccount(socialusers.id, socialusers.name);  
+        console.log(socialProvider, socialusers);  
+         this.creatAccount(socialusers.id, socialusers.name,socialusers.email);  
         
       });  
     }  
 
-    creatAccount(UserID: string,FullName: string): void {
+    creatAccount(UserID: string,FullName: string, Email: string): void {
       var creAccount: UserModel;
       var msg: MessageModel = { Title: "Thông báo", Content: "" ,BackToHome: false};
-      creAccount = {UserID ,FullName } as UserModel
+      creAccount = {UserID ,FullName,Email } as UserModel
       this.userservice.Savesresponse(creAccount).toPromise()
         .then(result => {
           this.loginsocial( UserID );

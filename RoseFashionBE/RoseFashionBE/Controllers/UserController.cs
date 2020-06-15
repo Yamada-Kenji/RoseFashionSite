@@ -240,6 +240,8 @@ namespace RoseFashionBE.Controllers
                     Email.FullName = account.FullName;
                     Email.Address = account.Address;
                     Email.Phone = account.Phone;
+                    Email.Province = account.Province;
+                    Email.District = account.District;
                     entity.SaveChanges();
                     return Ok("Edit account successfully!");
                 }
@@ -459,7 +461,8 @@ namespace RoseFashionBE.Controllers
                         {
                             UserID = user.UserID,
                             FullName = user.FullName,
-                            Password = "12345670",
+                            Password = user.UserID,
+                            Email = user.Email,
                             Role = "user"
                         });
 
@@ -474,5 +477,46 @@ namespace RoseFashionBE.Controllers
                 return InternalServerError(ex);
             }
         }
+        //check email
+        [HttpGet]
+        public IHttpActionResult CheckEmail(string email)
+        {
+            try
+            {
+                using (var entity = new RoseFashionDBEntities())
+                {
+                    int checkemail = entity.Users.Count(u => u.Email.Equals(email));
+                    
+                    return Ok(checkemail);
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+        //change password
+        [HttpPut]
+        public IHttpActionResult ChangePass(UserModel account, string email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data.");
+            }
+            string pwrHash = GetMd5Hash(account.Password);
+            using (var entity = new RoseFashionDBEntities())
+            {
+                var Email = entity.Users.Where(c => c.Email.Equals(email)).FirstOrDefault();
+                if (Email != null)
+                {
+                    Email.Password = account.Password;
+                    entity.SaveChanges();
+                    return Ok("Edit password successfully!");
+                }
+                return NotFound();
+
+            }
+        }
+
     }
 }

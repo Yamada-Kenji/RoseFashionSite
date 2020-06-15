@@ -37,7 +37,8 @@
     
     <div class="form-group">
       <label>Tỉnh/Thành phố</label><br>
-            <select id="pvselect" [(ngModel)]="billinfo.ProvinceName" (change)="onProvinceChange()">
+            <select id="pvselect" [(ngModel)]="user.Province" [ngModelOptions]="{standalone: true}" (change)="onProvinceChange()">
+                <option selected="selected">{{user.Province}}</option>
                 <option value="">Hãy chọn một địa chỉ</option>
                 <ng-container *ngFor="let pv of provincelist">
                     <option value="{{pv.ProvinceName}}">{{pv.ProvinceName}}</option>
@@ -47,7 +48,7 @@
 
     <div class="form-group">
       <label>Quận/Huyện</label><br>
-            <select id="dtselect" [(ngModel)]="billinfo.DistrictName">
+            <select id="dtselect" [(ngModel)]="user.District" [ngModelOptions]="{standalone: true}">
                 <option value="">Hãy chọn một địa chỉ</option>
                 <ng-container *ngFor="let dt of districtlist">
                     <option value="{{dt.DistrictName}}">{{dt.DistrictName}}</option>

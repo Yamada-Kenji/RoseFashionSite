@@ -718,7 +718,7 @@
             <End Role="Similarity" EntitySet="Similarities" />
           </AssociationSet>
           <FunctionImport Name="fn_GetTopSales" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetTopSales_Result)">
-            <Parameter Name="quantity" Mode="In" Type="Int32" />
+          <Parameter Name="quantity" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">

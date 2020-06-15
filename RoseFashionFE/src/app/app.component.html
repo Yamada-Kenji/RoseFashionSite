@@ -69,7 +69,8 @@
         {{currentUser.FullName}}
       </a>
       <div class="dropdown-menu">
-
+        
+        <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/chatbot']">Chat</a>
         <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/edit-account']">Quản lý tài khoản</a>
         <a class="dropdown-item" *ngIf="currentUser.Role == 'user'" [routerLink]="['/purchase-history']">Đơn hàng đã mua</a>
         <a class="dropdown-item" (click)="logout()" [routerLink]="['/home']" routerLinkActive="router-link-active" >Đăng xuất</a>
@@ -121,7 +122,8 @@
             <button type="button" style="margin-top: 25px;" class="btn btn-dark btn-block" (click)="login(email.value, password.value)"
               data-dismiss="modal">Đăng nhập</button>
           </div>
-          <div class="hr-sect" style="margin-top: 20px;">Đăng nhập với</div>
+          <a class="nav-link" [routerLink]="['/forgotpassword']" style="margin-top: 5px; margin-left: 320px;color:#6C757D;text-decoration: underline;"data-dismiss="modal" >Quên mật khẩu!</a>
+          <div class="hr-sect" style="margin-top: 5px;">Đăng nhập với</div>
           <div class="md-form">
           <button type="button" class="btn btn-primary btn-block" style="background-color: #385998;border-color: #385998;" data-dismiss="modal" (click)="socialSignIn('facebook')"><i class="fa fa-facebook fa-fw"></i>Facebook</button>  
           <button type="button" class="btn btn-primary btn-block" style="background-color: #DD4B39;border-color: #DD4B39;" data-dismiss="modal" (click)="socialSignIn('google')"><i class="fa fa-google fa-fw"></i>Google</button>    

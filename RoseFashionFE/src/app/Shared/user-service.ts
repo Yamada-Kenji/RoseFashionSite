@@ -82,4 +82,13 @@ export class UserService {
                 return user;
             }));
     }
+    //check email
+    GetCheckEmail(email: string){
+        const editedurl = `${this.userurl}?email=${email}`;
+        return this.http.get<number>(editedurl);
+    }
+    //changepassword
+    Changepassword(editedaccount: UserModel, email: string): Observable<any> {
+        return this.http.put(this.userurl, editedaccount, httpOptions);
+    }
 }

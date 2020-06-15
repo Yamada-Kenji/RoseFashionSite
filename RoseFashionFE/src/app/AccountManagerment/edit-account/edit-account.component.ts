@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserModel, MessageModel } from 'src/app/Shared/model';
+import { UserModel, MessageModel,ProvinceModel,DistrictModel } from 'src/app/Shared/model';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/Shared/user-service';
 import { MessageService } from 'src/app/Shared/message-service';
+import { AddressService } from 'src/app/Shared/address-service';
 
 
 @Component({
@@ -17,12 +18,15 @@ export class EditAccountComponent implements OnInit {
   users: UserModel[];
   idUser: string;
   validphone: boolean = true;
+  provincelist: ProvinceModel[] = [];
+  districtlist: DistrictModel[] = [];
 
   constructor(private userService: UserService,  private location: Location,
-    private messageService: MessageService) { }
+    private messageService: MessageService, private addressService: AddressService) { }
 
    ngOnInit() {
     var x = this.userService.getCurrentUser();
+    this.addressService.GetProvince().toPromise().then(r => this.provincelist = r);
     this.idUser=x.UserID;
     this.getAccountByEmail();
   }
@@ -30,6 +34,11 @@ export class EditAccountComponent implements OnInit {
   getAccountByEmail(): void {
     this.userService.GetAccountByID(this.idUser).toPromise().then(user => this.user = user);
  
+  }
+  onProvinceChange(){
+    //console.log(this.billinfo.ProvinceID);
+    var result = this.provincelist.find(r => r.ProvinceName == this.user.Province);
+    this.addressService.GetDistrict(result.ProvinceID).toPromise().then(r => this.districtlist = r);
   }
   save(): void {
     console.log(this.user);

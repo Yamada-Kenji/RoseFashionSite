@@ -11,7 +11,6 @@
           </Key>
           <Property Name="BillID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CartID" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="PaymentMethod" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ReceiverName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ReceiverPhone" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="DeliveryAddress" Type="nvarchar(max)" Nullable="false" />
@@ -338,17 +337,6 @@
           </ReturnType>
         </Function>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="fn_GetNewestProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="quantity" Type="int" Mode="In" />
-          <ReturnType>
-            <CollectionType>
-              <RowType>
-                <Property Name="PID" Type="varchar" MaxLength="50" />
-                <Property Name="ImportDate" Type="date" />
-              </RowType>
-            </CollectionType>
-          </ReturnType>
-        </Function>
         <Function Name="fn_GetProductRatingFromTopSimilarUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid" Type="varchar" Mode="In" />
           <Parameter Name="productid" Type="varchar" Mode="In" />
@@ -687,6 +675,15 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
+          <EntitySet Name="Bills" EntityType="RoseFashionDBModel.Bill" />
+          <AssociationSet Name="FK_Bill_Cart" Association="RoseFashionDBModel.FK_Bill_Cart">
+            <End Role="Cart" EntitySet="Carts" />
+            <End Role="Bill" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bill_Discount" Association="RoseFashionDBModel.FK_Bill_Discount">
+            <End Role="Discount" EntitySet="Discounts" />
+            <End Role="Bill" EntitySet="Bills" />
+          </AssociationSet>
           <EntitySet Name="Products" EntityType="RoseFashionDBModel.Product" />
           <AssociationSet Name="FK_Cart_Product_Product" Association="RoseFashionDBModel.FK_Cart_Product_Product">
             <End Role="Product" EntitySet="Products" />
@@ -723,18 +720,6 @@
           <FunctionImport Name="fn_GetTopSales" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetTopSales_Result)">
           <Parameter Name="quantity" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="fn_GetNewestProduct" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetNewestProduct_Result)">
-          <Parameter Name="quantity" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <EntitySet Name="Bills" EntityType="RoseFashionDBModel.Bill" />
-          <AssociationSet Name="FK_Bill_Cart" Association="RoseFashionDBModel.FK_Bill_Cart">
-            <End Role="Cart" EntitySet="Carts" />
-            <End Role="Bill" EntitySet="Bills" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Bill_Discount" Association="RoseFashionDBModel.FK_Bill_Discount">
-            <End Role="Discount" EntitySet="Discounts" />
-            <End Role="Bill" EntitySet="Bills" />
-          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -746,6 +731,10 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="FN_TOPSALE_Result">
+          <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TOTAL" Nullable="true" />
         </ComplexType>
         <EntityType Name="Discount">
           <Key>
@@ -843,6 +832,51 @@
             </Principal>
             <Dependent Role="Rating">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="BillID" />
+          </Key>
+          <Property Name="BillID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CartID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiverName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReceiverPhone" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DeliveryAddress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProvinceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DistrictName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DiscountCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TotalPrice" Type="Int64" Nullable="false" />
+          <Property Name="DeliveryFee" Type="Int64" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Cart" Relationship="RoseFashionDBModel.FK_Bill_Cart" FromRole="Bill" ToRole="Cart" />
+          <NavigationProperty Name="Discount" Relationship="RoseFashionDBModel.FK_Bill_Discount" FromRole="Bill" ToRole="Discount" />
+        </EntityType>
+        <Association Name="FK_Bill_Cart">
+          <End Type="RoseFashionDBModel.Cart" Role="Cart" Multiplicity="1" />
+          <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart">
+              <PropertyRef Name="CartID" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="CartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bill_Discount">
+          <End Type="RoseFashionDBModel.Discount" Role="Discount" Multiplicity="0..1" />
+          <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discount">
+              <PropertyRef Name="DiscountCode" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="DiscountCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -964,56 +998,6 @@
           <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="TOTAL" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="fn_GetNewestProduct_Result">
-          <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="ImportDate" Nullable="true" Precision="10" />
-        </ComplexType>
-        <EntityType Name="Bill">
-          <Key>
-            <PropertyRef Name="BillID" />
-          </Key>
-          <Property Name="BillID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CartID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PaymentMethod" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ReceiverName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ReceiverPhone" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="DeliveryAddress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ProvinceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DistrictName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DiscountCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TotalPrice" Type="Int64" Nullable="false" />
-          <Property Name="DeliveryFee" Type="Int64" Nullable="false" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Cart" Relationship="RoseFashionDBModel.FK_Bill_Cart" FromRole="Bill" ToRole="Cart" />
-          <NavigationProperty Name="Discount" Relationship="RoseFashionDBModel.FK_Bill_Discount" FromRole="Bill" ToRole="Discount" />
-        </EntityType>
-        <Association Name="FK_Bill_Cart">
-          <End Type="RoseFashionDBModel.Cart" Role="Cart" Multiplicity="1" />
-          <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cart">
-              <PropertyRef Name="CartID" />
-            </Principal>
-            <Dependent Role="Bill">
-              <PropertyRef Name="CartID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Bill_Discount">
-          <End Type="RoseFashionDBModel.Discount" Role="Discount" Multiplicity="0..1" />
-          <End Type="RoseFashionDBModel.Bill" Role="Bill" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Discount">
-              <PropertyRef Name="DiscountCode" />
-            </Principal>
-            <Dependent Role="Bill">
-              <PropertyRef Name="DiscountCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1191,6 +1175,26 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Bills">
+            <EntityTypeMapping TypeName="RoseFashionDBModel.Bill">
+              <MappingFragment StoreEntitySet="Bill">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
+                <ScalarProperty Name="ReceiverPhone" ColumnName="ReceiverPhone" />
+                <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
+                <ScalarProperty Name="CartID" ColumnName="CartID" />
+                <ScalarProperty Name="BillID" ColumnName="BillID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="RoseFashionDBModel.Product">
               <MappingFragment StoreEntitySet="Product">
@@ -1213,35 +1217,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="fn_GetNewestProduct" FunctionName="RoseFashionDBModel.Store.fn_GetNewestProduct">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetNewestProduct_Result">
-                <ScalarProperty Name="PID" ColumnName="PID" />
-                <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="Bills">
-            <EntityTypeMapping TypeName="RoseFashionDBModel.Bill">
-              <MappingFragment StoreEntitySet="Bill">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
-                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
-                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
-                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
-                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
-                <ScalarProperty Name="ReceiverPhone" ColumnName="ReceiverPhone" />
-                <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
-                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
-                <ScalarProperty Name="CartID" ColumnName="CartID" />
-                <ScalarProperty Name="BillID" ColumnName="BillID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -10,6 +10,8 @@ import { BillModel } from 'src/app/Shared/model';
 export class ViewBillForAdminComponent implements OnInit {
 
   billtable: BillModel[] = [];
+  billarray: BillModel[] = [];
+  filterstatus: string = 'Tất cả';
   pageconfig: any;
   sortcolumn: number = 3;
   asc: boolean = false;
@@ -21,7 +23,9 @@ export class ViewBillForAdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.billService.GetBillTable().toPromise().then(r => {this.billtable = r;
+    this.billService.GetBillTable().toPromise().then(r => {
+      this.billarray = r;
+      this.billtable = Array.from(this.billarray);
       // this.billtable.sort((b,a) => {
       //   return <any>new Date(a.OrderDate) - <any>new Date(b.OrderDate);
       this.Sort(this.sortcolumn);
@@ -82,5 +86,13 @@ export class ViewBillForAdminComponent implements OnInit {
         break;
       }
     }
+  }
+
+  Filter() {
+    if (this.filterstatus == 'Tất cả') this.billtable = this.billarray;
+    else {
+      this.billtable = this.billarray.filter(a => a.Status == this.filterstatus);
+    }
+    this.Sort(this.sortcolumn);
   }
 }

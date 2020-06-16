@@ -58,7 +58,7 @@ export class AddProductComponent implements OnInit {
       .toPromise().then(result => {
         this.categorylist = result;
         var productid = this.route.snapshot.paramMap.get('productid');
-        if (productid) {
+        if (productid!='') {
           this.productService.GetProductDetail(productid).toPromise().then(p => {
             this.product = p;
             this.currentimage = this.tempimage = p.Image;
@@ -184,7 +184,11 @@ export class AddProductComponent implements OnInit {
           res => {
             this.loading = false;
             alert('Thêm sản phẩm thành công');
-            this.location.back();
+            //this.location.back();
+            this.product = new ProductModel();
+            this.tempimage = '';
+            this.currentimage = '';
+            this.maincategory = '';
           },
           err => alert('Đã có lỗi xảy ra. (error 02)')
         );

@@ -12,7 +12,7 @@
                 </button> -->
   <!-- Brand/logo -->
   <a class="navbar-brand" [routerLink]="['/home']" routerLinkActive="router-link-active" (click)="ResetCurrentPage()">
-    <img style="height: 50px;" [src]="logopath">
+    <img style="height: 50px;" src="/assets/images/logo1.png">
   </a>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <!-- Links -->
@@ -21,9 +21,9 @@
       <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
         <a class="nav-link" [routerLink]="['/view-product-list']" (click)="ResetCurrentPage()">Danh sách sản phẩm</a>
       </li>
-      <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
+      <!-- <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
         <a class="nav-link" [routerLink]="['/showcategory']" (click)="ResetCurrentPage()">Danh sách các danh mục</a>
-      </li>
+      </li> -->
       <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
         <a class="nav-link" [routerLink]="['/view-bill-for-admin']" (click)="ResetCurrentPage()">Danh sách hóa đơn</a>
       </li>

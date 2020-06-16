@@ -250,7 +250,8 @@ namespace RoseFashionBE.Controllers
                         Image = p.Image,
                         Price = p.Price,
                         CategoryID = p.CategoryID,
-                        DiscountPercent = p.DiscountPercent
+                        DiscountPercent = p.DiscountPercent,
+                        ImportDate = p.ImportDate
                     }).ToList();
                     for(int i = 0; i < result.Count; i++)
                     {

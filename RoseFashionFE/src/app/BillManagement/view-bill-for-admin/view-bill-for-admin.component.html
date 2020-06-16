@@ -36,7 +36,7 @@
                         </ng-template>
                     </th>
                     <th class="col-head">Trạng thái
-                        <select style="margin-left: 10px;">
+                        <select style="margin-left: 10px;" [(ngModel)]="filterstatus" (change)="Filter()">
                             <option value="Tất cả">Tất cả</option>
                             <option value="Đang chờ xác nhận">Đang chờ xác nhận</option>
                             <option value="Đã xác nhận">Đã xác nhận</option>
@@ -60,12 +60,12 @@
                             routerLinkActive="router-link-active">Sửa</button>
                         <button class="btn btn-dark" style="margin-left: 5px;"
                             (click)="DeleteProduct(item.ProductID)">Xóa</button> -->
-                    <td>
-                        <i class="fas fa-edit" style="margin-left: 5px;"
+                    <td style="vertical-align: middle; text-align: center;">
+                        <i class="fas fa-edit fa-lg"
                             [routerLink]="['/edit-bill',item.BillID]"
                             title="Edit"></i>
-                        <i class="fas fa-trash" style="margin-left: 5px;" (click)="DeleteBill(item.BillID)"
-                            title="Delete"></i>
+                        <!-- <i class="fas fa-trash" style="margin-left: 5px;" (click)="DeleteBill(item.BillID)"
+                            title="Delete"></i> -->
                     </td>
                 </tr>
             </tbody>

@@ -30,6 +30,7 @@ export class EditBillComponent implements OnInit {
     this.billService.GetOneBillInfo(this.billid).toPromise()
       .then(result => {
         this.billinfo = result;
+        this.billinfo.DeliveryDate = new Date();
         this.statuscode = this.status.indexOf(this.billinfo.Status);
         this.cartService.GetItemsInBill(this.billinfo.CartID).toPromise()
           .then(items => this.usedcart = items);

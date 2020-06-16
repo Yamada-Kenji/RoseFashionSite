@@ -36,6 +36,7 @@
                 <p></p>
                 <p>Danh mục chính</p>
                 <select class="form-control" [(ngModel)]="maincategory" [ngModelOptions]="{standalone: true}">
+                    <option value="">Hãy chọn 1 loại</option>
                     <ng-container *ngFor="let category of categorylist">
                         <option *ngIf="category.MainCategory==null" value="{{category.CategoryID}}">
                             {{category.Name}}

@@ -16,6 +16,7 @@ namespace RoseFashionBE
     {
         public string BillID { get; set; }
         public string CartID { get; set; }
+        public string PaymentMethod { get; set; }
         public string ReceiverName { get; set; }
         public string ReceiverPhone { get; set; }
         public string DeliveryAddress { get; set; }

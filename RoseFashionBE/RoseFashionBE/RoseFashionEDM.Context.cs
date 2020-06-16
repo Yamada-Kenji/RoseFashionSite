@@ -39,8 +39,8 @@ namespace RoseFashionBE
         public virtual DbSet<Recommendation> Recommendations { get; set; }
         public virtual DbSet<Similarity> Similarities { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
-        public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Bill> Bills { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -215,6 +215,16 @@ namespace RoseFashionBE
                 new ObjectParameter("quantity", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fn_GetTopSales_Result>("[RoseFashionDBEntities].[fn_GetTopSales](@quantity)", quantityParameter);
+        }
+    
+        [DbFunction("RoseFashionDBEntities", "fn_GetNewestProduct")]
+        public virtual IQueryable<fn_GetNewestProduct_Result> fn_GetNewestProduct(Nullable<int> quantity)
+        {
+            var quantityParameter = quantity.HasValue ?
+                new ObjectParameter("quantity", quantity) :
+                new ObjectParameter("quantity", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fn_GetNewestProduct_Result>("[RoseFashionDBEntities].[fn_GetNewestProduct](@quantity)", quantityParameter);
         }
     }
 }

@@ -9,6 +9,14 @@ END
 SELECT * FROM fn_GetTopSales(8)
 
 -----------------------------
+CREATE FUNCTION fn_GetNewestProduct(@quantity int) RETURNS @RESULT TABLE (PID VARCHAR(50), ImportDate date) AS
+BEGIN
+	INSERT INTO @RESULT SELECT TOP (@quantity) ProductID, ImportDate FROM Product ORDER BY ImportDate DESC;
+	RETURN
+END
+
+select * from fn_GetNewestProduct(8)
+-----------------------------
 
 create function fn_CheckingIfProductWasPurchasedByUser(@userid varchar(50), @productid varchar(50)) returns @result table(Purchased varchar(50)) as
 begin

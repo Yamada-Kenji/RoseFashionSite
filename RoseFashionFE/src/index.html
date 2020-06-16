@@ -25,7 +25,7 @@
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
+
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
@@ -33,6 +33,55 @@
 
 <body>
   <app-root></app-root>
+
+  <script>
+    $(document).ready(function () {
+      $("#runcode").click(function () {
+        //alert('click');
+        document.getElementById("code").click();
+        /*var x = [];
+        var y = jQuery.parseJSON(localStorage.getItem("MyCart"));
+        document.getElementById("view").innerHTML = y[0].Name;*/
+        //x = JSON.parse(localStorage.getItem("MyCart"));
+        //var a = JSON.parse(x[0]);
+        //document.getElementById("view").innerHTML = x;
+      })
+    });
+  </script>
+
+  <!-- PayPal Script-->
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=AZ2p_Fp0G_4uRxbhOnhV00nVtY3iO2Xxf1VW8yqLCMGH-KgOexrrdxuxurfLwCg_Jg1A0uApj2Q9ow2_"> // Required. Replace SB_CLIENT_ID with your sandbox client ID.
+    </script>
+
+   <script>
+    function RenderPaypalBtn() {
+      //alert('render');
+      paypal.Buttons({
+      style: {
+        shape: 'pill',
+        tagline: false,
+        layout: 'horizontal'
+      },
+      createOrder: function (data, actions) {
+        var jsonstring = document.getElementById("jsonstring").value;
+        var purchase_units_data = JSON.parse(jsonstring);
+        return actions.order.create({
+          purchase_units: purchase_units_data
+        });
+      },
+      onApprove: function (data, actions) {
+        // This function captures the funds from the transaction.
+        return actions.order.capture().then(function (details) {
+          // This function shows a transaction success message to your buyer.
+          document.getElementById("order").click();
+        });
+      }
+    }).render('#paypal-button-container');
+  //This function displays Smart Payment Buttons on your web page.
+    }
+   </script>
+
 </body>
 <!-- Footer -->
 <footer class="page-footer font-small unique-color-dark bg-secondary text-white">
@@ -95,12 +144,18 @@
         <h6 class="text-uppercase font-weight-bold">Rose Fashion</h6>
         <hr class="bg-white accent-2 mb-4 mt-0 d-inline-block mx-auto text-white" style="width: 60px;">
         <div>
-          <a href="" style="color: white; text-decoration: none;">Giới thiệu về Rose Fashion</a><p></p>
-          <a href="" style="color: white; text-decoration: none;">Tuyển dụng</a><p></p>
-          <a href="" style="color: white; text-decoration: none;">Chính sách bảo đổi trả</a><p></p>
-          <a href="" style="color: white; text-decoration: none;">Chính sách bảo mật thông tin</a><p></p>
-          <a href="" style="color: white; text-decoration: none;">Chính sách giải quyết khiếu nại</a><p></p>
-          <a href="" style="color: white; text-decoration: none;">Điều khoản sử dụng</a><p></p>
+          <a href="" style="color: white; text-decoration: none;">Giới thiệu về Rose Fashion</a>
+          <p></p>
+          <a href="" style="color: white; text-decoration: none;">Tuyển dụng</a>
+          <p></p>
+          <a href="" style="color: white; text-decoration: none;">Chính sách bảo đổi trả</a>
+          <p></p>
+          <a href="" style="color: white; text-decoration: none;">Chính sách bảo mật thông tin</a>
+          <p></p>
+          <a href="" style="color: white; text-decoration: none;">Chính sách giải quyết khiếu nại</a>
+          <p></p>
+          <a href="" style="color: white; text-decoration: none;">Điều khoản sử dụng</a>
+          <p></p>
         </div>
 
       </div>
@@ -112,13 +167,13 @@
         <h6 class="text-uppercase font-weight-bold">Địa chỉ</h6>
         <hr class="bg-white accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;"> -->
 
-        <!--Google map-->
-        <!-- <div class="z-depth-1-half map-container">
+      <!--Google map-->
+      <!-- <div class="z-depth-1-half map-container">
           <iframe src="https://maps.google.com/maps?q=manhatan&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
             style="border:0" allowfullscreen></iframe>
         </div> -->
 
-        <!--Google Maps-->
+      <!--Google Maps-->
 
       <!-- </div> -->
       <!-- Grid column -->
@@ -146,7 +201,7 @@
         <!-- Links -->
         <h6 class="text-uppercase font-weight-bold">Tải ứng dụng</h6>
         <hr class="bg-white accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-        <div>   
+        <div>
           <i class="fab fa-google-play fa-3x"></i>
           <i class="fab fa-apple fa-3x"></i>
         </div>

@@ -77,6 +77,7 @@ export class CartModel{
 export class BillModel{
     BillID: string;
     CartID: string;
+    PaymentMethod: string;
     OrderDate: Date;
     DeliveryDate: Date;
     ReceiverName: string;
@@ -92,6 +93,7 @@ export class BillModel{
     constructor(){
         this.BillID = '';
         this.CartID = '';
+        this.PaymentMethod = '';
         this.OrderDate = null;
         this.DeliveryDate = null;
         this.ReceiverName = '';

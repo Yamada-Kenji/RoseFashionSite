@@ -79,20 +79,19 @@
         <div class="row" style="background-color: whitesmoke; margin-top: 10px;">
             <div class="col-sm-2" style="margin-top: 10px;"><h5 style="margin-top: 6px;">Lọc bình luận</h5></div>
             <div class="col-sm-2" style="margin-top: 10px;">
-                <select class="form-control">
-                    <option>Mới nhất</option>
-                    <option>Cũ nhất</option>
-                    <option>Đánh giá cao</option>
+                <select class="form-control" [(ngModel)]="sortindex" (change)="Sort()">
+                    <option value="1">Mới nhất</option>
+                    <option value="2">Cũ nhất</option>
                 </select>
             </div>
             <div class="col-sm-2" style="margin-top: 10px;">
-                <select class="form-control">
-                    <option>Tất cả sao</option>
-                    <option>1 sao</option>
-                    <option>2 sao</option>
-                    <option>3 sao</option>
-                    <option>4 sao</option>
-                    <option>5 sao</option>
+                <select class="form-control" [(ngModel)]="filterstar" (change)="Filter()">
+                    <option value="0">Tất cả sao</option>
+                    <option value="1">1 sao</option>
+                    <option value="2">2 sao</option>
+                    <option value="3">3 sao</option>
+                    <option value="4">4 sao</option>
+                    <option value="5">5 sao</option>
                 </select>
             </div>
             <div class="col-sm-6" *ngIf="!addrating;else ratingform">

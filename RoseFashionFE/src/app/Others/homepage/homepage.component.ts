@@ -12,6 +12,8 @@ export class HomepageComponent implements OnInit {
   pageconfig: any;
 
   productlist: ProductModel[] = [];
+
+  newproducts: ProductModel[] = [];
   constructor(private productService: ProductService) { 
     this.pageconfig = {
       itemsPerPage: 2,
@@ -22,6 +24,7 @@ export class HomepageComponent implements OnInit {
   ngOnInit() {
     this.ResetLocalStorage();
     this.productService.GetTopSales().toPromise().then(result => this.productlist = result);
+    this.productService.GetNewestProducts().toPromise().then(result => this.newproducts = result);
   }
 
   pageChanged(event) {

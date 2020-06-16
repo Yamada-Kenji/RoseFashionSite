@@ -21,6 +21,7 @@
                         <th>Mã đơn hàng</th>
                         <th>Ngày mua</th>
                         <th>Giá tiền</th>
+                        <th>Trạng thái</th>
                         <th>Chi tiết</th>
                       </tr>
                     </thead>
@@ -28,7 +29,8 @@
                       <tr *ngFor="let each of history">
                         <td>{{each.BillID}}</td>
                         <td>{{each.OrderDate| date:'dd/MM/yyyy'}}</td>
-                        <td>{{each.TotalPrice}}</td> 
+                        <td>{{each.TotalPrice | number}}</td>
+                        <td>{{each.Status}}</td>
                         <td>
                           <i class="fas fa-edit" style="margin-right: 5px;" routerLink="/viewbilldetail/{{each.BillID}}" title="Chi tiết"></i>
                         </td>

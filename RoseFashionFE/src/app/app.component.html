@@ -50,6 +50,21 @@
     </form>
     </div>
 
+    <div class="nav-item dropdown">
+      <a class="nav-link" data-toggle="dropdown">
+      <i class="fas fa-bell fa-lg" style="color: whitesmoke;"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right" style="width: 200px;">
+      
+      <div class="notify" [routerLink]="['/register']">Khuyến mãi lớn BLACK FRIDAY.</div>
+      
+      <div class="notify" [routerLink]="['/register']">Đơn hàng PR-1 đã được giao</div>
+        
+      <div class="notify" [routerLink]="['/register']">Chào mừng đến với Rose Fashion</div>
+      <div class="dropdown-item"><a [routerLink]="['/register']">Xem tất cả thông báo</a></div>
+    </div>
+    
+    </div>
 
   <ul class="navbar-nav">
     <li class="nav-item" *ngIf="!islogon">

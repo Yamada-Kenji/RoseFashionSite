@@ -58,11 +58,15 @@ import { StatisticService } from './Shared/statistic-service';
 //Social Login
 import { SocialLoginModule, AuthServiceConfig,AuthService } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+
 import { ChatDialogComponent } from './chatbot/chat-dialog/chat-dialog.component';
 //chat
 import { ChatModule } from './chatbot/chat/chat.module';
 import { SendEmailComponent } from './accountmanagerment/reset-password/send-email/send-email.component';
 import { ConfirmPassComponent } from './accountmanagerment/reset-password/confirm-pass/confirm-pass.component';
+
+import { QuickRatingComponent } from './Others/quick-rating/quick-rating.component';
+
 
 export function socialConfigs() {  
   const config = new AuthServiceConfig(  
@@ -106,9 +110,13 @@ export function socialConfigs() {
     ViewRecommendedProductComponent,
     StatisticByYearComponent,
     StatisticByMonthComponent,
+
     SendEmailComponent,
     ConfirmPassComponent,
     
+
+    QuickRatingComponent
+
   ],
   imports: [
     BrowserModule,

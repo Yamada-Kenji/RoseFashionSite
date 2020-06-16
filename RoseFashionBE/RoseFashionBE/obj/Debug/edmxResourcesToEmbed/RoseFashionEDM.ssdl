@@ -6,6 +6,7 @@
     </Key>
     <Property Name="BillID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="CartID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PaymentMethod" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="ReceiverName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="ReceiverPhone" Type="nchar" MaxLength="10" Nullable="false" />
     <Property Name="DeliveryAddress" Type="nvarchar(max)" Nullable="false" />
@@ -332,6 +333,17 @@
     </ReturnType>
   </Function>
   <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="fn_GetNewestProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="quantity" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="PID" Type="varchar" MaxLength="50" />
+          <Property Name="ImportDate" Type="date" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
   <Function Name="fn_GetProductRatingFromTopSimilarUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="userid" Type="varchar" Mode="In" />
     <Parameter Name="productid" Type="varchar" Mode="In" />

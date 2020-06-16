@@ -17,9 +17,6 @@
             <p>Họ tên: {{billinfo.ReceiverName}}</p>
         </div>
         <div class="col">
-            <p>Tỉnh/Thành phố: {{billinfo.ProvinceName}}</p>
-        </div>
-        <div class="col">
             <p>Ngày đặt hàng: {{billinfo.OrderDate | date: 'dd/MM/yyyy'}}</p>
         </div>
     </div>
@@ -29,27 +26,41 @@
             <p>Điện thoại: {{billinfo.ReceiverPhone}}</p>
         </div>
         <div class="col">
-            <p>Quận/Huyện: {{billinfo.DistrictName}}</p>
-        </div>
-        <div class="col">
             <p *ngIf="!delivered;else showdate">Ngày giao hàng:</p>
             <ng-template #showdate>
-                <p>Ngày giao hàng: {{billinfo.DevileryDate | date: 'dd/MM/yyyy'}}</p>
+                <p>Ngày nhận hàng: {{billinfo.DeliveryDate | date: 'dd/MM/yyyy'}}</p>
             </ng-template>
         </div>
     </div>
 
     <div class="row" style="background-color: whitesmoke;">
         <div class="col">
-            <p>Trạng thái: {{billinfo.Status}}</p>
-        </div>
-        <div class="col">
-            <p>Địa chỉ: {{billinfo.DeliveryAddress}}</p>
+            <p>Tỉnh/Thành phố: {{billinfo.ProvinceName}}</p>
         </div>
         <div class="col">
             <p>Phí vận chuyển: {{billinfo.DeliveryFee | number}} VNĐ</p>
         </div>
     </div>
+
+    <div class="row" style="background-color: whitesmoke;">
+        <div class="col">
+            <p>Quận/Huyện: {{billinfo.DistrictName}}</p>
+        </div>
+        <div class="col">
+            <p>Phương thức thanh toán: Tiền mặt</p>
+        </div>
+    </div>
+
+    <div class="row" style="background-color: whitesmoke;">
+        <div class="col">
+            <p>Địa chỉ: {{billinfo.DeliveryAddress}}</p>
+        </div>
+        <div class="col">
+            <p>Trạng thái: {{billinfo.Status}}</p>
+        </div>
+    </div>
+
+
     <p></p>
     <div class="row">
         <div class="col">
@@ -75,10 +86,10 @@
             style="border-bottom: 1px solid black; background-color: whitesmoke; width:105%">
             <div class="col d-flex justify-content-center">
                 <img class="img-fluid" height="240px" style=" margin-bottom: 10px; margin-top: 10px;"
-                    [src]="item.Image">
+                    [src]="item.Image" [routerLink]="['/add-product-to-cart', item.ProductID]">
             </div>
             <div class="col d-flex justify-content-center" style="margin-bottom: 10px; margin-top: 10px;">
-                <p>{{item.Name}} - Size: {{item.Size}}</p>
+                <a href="/add-product-to-cart/{{item.ProductID}}">{{item.Name}} - Size: {{item.Size}}</a>
             </div>
             <div class="col d-flex justify-content-center" style="margin-bottom: 10px; margin-top: 10px;">
                 <p>{{item.Amount}}</p>

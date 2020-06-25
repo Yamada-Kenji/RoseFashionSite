@@ -1,6 +1,3 @@
-<h1>Angular Bot</h1>
-
-
 
 <!-- <ng-container *ngFor="let message of messages | async">
 
@@ -56,26 +53,40 @@
   </div>
 </div>  -->
 
- <div  class="container" style="max-width: 350px;width: device-width;">
-  <div class="commentBox" >
-    <p style="border-style: ridge;" class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-  </div>
-  <div class="hr-sect" style="margin-top: 4px;"></div>
-  <ng-container *ngFor="let message of messages | async">
+<i class="far fa-comment-dots fa-3x" (click)="showchatt()"></i>
 
-    <div class="message" [ngClass]="{ 'from': message.sentBy === 'bot',
-                                      'to':   message.sentBy === 'user' }">
-      {{ message.content }}
+<div *ngIf="showchat">
+  <div  class="container" style="max-width: 350px;width: device-width;">
+    <div class="form-inline">
+      <div class="commentBox " >
+        <p style="border-style: ridge;" class="taskDescription">Xin nhập câu hỏi để được tư vấn!
+        
+      </div>
+      <button class="btn btn-dark float-right" (click)="hidechat()" style="margin-left: 50px;">X</button>
     </div>
-
-  </ng-container>
-  <div class="form-inline">
-    <input type="text" class="form-control" [(ngModel)]="formValue" (keyup.enter)="sendMessage()"><br>
-
-    <button class="btn btn-dark float-right"  (click)="sendMessage()" style="margin-left: 10px;">Send</button>
+   
+    <div class="hr-sect"></div>
+    <ng-container *ngFor="let message of messages | async">
+  
+      <div class="message" [ngClass]="{ 'from': message.sentBy === 'bot',
+                                        'to':   message.sentBy === 'user' }">
+        {{ message.content }}
+      </div>
+  
+    </ng-container>
+    
+  
+  </div> 
+  <div class="card bg-dark " style="width: 350px;height: 60px;" >
+    <div class="form-inline"style="margin-top: 10px;">
+      <input type="text" class="form-control" style="margin-left: 55px;" [(ngModel)]="formValue" (keyup.enter)="sendMessage()"><br>
+    
+      <button class="btn btn-light float-right"  (click)="sendMessage()" style="margin-left: 10px;">Send</button>
+    </div>
   </div>
-
-</div> 
+  
+</div>
+ 
 
 
 

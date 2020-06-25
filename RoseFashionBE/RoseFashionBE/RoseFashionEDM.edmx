@@ -332,9 +332,7 @@
           <ReturnType>
             <CollectionType>
               <RowType>
-                <Property Name="BillID" Type="varchar" MaxLength="50" />
-                <Property Name="CartID" Type="varchar" MaxLength="50" />
-                <Property Name="Status" Type="nvarchar" MaxLength="50" />
+                <Property Name="Purchased" Type="varchar" MaxLength="50" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -406,9 +404,6 @@
               </RowType>
             </CollectionType>
           </ReturnType>
-        </Function>
-        <Function Name="proc_RemoveOldRecommendation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="userid" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -669,6 +664,10 @@
           </AssociationSet>
           <EntitySet Name="Recommendations" EntityType="RoseFashionDBModel.Recommendation" />
           <EntitySet Name="Similarities" EntityType="RoseFashionDBModel.Similarity" />
+          <FunctionImport Name="fn_CheckingIfProductWasPurchasedByUser" IsComposable="true" ReturnType="Collection(String)">
+            <Parameter Name="userid" Mode="In" Type="String" />
+            <Parameter Name="productid" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="fn_GetProductRatingFromTopSimilarUser" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetProductRatingFromTopSimilarUser_Result)">
             <Parameter Name="userid" Mode="In" Type="String" />
             <Parameter Name="productid" Mode="In" Type="String" />
@@ -734,14 +733,7 @@
           <Parameter Name="quantity" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="fn_GetNewestProduct" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetNewestProduct_Result)">
-          <Parameter Name="quantity" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="fn_CheckingIfProductWasPurchasedByUser" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_CheckingIfProductWasPurchasedByUser_Result)">
-            <Parameter Name="userid" Mode="In" Type="String" />
-            <Parameter Name="productid" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="proc_RemoveOldRecommendation">
-            <Parameter Name="userid" Mode="In" Type="String" />
+            <Parameter Name="quantity" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -1026,11 +1018,6 @@
           <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="ImportDate" Nullable="true" Precision="10" />
         </ComplexType>
-        <ComplexType Name="fn_CheckingIfProductWasPurchasedByUser_Result">
-          <Property Type="String" Name="BillID" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CartID" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1176,6 +1163,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser" />
           <FunctionImportMapping FunctionImportName="fn_GetProductRatingFromTopSimilarUser" FunctionName="RoseFashionDBModel.Store.fn_GetProductRatingFromTopSimilarUser">
             <ResultMapping>
               <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetProductRatingFromTopSimilarUser_Result">
@@ -1258,16 +1246,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_CheckingIfProductWasPurchasedByUser_Result">
-                <ScalarProperty Name="BillID" ColumnName="BillID" />
-                <ScalarProperty Name="CartID" ColumnName="CartID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_RemoveOldRecommendation" FunctionName="RoseFashionDBModel.Store.proc_RemoveOldRecommendation" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

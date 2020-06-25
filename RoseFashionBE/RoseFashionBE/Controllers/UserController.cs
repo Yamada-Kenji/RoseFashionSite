@@ -110,6 +110,8 @@ namespace RoseFashionBE.Controllers
                         Email = ct.Email,
                         FullName = ct.FullName,
                         Address = ct.Address,
+                        Province =ct.Province,
+                        District = ct.District,
                         Phone = ct.Phone,
                         DOB = ct.DOB,
                         Role = ct.Role

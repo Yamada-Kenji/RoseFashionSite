@@ -25,14 +25,17 @@ export class EditAccountComponent implements OnInit {
     private messageService: MessageService, private addressService: AddressService) { }
 
    ngOnInit() {
+    this.user.Province="";  
     var x = this.userService.getCurrentUser();
     this.addressService.GetProvince().toPromise().then(r => this.provincelist = r);
     this.idUser=x.UserID;
     this.getAccountByEmail();
+    //this.onProvinceChange();
+
   }
 
   getAccountByEmail(): void {
-    this.userService.GetAccountByID(this.idUser).toPromise().then(user => this.user = user);
+    this.userService.GetAccountByID(this.idUser).toPromise().then(user => {this.user = user;this.onProvinceChange();});
  
   }
   onProvinceChange(){

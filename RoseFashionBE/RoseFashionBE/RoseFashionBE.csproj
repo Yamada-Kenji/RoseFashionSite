@@ -193,6 +193,9 @@
     <Compile Include="fn_GetTwoVetor_Result.cs">
       <DependentUpon>RoseFashionEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="FN_TOPSALE_Result.cs">
+      <DependentUpon>RoseFashionEDM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

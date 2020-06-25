@@ -16,6 +16,7 @@ export class ChatDialogComponent implements OnInit {
 
   messages: Observable<Message[]>;
   formValue: string;
+  showchat: boolean = false;
 
   constructor(public chat: ChatService) { }
 
@@ -30,6 +31,13 @@ export class ChatDialogComponent implements OnInit {
   sendMessage() {
     this.chat.converse(this.formValue);
     this.formValue = '';
+  }
+
+  hidechat(){
+    this.showchat = false;
+  }
+  showchatt(){
+    this.showchat = true;
   }
 
 }

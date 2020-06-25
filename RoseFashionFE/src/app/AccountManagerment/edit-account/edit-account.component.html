@@ -38,7 +38,7 @@
     <div class="form-group">
       <label>Tỉnh/Thành phố</label><br>
             <select id="pvselect" [(ngModel)]="user.Province" [ngModelOptions]="{standalone: true}" (change)="onProvinceChange()">
-                <option selected="selected">{{user.Province}}</option>
+                <!-- <option selected="selected">{{user.Province}}</option> -->
                 <option value="">Hãy chọn một địa chỉ</option>
                 <ng-container *ngFor="let pv of provincelist">
                     <option value="{{pv.ProvinceName}}">{{pv.ProvinceName}}</option>

@@ -39,8 +39,8 @@ namespace RoseFashionBE
         public virtual DbSet<Recommendation> Recommendations { get; set; }
         public virtual DbSet<Similarity> Similarities { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Bill> Bills { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

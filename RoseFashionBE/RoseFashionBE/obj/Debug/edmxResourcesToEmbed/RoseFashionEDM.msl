@@ -140,7 +140,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser" />
     <FunctionImportMapping FunctionImportName="fn_GetProductRatingFromTopSimilarUser" FunctionName="RoseFashionDBModel.Store.fn_GetProductRatingFromTopSimilarUser">
       <ResultMapping>
         <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetProductRatingFromTopSimilarUser_Result">
@@ -169,6 +168,27 @@
           <ScalarProperty Name="Star" ColumnName="Star" />
           <ScalarProperty Name="ProductID" ColumnName="ProductID" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bills">
+      <EntityTypeMapping TypeName="RoseFashionDBModel.Bill">
+        <MappingFragment StoreEntitySet="Bill">
+          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
+          <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+          <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
+          <ScalarProperty Name="ReceiverPhone" ColumnName="ReceiverPhone" />
+          <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+          <ScalarProperty Name="BillID" ColumnName="BillID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -202,26 +222,15 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <EntitySetMapping Name="Bills">
-      <EntityTypeMapping TypeName="RoseFashionDBModel.Bill">
-        <MappingFragment StoreEntitySet="Bill">
-          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
-          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-          <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
-          <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
-          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
-          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
-          <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
-          <ScalarProperty Name="ReceiverPhone" ColumnName="ReceiverPhone" />
-          <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
-          <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
-          <ScalarProperty Name="CartID" ColumnName="CartID" />
+    <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_CheckingIfProductWasPurchasedByUser_Result">
           <ScalarProperty Name="BillID" ColumnName="BillID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_RemoveOldRecommendation" FunctionName="RoseFashionDBModel.Store.proc_RemoveOldRecommendation" />
   </EntityContainerMapping>
 </Mapping>

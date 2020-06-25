@@ -355,6 +355,9 @@ namespace RoseFashionBE.Controllers
                 var userlist = entity.Users.Where(u => u.Role != "admin").ToList();
                 foreach(User user in userlist)
                 {
+                    //xóa đi những sp mà user đã mua/đánh giá ra khỏi bảng gợi ý
+                    entity.proc_RemoveOldRecommendation(user.UserID); 
+
                     //tìm những sp mà 1 user chưa xem
                     var unratedproduct = entity.fn_GetUnRatedProduct(user.UserID).ToList();
 
@@ -369,13 +372,17 @@ namespace RoseFashionBE.Controllers
                         if (toprating.Count != 0)
                         {
                             //dự đoán rating của user cho sp đó
-                            double sum = 0;
+                            double numerator = 0;                   //tử số
+                            double denominator = 0;                 //mẫu số
                             for (int i = 0; i < toprating.Count; i++)
                             {
-                                sum += (double)toprating[i].Star;
+                                numerator += (double)toprating[i].Star * (double)toprating[i].SimilarityRate;
+                                denominator += (double)toprating[i].SimilarityRate;
                             }
 
-                            double predictrating = sum / toprating.Count;   //tổng số sao / tổng số người đánh giá
+                            if (denominator == 0) continue;
+
+                            double predictrating = numerator / denominator;   //tổng số sao / tổng số người đánh giá
 
                             //lưu kết quả dự đoán vào database
                             var oldrecord = entity.Recommendations.FirstOrDefault(r => 

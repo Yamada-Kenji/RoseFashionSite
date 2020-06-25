@@ -14,6 +14,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class AddProductComponent implements OnInit {
 
+  title: string = '';
   uploadForm: FormGroup;
   emptyfile: boolean = true;
   filechanged: boolean = false;
@@ -58,16 +59,18 @@ export class AddProductComponent implements OnInit {
       .toPromise().then(result => {
         this.categorylist = result;
         var productid = this.route.snapshot.paramMap.get('productid');
-        if (productid!='') {
+        if (productid) {
           this.productService.GetProductDetail(productid).toPromise().then(p => {
             this.product = p;
             this.currentimage = this.tempimage = p.Image;
             this.SetCategory();
           });
           this.addfunction = false;
+          this.title = 'Chỉnh sửa sản phẩm';
         }
         else {
-          this.SetMainCategory();
+          //this.SetMainCategory();
+          this.title = 'Thêm sản phẩm';
         }
       });
   }

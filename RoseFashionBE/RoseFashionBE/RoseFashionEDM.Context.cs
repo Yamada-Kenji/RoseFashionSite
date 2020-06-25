@@ -39,8 +39,8 @@ namespace RoseFashionBE
         public virtual DbSet<Recommendation> Recommendations { get; set; }
         public virtual DbSet<Similarity> Similarities { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Bill> Bills { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -145,20 +145,6 @@ namespace RoseFashionBE
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
     
-        [DbFunction("RoseFashionDBEntities", "fn_CheckingIfProductWasPurchasedByUser")]
-        public virtual IQueryable<string> fn_CheckingIfProductWasPurchasedByUser(string userid, string productid)
-        {
-            var useridParameter = userid != null ?
-                new ObjectParameter("userid", userid) :
-                new ObjectParameter("userid", typeof(string));
-    
-            var productidParameter = productid != null ?
-                new ObjectParameter("productid", productid) :
-                new ObjectParameter("productid", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<string>("[RoseFashionDBEntities].[fn_CheckingIfProductWasPurchasedByUser](@userid, @productid)", useridParameter, productidParameter);
-        }
-    
         [DbFunction("RoseFashionDBEntities", "fn_GetProductRatingFromTopSimilarUser")]
         public virtual IQueryable<fn_GetProductRatingFromTopSimilarUser_Result> fn_GetProductRatingFromTopSimilarUser(string userid, string productid)
         {
@@ -225,6 +211,29 @@ namespace RoseFashionBE
                 new ObjectParameter("quantity", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fn_GetNewestProduct_Result>("[RoseFashionDBEntities].[fn_GetNewestProduct](@quantity)", quantityParameter);
+        }
+    
+        [DbFunction("RoseFashionDBEntities", "fn_CheckingIfProductWasPurchasedByUser")]
+        public virtual IQueryable<fn_CheckingIfProductWasPurchasedByUser_Result> fn_CheckingIfProductWasPurchasedByUser(string userid, string productid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            var productidParameter = productid != null ?
+                new ObjectParameter("productid", productid) :
+                new ObjectParameter("productid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fn_CheckingIfProductWasPurchasedByUser_Result>("[RoseFashionDBEntities].[fn_CheckingIfProductWasPurchasedByUser](@userid, @productid)", useridParameter, productidParameter);
+        }
+    
+        public virtual int proc_RemoveOldRecommendation(string userid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("proc_RemoveOldRecommendation", useridParameter);
         }
     }
 }

@@ -327,7 +327,9 @@
     <ReturnType>
       <CollectionType>
         <RowType>
-          <Property Name="Purchased" Type="varchar" MaxLength="50" />
+          <Property Name="BillID" Type="varchar" MaxLength="50" />
+          <Property Name="CartID" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
         </RowType>
       </CollectionType>
     </ReturnType>
@@ -399,6 +401,9 @@
         </RowType>
       </CollectionType>
     </ReturnType>
+  </Function>
+  <Function Name="proc_RemoveOldRecommendation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="diagramname" Type="nvarchar" Mode="In" />

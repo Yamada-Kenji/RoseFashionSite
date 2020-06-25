@@ -78,11 +78,11 @@ export class AddBillComponent implements OnInit {
   }
 
   AddBill(name, phone, address, discountcode) {
-    this.loading = true;
     if (name == '' || phone == '' || address == '' || this.billinfo.ProvinceName == '' || this.billinfo.DistrictName == '') {
       this.warning = true;
       return;
     }
+    this.loading = true;
     var items: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
     var cartid = localStorage.getItem('CartID');
     this.billinfo.CartID = cartid;
@@ -124,6 +124,7 @@ export class AddBillComponent implements OnInit {
         var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau.", BackToHome: false };
         this.messageService.SendMessage(message);
       });
+    this.userService.RunRecommendationAlgorithm();
     // }).catch(err => {
     //   console.log("Cập nhật số lượng thất bại");
     //   var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau." };

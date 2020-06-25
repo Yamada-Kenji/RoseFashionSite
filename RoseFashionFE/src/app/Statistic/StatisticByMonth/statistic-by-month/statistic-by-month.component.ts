@@ -30,7 +30,7 @@ export class StatisticByMonthComponent implements OnInit {
       this.statisticService.GetStatisticMonth(year).subscribe(result => {sum = result;
         console.log(sum);
         var mychar = new Chart('canvas', {  
-          type: 'line',  
+          type: 'bar',  
           data: {  
             labels: ['Th1','Th2','Th3','Th4','Th5','Th6','Th7','Th8','Th9','Th10','Th11','Th12'], 
             datasets: [  

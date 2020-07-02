@@ -140,7 +140,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser" />
     <FunctionImportMapping FunctionImportName="fn_GetProductRatingFromTopSimilarUser" FunctionName="RoseFashionDBModel.Store.fn_GetProductRatingFromTopSimilarUser">
       <ResultMapping>
         <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_GetProductRatingFromTopSimilarUser_Result">
@@ -223,5 +222,15 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_CheckingIfProductWasPurchasedByUser_Result">
+          <ScalarProperty Name="BillID" ColumnName="BillID" />
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_RemoveOldRecommendation" FunctionName="RoseFashionDBModel.Store.proc_RemoveOldRecommendation" />
   </EntityContainerMapping>
 </Mapping>

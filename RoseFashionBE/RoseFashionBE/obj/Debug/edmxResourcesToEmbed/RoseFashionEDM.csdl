@@ -153,10 +153,6 @@
     </AssociationSet>
     <EntitySet Name="Recommendations" EntityType="RoseFashionDBModel.Recommendation" />
     <EntitySet Name="Similarities" EntityType="RoseFashionDBModel.Similarity" />
-    <FunctionImport Name="fn_CheckingIfProductWasPurchasedByUser" IsComposable="true" ReturnType="Collection(String)">
-      <Parameter Name="userid" Mode="In" Type="String" />
-      <Parameter Name="productid" Mode="In" Type="String" />
-    </FunctionImport>
     <FunctionImport Name="fn_GetProductRatingFromTopSimilarUser" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetProductRatingFromTopSimilarUser_Result)">
       <Parameter Name="userid" Mode="In" Type="String" />
       <Parameter Name="productid" Mode="In" Type="String" />
@@ -223,6 +219,13 @@
     </FunctionImport>
     <FunctionImport Name="fn_GetNewestProduct" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetNewestProduct_Result)">
       <Parameter Name="quantity" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="fn_CheckingIfProductWasPurchasedByUser" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_CheckingIfProductWasPurchasedByUser_Result)">
+      <Parameter Name="userid" Mode="In" Type="String" />
+      <Parameter Name="productid" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="proc_RemoveOldRecommendation">
+      <Parameter Name="userid" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -506,5 +509,10 @@
   <ComplexType Name="fn_GetNewestProduct_Result">
     <Property Type="String" Name="PID" Nullable="true" MaxLength="50" />
     <Property Type="DateTime" Name="ImportDate" Nullable="true" Precision="10" />
+  </ComplexType>
+  <ComplexType Name="fn_CheckingIfProductWasPurchasedByUser_Result">
+    <Property Type="String" Name="BillID" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CartID" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
   </ComplexType>
 </Schema>

@@ -30,7 +30,7 @@ export class TryNewCodeComponent implements OnInit {
   }
 
   RunAlgorithm(){
-    this.userService.RunRecommendationAlgorithm().toPromise().then(r=>this.message = r).catch(err => this.message = err);
+    this.userService.RunRecommendationAlgorithm().toPromise().then(r=>this.message = r).catch(err => this.message = 'Error');
   }
 
   CreateJSON(){

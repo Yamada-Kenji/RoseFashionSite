@@ -61,6 +61,7 @@ export class ViewProductListForCustomerComponent implements OnInit {
   pageChanged(event) {
     this.pageconfig.currentPage = event;
     localStorage.setItem('currentpage', event);
+    window.scrollTo(0, 0);
   }
 
   async GetAllCategory() {

@@ -31,7 +31,7 @@ margin-top: -10px;
 .container {
     border: 2px solid #dedede;
     background-color: #f1f1f1;
-    border-radius: 5px;
+    /* border-radius: 5px; */
     padding: 10px;
     margin: 10px 0;
     position: fixed;
@@ -40,9 +40,17 @@ margin-top: -10px;
     bottom: 140px;
     right: 30px;
     overflow-y: auto;
-    height: 400px;
+    height: 300px;
     z-index: 90;
   }
+.title1 {
+    position: fixed;
+    bottom: 439px;
+    right: 30px;
+    /* bottom: 15px;
+    right: 30px; */
+    z-index: 90;
+}
 
   .hr-sect {
 	display: flex;
@@ -62,15 +70,15 @@ margin-top: -10px;
 	line-height: 0px;
 	margin: 0px 0px;
 } 
-.card{
+.send{
 
     position: fixed;
     bottom: 100px;
     right: 30px;
-    /* bottom: 15px;
-    right: 30px; */
+   
     z-index: 99;
 }
+
 .far{
     position: fixed;
     bottom: 100px;

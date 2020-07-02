@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import {  UserModel } from 'src/app/Shared/model';
+import { UserService } from 'src/app/Shared/user-service';
 
 @Component({
   selector: 'app-send-email',
@@ -7,11 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./send-email.component.css']
 })
 export class SendEmailComponent implements OnInit {
-  
+  email: string = 'phamha.hyp@gmail.com'
 
-  constructor() { }
+  constructor(private userservice: UserService) { }
 
   ngOnInit() {
   }
+  getcode(): void {
+  this.userservice.getcode(this.email).toPromise().then(
+    result =>  {
+      alert('successfull');
+    })
+  }
+
+    
 
 }

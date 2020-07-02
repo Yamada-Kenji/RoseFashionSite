@@ -8,6 +8,7 @@ using System.Net;
 using System.Web.Http;
 using System.Net.Http;
 using System.Web.Http.Cors;
+using System.Net.Mail;
 
 namespace RoseFashionBE.Controllers
 {
@@ -518,6 +519,41 @@ namespace RoseFashionBE.Controllers
                 return NotFound();
 
             }
+        }
+
+        //forgot pass
+        [HttpGet]
+        public IHttpActionResult getcode(string emailgetcode)
+        {
+            string validcode = "";
+            Random rand = new Random();
+            for (int i = 0; i < 5; i++)
+            {
+                validcode += rand.Next(0, 9).ToString();
+            }
+
+            
+            try
+            {
+                MailMessage mail = new MailMessage("quynhdiemthinguyen@gmail.com", emailgetcode);
+                SmtpClient client = new SmtpClient();
+                client.Port = 587;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential("quynhdiemthinguyen@gmail.com", "11121314151617");
+                client.EnableSsl = true;
+                client.Host = "smtp.gmail.com";
+                mail.Subject = "This is your verification code";
+                mail.Body = validcode + "\nLưu ý mã xác nhận chỉ tồn tại sau trong 5 phút, sau thời gian đó mã sẽ không còn tác dụng.";
+                client.Send(mail);
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+
         }
 
     }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 //Validator
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { identityRevealedValidator } from 'src/app/AccountManagerment/create-account/confirm';
+import { UserService } from 'src/app/Shared/user-service';
 
 @Component({
   selector: 'app-confirm-pass',
@@ -12,7 +13,7 @@ export class ConfirmPassComponent implements OnInit {
   classForm: FormGroup; //Validator
   vaCate = { passwork: '', confirmpass: '' };
 
-  constructor() { }
+  constructor(userservice: UserService) { }
 
   ngOnInit() {
      //Validators

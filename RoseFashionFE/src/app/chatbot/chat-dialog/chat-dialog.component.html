@@ -56,16 +56,20 @@
 <i class="far fa-comment-dots fa-3x" (click)="showchatt()"></i>
 
 <div *ngIf="showchat">
-  <div  class="container" style="max-width: 350px;width: device-width;">
+  <div class="title1 card bg-dark " style="width: 320px;height: 55px;" >
     <div class="form-inline">
-      <div class="commentBox " >
+      <!-- <div class="commentBox " >
         <p style="border-style: ridge;" class="taskDescription">Xin nhập câu hỏi để được tư vấn!
         
-      </div>
-      <button class="btn btn-dark float-right" (click)="hidechat()" style="margin-left: 50px;">X</button>
+      </div> -->
+      <button class="btn btn-light float-right" (click)="hidechat()" style="margin-left: 280px;">X</button>
     </div>
+  </div>
+   <div  class="container" style="max-width: 320px;width: device-width;">
+    
    
-    <div class="hr-sect"></div>
+    <!-- <div class="hr-sect"></div> -->
+    
     <ng-container *ngFor="let message of messages | async">
   
       <div class="message" [ngClass]="{ 'from': message.sentBy === 'bot',
@@ -74,16 +78,17 @@
       </div>
   
     </ng-container>
+   
     
   
   </div> 
-  <div class="card bg-dark " style="width: 350px;height: 60px;" >
+  <div class="send card bg-dark " style="width: 320px;height: 60px;" >
     <div class="form-inline"style="margin-top: 10px;">
-      <input type="text" class="form-control" style="margin-left: 55px;" [(ngModel)]="formValue" (keyup.enter)="sendMessage()"><br>
+      <input type="text" class="form-control" style="margin-left: 20px;" [(ngModel)]="formValue" (keyup.enter)="sendMessage()"><br>
     
       <button class="btn btn-light float-right"  (click)="sendMessage()" style="margin-left: 10px;">Send</button>
     </div>
-  </div>
+  </div> 
   
 </div>
  

@@ -91,4 +91,9 @@ export class UserService {
     Changepassword(editedaccount: UserModel, email: string): Observable<any> {
         return this.http.put(this.userurl, editedaccount, httpOptions);
     }
+    //get code
+    getcode(emailgetcode: string){
+        const editedurl = `${this.userurl}?emailgetcode=${emailgetcode}`;
+        return this.http.get<any>(editedurl);
+    }
 }

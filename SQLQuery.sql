@@ -34,7 +34,7 @@ end
 alter function fn_CheckingIfProductWasPurchasedByUser(@userid varchar(50), @productid varchar(50)) returns @result table(BillID varchar(50), CartID varchar(50), Status nvarchar(50)) as
 begin
 insert into @result
-select Bill.BillID, Bill.CartID, bill.Status
+select Bill.BillID, Bill.CartID, Bill.Status
 from Bill
 inner join
 (select Cart.CartID, UserID

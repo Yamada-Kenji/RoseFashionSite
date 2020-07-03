@@ -25,7 +25,7 @@
         <a class="nav-link" [routerLink]="['/showcategory']" (click)="ResetCurrentPage()">Danh sách các danh mục</a>
       </li> -->
       <li class="nav-item" *ngIf="currentUser.Role == 'admin'">
-        <a class="nav-link" [routerLink]="['/view-bill-for-admin']" (click)="ResetCurrentPage()">Danh sách hóa đơn</a>
+        <a class="nav-link" [routerLink]="['/view-bill-for-admin']" (click)="ResetCurrentPage();">Danh sách hóa đơn</a>
       </li>
       <li class="nav-item dropdown" *ngIf="currentUser.Role == 'admin'">
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Doanh thu</a>

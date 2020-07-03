@@ -23,6 +23,7 @@ export class ViewBillForAdminComponent implements OnInit {
   }
 
   ngOnInit() {
+    localStorage.setItem('keyword', '');
     this.billService.GetBillTable().toPromise().then(r => {
       this.billarray = r;
       this.billtable = Array.from(this.billarray);

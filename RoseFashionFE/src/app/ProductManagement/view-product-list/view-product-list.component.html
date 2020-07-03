@@ -11,8 +11,8 @@
         </div>
         <div class="col">
             <div class="d-flex justify-content-end">
-                <input type="text" class="form-control" style="width: 300px;"><button class="btn btn-dark"
-                    style="margin-left: 10px;">Tìm kiếm</button></div>
+                <input #keyword type="text" class="form-control" style="width: 300px;" placeholder="Mã sản phẩm hoặc tên sản phẩm">
+                <button class="btn btn-dark" style="margin-left: 10px;" (click)="Search(keyword.value)">Tìm kiếm</button></div>
         </div>
     </div>
     <p></p>
@@ -53,7 +53,7 @@
                     <th>Tùy chọn</th>
                 </tr>
             </thead>
-            <tbody *ngFor="let item of productlist | paginate: pageconfig">
+            <tbody *ngFor="let item of viewlist | paginate: pageconfig">
                 <tr>
                     <td style="vertical-align: middle; text-align: center;">
                         <input type="checkbox" style="width: 20px; height: 20px;"

@@ -11,10 +11,12 @@ import { ActivatedRoute } from '@angular/router';
 export class ViewProductListComponent implements OnInit {
 
   productlist: ProductModel[] = [];
+  viewlist: ProductModel[] = [];
   pageconfig: any;
   sortcolumn: number = 1;
   asc: boolean = true;
   removelist: string[] = [];
+  keyword: string;
 
   constructor(private productService: ProductService, private route: ActivatedRoute) {
     this.pageconfig = {
@@ -25,6 +27,7 @@ export class ViewProductListComponent implements OnInit {
 
   async ngOnInit() {
     await this.GetProductList();
+    this.Search(localStorage.getItem('keyword'));
     this.Sort(this.sortcolumn);
     this.pageconfig.currentPage = localStorage.getItem('currentpage');
   }
@@ -37,7 +40,7 @@ export class ViewProductListComponent implements OnInit {
   }
 
   async GetProductList() {
-    await this.productService.GetAllProduct().toPromise().then(result => this.productlist = result);
+    await this.productService.GetAllProduct().toPromise().then(result => {this.productlist = result; this.viewlist = result;});
   }
 
   async DeleteProduct(productid: string) {
@@ -69,6 +72,16 @@ export class ViewProductListComponent implements OnInit {
       this.asc = true;
     }
     this.Sort(col);
+  }
+
+  Search(input) {
+    localStorage.setItem('keyword', input);
+    if (input != '') {
+      this.viewlist = this.productlist.filter(p => p.Name.toLowerCase().includes(input) || p.ProductID.toLowerCase().includes(input));
+    }
+    else {
+      this.viewlist = this.productlist;
+    }
   }
 
   Sort(col) {

@@ -15,6 +15,7 @@ export class StatisticByMonthComponent implements OnInit {
   constructor(private statisticService: StatisticService) { }
 
   ngOnInit() {
+    localStorage.setItem('keyword', '');
     this.getYear();
     // this.getsumbymonth(2018);
   }

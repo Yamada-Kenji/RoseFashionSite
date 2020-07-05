@@ -19,6 +19,7 @@ export class StatisticByYearComponent implements OnInit {
   constructor(private statisticService: StatisticService) { }
 
   async ngOnInit() {
+    localStorage.setItem('keyword', '');
     await this.getYear();
     // this.getsumbyyear(2016,2021);
 

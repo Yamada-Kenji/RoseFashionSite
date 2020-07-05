@@ -46,6 +46,19 @@ export class AddBillComponent implements OnInit {
     }
     this.CalTotalPrice();
     this.LoadPayPalScript();
+    this.LoadAddress();
+  }
+
+  LoadAddress(){
+    this.userService.GetAccountByID(this.user.UserID).toPromise().then(r => 
+      {
+        this.user = r;
+        if(r.Province!=null) {
+          this.billinfo.ProvinceName = r.Province;
+          this.onProvinceChange();
+          this.billinfo.DistrictName = r.District;
+        }
+    });
   }
 
   onProvinceChange() {
@@ -112,11 +125,15 @@ export class AddBillComponent implements OnInit {
     this.billService.AddBillForMember(this.billinfo)
       .toPromise().then(result => this.cartService.GetLastUsedCart(this.user.UserID).toPromise()
         .then(result => {
-          this.loading = false;
           localStorage.setItem('CartID', result);
           this.cartService.GetItemsInCart(result);
-          var message: MessageModel = { Title: "Thông báo", Content: "Hóa đơn đã được lưu.", BackToHome: true };
-          this.messageService.SendMessage(message);
+          /*this.userService.RunRecommendationAlgorithm().toPromise()
+          .then(r => {
+            alert(r);*/
+            this.loading = false;
+            var message: MessageModel = { Title: "Thông báo", Content: "Hóa đơn đã được lưu.", BackToHome: true };
+            this.messageService.SendMessage(message);
+          //});
         }))
       .catch(err => {
         this.loading = false;
@@ -124,7 +141,6 @@ export class AddBillComponent implements OnInit {
         var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau.", BackToHome: false };
         this.messageService.SendMessage(message);
       });
-    this.userService.RunRecommendationAlgorithm();
     // }).catch(err => {
     //   console.log("Cập nhật số lượng thất bại");
     //   var message: MessageModel = { Title: "Thông báo", Content: "Đã có lỗi xảy ra. Vui lòng thử lại sau." };
@@ -164,13 +180,14 @@ export class AddBillComponent implements OnInit {
   }
 
   DataToJSON() {
+    this.VNDtoUSD();
     var amount_data = {
       currency_code: "USD",
-      value: ((this.totalprice + this.billinfo.DeliveryFee) * 0.000043).toFixed(2),
+      value:  (Number.parseFloat(this.totalpriceUSD) + Number.parseFloat((this.billinfo.DeliveryFee * 0.000043).toFixed(2))).toString(),//((this.totalprice + this.billinfo.DeliveryFee) * 0.000043).toFixed(2),
       breakdown: {
         item_total: {
           currency_code: "USD",
-          value: (this.totalprice * 0.000043).toFixed(2)
+          value: this.totalpriceUSD //(this.totalprice * 0.000043).toFixed(2)
         },
         shipping: {
           currency_code: "USD",
@@ -203,5 +220,15 @@ export class AddBillComponent implements OnInit {
 
     this.jsonstring = JSON.stringify(purchase_unit_data);
     //console.log(JSON.parse(this.jsonstring));
+    //this.VNDtoUSD();
+    //alert(this.totalpriceUSD);
+  }
+
+  VNDtoUSD(){
+    var total: number = 0;
+    for (var i = 0; i < this.mycart.length; i++) {
+      total += Number.parseFloat((this.mycart[i].SalePrice * 0.000043).toFixed(2)) * this.mycart[i].Amount;
+    }
+    this.totalpriceUSD = total.toString();
   }
 }

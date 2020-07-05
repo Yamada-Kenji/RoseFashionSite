@@ -66,6 +66,8 @@ import { SendEmailComponent } from './accountmanagerment/reset-password/send-ema
 import { ConfirmPassComponent } from './accountmanagerment/reset-password/confirm-pass/confirm-pass.component';
 
 import { QuickRatingComponent } from './Others/quick-rating/quick-rating.component';
+//scroll
+import { ScrollToBottomDirective } from './chatbot/scroll-to-bottom.directive';
 
 
 export function socialConfigs() {  
@@ -115,7 +117,9 @@ export function socialConfigs() {
     ConfirmPassComponent,
     
 
-    QuickRatingComponent
+    QuickRatingComponent,
+
+    ScrollToBottomDirective
 
   ],
   imports: [

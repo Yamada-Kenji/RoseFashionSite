@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ScrollToBottomDirective } from '../scroll-to-bottom.directive'
 
 import { ChatService, Message } from '../chat.service';
 import { Observable } from 'rxjs';
@@ -13,6 +14,9 @@ import { scan } from 'rxjs/operators';
   styleUrls: ['./chat-dialog.component.css']
 })
 export class ChatDialogComponent implements OnInit {
+  //@ViewChild(ScrollToBottomDirective)
+  scroll: ScrollToBottomDirective;
+
 
   messages: Observable<Message[]>;
   formValue: string;

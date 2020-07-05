@@ -65,9 +65,9 @@
       <button class="btn btn-light float-right" (click)="hidechat()" style="margin-left: 280px;">X</button>
     </div>
   </div>
-   <div  class="container" style="max-width: 320px;width: device-width;">
+   <div  class="container" style="max-width: 320px;width: device-width;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
     
-   
+   <p class="title">Chào bạn, chúng tôi là Rose Fashion</p>
     <!-- <div class="hr-sect"></div> -->
     
     <ng-container *ngFor="let message of messages | async">

@@ -10,22 +10,24 @@ import { Router } from '@angular/router';
 export class MessageModalComponent implements OnInit {
 
   static hiddenbutton: HTMLElement;
-  static globalmessage: MessageModel;
+  static globalmessage: MessageModel = new MessageModel();
   message: MessageModel = new MessageModel();
-  
+
   constructor(private router: Router) { }
   ngOnInit() {
     MessageModalComponent.hiddenbutton = document.getElementById('hiddenbtn') as HTMLElement;
     this.getMessage();
   }
 
-  getMessage(){
+  getMessage() {
     this.message.Title = MessageModalComponent.globalmessage.Title;
     this.message.Content = MessageModalComponent.globalmessage.Content;
     this.message.BackToHome = MessageModalComponent.globalmessage.BackToHome;
   }
 
-  Close(){
-    if(this.message.BackToHome == true) this.router.navigate(['/home']);
+  Close() {
+    if (this.message.BackToHome == true) {
+      this.router.navigate(['/home']);
+    }
   }
 }

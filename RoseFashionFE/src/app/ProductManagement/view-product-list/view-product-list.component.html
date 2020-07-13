@@ -36,20 +36,22 @@
                             <i *ngIf="!asc" class="fas fa-sort-down"></i>
                         </ng-template>
                     </th>
-                    <th class="col-head" (click)="ChangeSortColumn(3)">Số lượng
+                    <!-- <th class="col-head" (click)="ChangeSortColumn(3)">Số lượng theo size: S, M, L, XL, XXL
                         <i *ngIf="sortcolumn!=3; else updown3" class="fas fa-sort"></i>
                         <ng-template #updown3>
                             <i *ngIf="asc" class="fas fa-sort-up"></i>
                             <i *ngIf="!asc" class="fas fa-sort-down"></i>
                         </ng-template>
-                    </th>
-                    <th class="col-head" (click)="ChangeSortColumn(4)">Giá (VNĐ)
+                    </th> -->
+                    <th class="col-head" (click)="ChangeSortColumn(4)">Giá gốc(VNĐ)
                         <i *ngIf="sortcolumn!=4; else updown4" class="fas fa-sort"></i>
                         <ng-template #updown4>
                             <i *ngIf="asc" class="fas fa-sort-up"></i>
                             <i *ngIf="!asc" class="fas fa-sort-down"></i>
                         </ng-template>
                     </th>
+                    <th>Giá hiện tại(VNĐ)</th>
+                    <th>Trạng thái</th>
                     <th>Tùy chọn</th>
                 </tr>
             </thead>
@@ -64,8 +66,14 @@
                                 style="width: 40px; height: 40px;"></div>
                     </td>
                     <td>{{item.Name}}</td>
-                    <td>{{item.Quantity[0]}}</td>
+                    <!-- <td>{{item.Quantity[0]}}</td> -->
+
                     <td>{{item.Price | number}}</td>
+                    <td>{{item.Price - item.Price*item.DiscountPercent/100 | number}} 
+                        <p *ngIf="item.DiscountPercent!=0" class="d-inline" style="color: red;">(-{{item.DiscountPercent}}%)</p>
+                    </td>
+                    <td><div *ngIf="item.SoldOut;else normal">Hết hàng</div>
+                    <ng-template #normal>Còn hàng</ng-template></td>
                     <!-- <td><button class="btn btn-dark" style="margin-left: 5px"
                             [routerLink]="['/update-product', item.ProductID]"
                             routerLinkActive="router-link-active">Sửa</button>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BillService } from 'src/app/Shared/bill-service';
 import { BillModel } from 'src/app/Shared/model';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-bill-for-admin',
@@ -30,6 +31,8 @@ export class ViewBillForAdminComponent implements OnInit {
       // this.billtable.sort((b,a) => {
       //   return <any>new Date(a.OrderDate) - <any>new Date(b.OrderDate);
       this.Sort(this.sortcolumn);
+      this.filterstatus='Đang chờ xác nhận';
+      this.Filter();
       }).catch(err => alert(err));
     this.pageconfig.currentPage = localStorage.getItem('currentpage');
   }

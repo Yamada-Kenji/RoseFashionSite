@@ -33,6 +33,7 @@ import { ChatDialogComponent } from './chatbot/chat-dialog/chat-dialog.component
 import { SendEmailComponent } from './accountmanagerment/reset-password/send-email/send-email.component';
 
 import { QuickRatingComponent } from './Others/quick-rating/quick-rating.component';
+import { ImportProductComponent } from './ProductManagement/import-product/import-product.component';
 
 
 
@@ -43,6 +44,7 @@ const routes: Routes = [
   {path:'view-product-list', component: ViewProductListComponent, canActivate: [AuthGuard]},
   {path:'update-product/:productid', component: AddProductComponent, canActivate: [AuthGuard]},
   {path:'add-product-to-cart/:productid', component: AddProductToCartComponent},
+  {path: 'import-product', component: ImportProductComponent},
 
   {path:'editcategory/:id', component: EditcategoryComponent, canActivate: [AuthGuard]},
   {path:'showcategory', component: ShowcategoryComponent, canActivate: [AuthGuard]},

@@ -220,12 +220,12 @@
     <FunctionImport Name="fn_GetNewestProduct" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_GetNewestProduct_Result)">
       <Parameter Name="quantity" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="proc_RemoveOldRecommendation">
+      <Parameter Name="userid" Mode="In" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="fn_CheckingIfProductWasPurchasedByUser" IsComposable="true" ReturnType="Collection(RoseFashionDBModel.fn_CheckingIfProductWasPurchasedByUser_Result)">
       <Parameter Name="userid" Mode="In" Type="String" />
       <Parameter Name="productid" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="proc_RemoveOldRecommendation">
-      <Parameter Name="userid" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">

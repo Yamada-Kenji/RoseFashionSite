@@ -81,7 +81,7 @@ namespace RoseFashionBE.Controllers
                         DistrictName = billinfo.DistrictName,
                         TotalPrice = billinfo.TotalPrice,
                         DeliveryFee = billinfo.DeliveryFee,
-                        Status = "Đang chờ xác nhận",
+                        Status = billinfo.Status,
                         IsDeleted = false
                     });
                     var usercart = entity.Carts.Where(c => c.CartID == billinfo.CartID).FirstOrDefault();
@@ -198,10 +198,11 @@ namespace RoseFashionBE.Controllers
                 using (var entity = new RoseFashionDBEntities())
                 {
                     var bill = entity.Bills.Where(s => s.BillID == billinfo.BillID).FirstOrDefault();
+                    string oldstatus = bill.Status;
                     bill.Status = billinfo.Status;
                     bill.DeliveryDate = billinfo.DeliveryDate;
                     entity.SaveChanges();
-                    return Ok();
+                    return Ok(oldstatus);
                 }
             }
             catch (Exception ex)

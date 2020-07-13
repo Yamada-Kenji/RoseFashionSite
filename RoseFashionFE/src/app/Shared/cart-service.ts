@@ -59,8 +59,8 @@ const httpOptions = {
         return this.http.put(editedurl, items, httpOptions);
     }
 
-    UpdateProductQuantity(status: string, items: CartModel[]){
-        const editedurl = `${this.carturl}?status=${status}`;
+    UpdateProductQuantity(action: string, items: CartModel[]){
+        const editedurl = `${this.carturl}?action=${action}`;
         return this.http.put(editedurl, items, httpOptions);
     }
 

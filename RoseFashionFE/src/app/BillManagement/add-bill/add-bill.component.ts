@@ -105,8 +105,10 @@ export class AddBillComponent implements OnInit {
     this.billinfo.DiscountCode = discountcode;
     this.billinfo.TotalPrice = this.totalprice;
     this.billinfo.PaymentMethod = "Tiền mặt";
+    this.billinfo.Status = 'Đang chờ xác nhận'
     if (this.creditcard == true) {
       this.billinfo.PaymentMethod = "Thẻ tín dụng";
+      this.billinfo.Status = 'Đã thanh toán';
     }
     // var billinfo: BillModel = {
     //   BillID: '',
@@ -123,7 +125,9 @@ export class AddBillComponent implements OnInit {
     // this.cartService.UpdateProductQuantity(items).toPromise()
     //   .then(() => {
     this.billService.AddBillForMember(this.billinfo)
-      .toPromise().then(result => this.cartService.GetLastUsedCart(this.user.UserID).toPromise()
+      .toPromise().then(() => 
+        this.cartService.UpdateProductQuantity('subtract', items).toPromise().then(()=>
+        this.cartService.GetLastUsedCart(this.user.UserID).toPromise()
         .then(result => {
           localStorage.setItem('CartID', result);
           this.cartService.GetItemsInCart(result);
@@ -134,7 +138,7 @@ export class AddBillComponent implements OnInit {
             var message: MessageModel = { Title: "Thông báo", Content: "Hóa đơn đã được lưu.", BackToHome: true };
             this.messageService.SendMessage(message);
           //});
-        }))
+        })))
       .catch(err => {
         this.loading = false;
         console.log("Lưu hóa đơn thất bại");

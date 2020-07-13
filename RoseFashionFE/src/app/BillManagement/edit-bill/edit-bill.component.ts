@@ -5,6 +5,11 @@ import { CartService } from 'src/app/Shared/cart-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ProductService } from 'src/app/Shared/product-service';
+//
+
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-edit-bill',
@@ -102,4 +107,76 @@ export class EditBillComponent implements OnInit {
   AddDefaultRating() {
 
   }
+  //
+  generatePdf(){
+    this.billService.GetOneBillInfo(this.billid).toPromise()
+      .then(result => {
+        this.billinfo = result;
+        //this.statuscode = this.status.indexOf(this.billinfo.Status);
+        this.cartService.GetItemsInBill(this.billinfo.CartID).toPromise()
+          .then(items => {this.usedcart = items;
+              //
+              var bodyData = [];
+              var header = ['Tên sản phẩm','Size','Số lượng','Giá'];
+              this.usedcart.forEach(function(sourceRow) {
+                var dataRow = [];
+
+                dataRow.push(sourceRow.Name);
+                dataRow.push(sourceRow.Size);
+                dataRow.push(sourceRow.Quantity);
+                dataRow.push(sourceRow.OriginalPrice);
+                bodyData.push(dataRow)
+              });
+                            //
+              const documentDefinition = {  content: [
+                {
+                  text: 'Hóa đơn',
+                  bold: true,
+                  fontSize: 20,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 20]
+                },
+                {
+                  text:'Tên: ' + this.billinfo.ReceiverName,
+                 },
+                 {
+                  text:'Sđt: ' + this.billinfo.ReceiverPhone,
+                 },
+                 {
+                  text:'Địa chỉ: ' + this.billinfo.DeliveryAddress +', '+ this.billinfo.DistrictName + ', '+ this.billinfo.ProvinceName,
+                 },
+                 {
+                    /*table: {
+                      header: header,
+                    body: bodyData
+                        },*/
+                        table: {
+                          headerRows: 1,
+                          widths: [ '*', 'auto', 100, '*' ],
+                  
+                          body: bodyData
+                        }
+                 },
+                 
+                 {
+                  text:'Tổng tiền: ' + this.billinfo.TotalPrice,
+                 },
+                
+                ],
+                
+                tyles: {
+                  name: {
+                    
+                    fontSize: 20,
+                    bold: true,
+                    
+                  }
+                }
+              };
+              pdfMake.createPdf(documentDefinition).open();
+
+          });
+      });    
+    
+   }
 }

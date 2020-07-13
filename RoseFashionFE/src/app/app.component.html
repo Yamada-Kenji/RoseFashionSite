@@ -165,7 +165,11 @@
 </div>
 <!-- modal -->
 <!-- chat -->
-<app-chat-dialog></app-chat-dialog>
+<div *ngIf="currentUser.Role != 'admin'">
+  <app-chat-dialog></app-chat-dialog>
+</div>
+
+
 
 <div id="GoToTopIcon" *ngIf="showbutton" (click)="BackToTop()">
 <i class="fas fa-arrow-circle-up fa-2x" style="color: white;"></i>

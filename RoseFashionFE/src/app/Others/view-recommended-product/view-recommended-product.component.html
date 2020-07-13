@@ -1,5 +1,6 @@
-<h2 class="d-flex justify-content-center">CÓ THỂ BẠN THÍCH</h2>
-<div class="container">
+<hr style="border: 2px solid black; width: 30%;" *ngIf="show">
+<h2 class="d-flex justify-content-center" *ngIf="show">CÓ THỂ BẠN THÍCH</h2>
+<div *ngIf="show" class="container">
     <!--Carousel Wrapper-->
     <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
 
@@ -86,7 +87,7 @@
 
 
 <!-- For phone devices-->
-<div id="carousel-example-multi" class="carousel slide carousel-multi-item v-2" data-ride="carousel">
+<div *ngIf="show" id="carousel-example-multi" class="carousel slide carousel-multi-item v-2" data-ride="carousel">
 
     <div class="carousel-inner v-2" role="listbox">
 

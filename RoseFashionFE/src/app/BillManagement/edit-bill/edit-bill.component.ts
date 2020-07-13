@@ -22,7 +22,11 @@ export class EditBillComponent implements OnInit {
   usedcart: CartModel[] = [];
   billid: string;
   status: string[] = ["Đang chờ xác nhận", "Đã xác nhận", "Đang giao hàng", "Đã thanh toán", "Đã hủy"];
+  disablelist: boolean[] = [false, false, false, false, false];
   statuscode: number = 0;
+  notchanged: boolean = true;
+  textonly: boolean = false;
+
   constructor(private billService: BillService,
     private cartService: CartService,
     private productService: ProductService,
@@ -37,9 +41,25 @@ export class EditBillComponent implements OnInit {
         this.billinfo = result;
         this.billinfo.DeliveryDate = new Date();
         this.statuscode = this.status.indexOf(this.billinfo.Status);
+        this.DisableOption();
         this.cartService.GetItemsInBill(this.billinfo.CartID).toPromise()
           .then(items => this.usedcart = items);
-      });      
+      });
+  }
+
+  StatusChanged() {
+    if (this.status.indexOf(this.billinfo.Status) != this.statuscode) this.notchanged = false;
+  }
+
+  DisableOption() {
+    if(this.statuscode==3||this.statuscode==4) {
+      this.textonly = true;
+      return;
+    }
+    var i = 0;
+    for (i; i <= this.statuscode; i++) {
+      this.disablelist[i] = true;
+    }
   }
 
   CalDiscountPercent(saleprice, originalprice) {
@@ -47,6 +67,7 @@ export class EditBillComponent implements OnInit {
   }
 
   Save() {
+    if(!confirm("Xác nhận lưu những thay đổi này?")) return;
     if (this.statuscode == 3) {
       if (this.billinfo.DeliveryDate < this.billinfo.OrderDate) {
         document.getElementById("dldate").style.color = "red";
@@ -56,29 +77,52 @@ export class EditBillComponent implements OnInit {
     }
     this.billinfo.Status = this.status[this.statuscode];
     this.billService.UpdateBill(this.billinfo).toPromise()
-      .then(() => {
-        switch(this.statuscode){
-          case 3: {
-            this.productService.AddDefaultRating(this.billinfo.CartID)
-            .toPromise().then().catch(err => console.log(err));
-            break;
-          }
-          case 1: {
-            this.cartService.UpdateProductQuantity("accept",this.usedcart).toPromise()
-            .then().catch(err => { confirm("Đã có lỗi xảy ra"); });
-            break;
-          }
-          case 4: {
-            this.cartService.UpdateProductQuantity("cancel",this.usedcart).toPromise()
-            .then().catch(err => { confirm("Đã có lỗi xảy ra"); });
-            break;
-          }
-          default: {
-            this.cartService.UpdateProductQuantity("other",this.usedcart).toPromise()
-            .then().catch(err => { confirm("Đã có lỗi xảy ra"); });
-            break;
-          }
+      .then(oldstatus => {
+        console.log(this.status.indexOf(oldstatus));
+        if (this.statuscode == 0 || this.statuscode == 1 || this.statuscode == 3) {
+          alert("Cập nhật thành công.");
+          window.location.reload();
+          return;
         }
+        if (this.statuscode == 2) {
+          this.cartService.UpdateProductQuantity("subtract", this.usedcart).toPromise()
+            .then(() => { alert("Cập nhật thành công."); window.location.reload(); })
+            .catch(err => { alert("Đã có lỗi xảy ra"); window.location.reload(); });
+        }
+        if (this.statuscode == 4) {
+          if (this.status.indexOf(oldstatus) == 2) {
+            this.cartService.UpdateProductQuantity("add", this.usedcart).toPromise()
+              .then(() => { alert("Cập nhật thành công."); window.location.reload(); })
+              .catch(err => { alert("Đã có lỗi xảy ra"); window.location.reload(); });
+          }
+          else {
+            alert("Cập nhật thành công.");
+            window.location.reload();
+          }
+          return;
+        }
+        // switch(this.statuscode){
+        //   case 3: {
+        //     this.productService.AddDefaultRating(this.billinfo.CartID)
+        //     .toPromise().then().catch(err => console.log(err));
+        //     break;
+        //   }
+        //   case 1: {
+        //     this.cartService.UpdateProductQuantity("accept",this.usedcart).toPromise()
+        //     .then().catch(err => { confirm("Đã có lỗi xảy ra"); });
+        //     break;
+        //   }
+        //   case 4: {
+        //     this.cartService.UpdateProductQuantity("cancel",this.usedcart).toPromise()
+        //     .then().catch(err => { confirm("Đã có lỗi xảy ra"); });
+        //     break;
+        //   }
+        //   default: {
+        //     this.cartService.UpdateProductQuantity("other",this.usedcart).toPromise()
+        //     .then().catch(err => { confirm("Đã có lỗi xảy ra"); });
+        //     break;
+        //   }
+        // }
         /*if (this.billinfo.Status == "Đã thanh toán") {
           alert('da thanh toan');
           this.productService.AddDefaultRating(this.billinfo.CartID)
@@ -94,8 +138,8 @@ export class EditBillComponent implements OnInit {
           this.cartService.UpdateProductQuantity("cancel",this.usedcart).toPromise()
             .then().catch(err => { confirm("Đã có lỗi xảy ra"); });
         }*/
-        alert("Cập nhật thành công.");
-      }).catch(err => console.log(err));
+        // alert("Cập nhật thành công.");
+      }).catch(err => { alert("Đã có lỗi xảy ra"); window.location.reload(); });
   }
 
   Cancel() {
@@ -103,6 +147,12 @@ export class EditBillComponent implements OnInit {
       this.lc.back();
     }
   }
+
+  Back(){
+    this.lc.back();
+  }
+
+
 
   AddDefaultRating() {
 

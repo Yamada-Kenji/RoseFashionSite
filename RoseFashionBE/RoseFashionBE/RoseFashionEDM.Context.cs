@@ -213,6 +213,15 @@ namespace RoseFashionBE
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fn_GetNewestProduct_Result>("[RoseFashionDBEntities].[fn_GetNewestProduct](@quantity)", quantityParameter);
         }
     
+        public virtual int proc_RemoveOldRecommendation(string userid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("proc_RemoveOldRecommendation", useridParameter);
+        }
+    
         [DbFunction("RoseFashionDBEntities", "fn_CheckingIfProductWasPurchasedByUser")]
         public virtual IQueryable<fn_CheckingIfProductWasPurchasedByUser_Result> fn_CheckingIfProductWasPurchasedByUser(string userid, string productid)
         {
@@ -225,15 +234,6 @@ namespace RoseFashionBE
                 new ObjectParameter("productid", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fn_CheckingIfProductWasPurchasedByUser_Result>("[RoseFashionDBEntities].[fn_CheckingIfProductWasPurchasedByUser](@userid, @productid)", useridParameter, productidParameter);
-        }
-    
-        public virtual int proc_RemoveOldRecommendation(string userid)
-        {
-            var useridParameter = userid != null ?
-                new ObjectParameter("userid", userid) :
-                new ObjectParameter("userid", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("proc_RemoveOldRecommendation", useridParameter);
         }
     }
 }

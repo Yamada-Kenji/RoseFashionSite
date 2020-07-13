@@ -153,7 +153,7 @@ export class AppComponent {
       var msg: MessageModel = { Title: 'Thông báo', Content: 'Tài khoản hoặc mật khẩu không chính xác.', BackToHome: false};
       this.messageService.SendMessage(msg);
     } else {
-      var msg: MessageModel = { Title: 'Thông báo', Content: 'Đăng nhập thành công.', BackToHome: false };
+      var msg: MessageModel = { Title: 'Thông báo', Content: 'Đăng nhập thành công.', BackToHome: true };
       this.messageService.SendMessage(msg);
       this.router.navigate(['/home']);
       //window.location.reload();

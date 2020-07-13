@@ -1,0 +1,42 @@
+<h1 class="d-flex justify-content-center">Nhập hàng</h1>
+<div class="d-flex justify-content-center">
+<input type="text" placeholder="Mã sản phẩm" [(ngModel)]="productid" (keydown.enter)="Search()">
+<button class="btn btn-dark" style="margin-left: 10px;" (click)="Search()">Tìm kiếm</button>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2"><h5>Mã sản phẩm:</h5></div>
+        <div class="col-sm-2"><h5>{{product.ProductID}}</h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h5>Tên sản phẩm:</h5></div>
+        <div class="col-sm-10"><h5>{{product.Name}}</h5></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h5>Kích thước:</h5></div>
+        <div class="col-sm-2">S</div>
+        <div class="col-sm-2">M</div>
+        <div class="col-sm-2">L</div>
+        <div class="col-sm-2">XL</div>
+        <div class="col-sm-2">XXL</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h5>Số lượng trong kho:</h5></div>
+        <div class="col-sm-2">{{product.Quantity[0]}}</div>
+        <div class="col-sm-2">{{product.Quantity[1]}}</div>
+        <div class="col-sm-2">{{product.Quantity[2]}}</div>
+        <div class="col-sm-2">{{product.Quantity[3]}}</div>
+        <div class="col-sm-2">{{product.Quantity[4]}}</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h5>Số lượng nhập thêm:</h5></div>
+        <div class="col-sm-2"><input type="number" min="0" max="9999" [(ngModel)]="newquantity[0]" (click)="quantity1.select()" #quantity1></div>
+        <div class="col-sm-2"><input type="number" min="0" max="9999" [(ngModel)]="newquantity[1]" (click)="quantity2.select()" #quantity2></div>
+        <div class="col-sm-2"><input type="number" min="0" max="9999" [(ngModel)]="newquantity[2]" (click)="quantity3.select()" #quantity3></div>
+        <div class="col-sm-2"><input type="number" min="0" max="9999" [(ngModel)]="newquantity[3]" (click)="quantity4.select()" #quantity4></div>
+        <div class="col-sm-2"><input type="number" min="0" max="9999" [(ngModel)]="newquantity[4]" (click)="quantity5.select()" #quantity5></div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <button class="btn btn-dark" style="margin: 10px 0px 10px 0px" (click)="UpdateQuantity()">Thêm vào kho</button>
+    </div>
+</div>

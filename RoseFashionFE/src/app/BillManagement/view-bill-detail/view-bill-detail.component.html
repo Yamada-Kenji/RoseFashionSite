@@ -97,7 +97,7 @@
             <div class="col d-flex justify-content-center" style="margin-bottom: 10px; margin-top: 10px;">
                 <p *ngIf="item.OriginalPrice!=item.SalePrice" style="text-decoration: line-through;">
                     {{item.OriginalPrice | number}} VNĐ</p>
-                <p class="d-inline">{{item.SalePrice}} VNĐ</p>
+                <p class="d-inline">{{item.SalePrice | number}} VNĐ</p>
                 <p *ngIf="item.OriginalPrice!=item.SalePrice" class="d-inline" style="color: red;">
                     (-{{(item.OriginalPrice-item.SalePrice)*100/item.OriginalPrice | number}}%)</p>
             </div>

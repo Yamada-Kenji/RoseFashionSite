@@ -144,7 +144,7 @@ namespace RoseFashionBE.Controllers
                 using (var entity = new RoseFashionDBEntities())
                 {
                     ProductModel result = null;
-                    result = entity.Products.Where(p => p.ProductID == pid)
+                    result = entity.Products.Where(p => p.ProductID == pid && p.IsDeleted == false)
                         .Select(p => new ProductModel()
                         {
                             ProductID = p.ProductID,
@@ -258,7 +258,7 @@ namespace RoseFashionBE.Controllers
                         string id = result[i].ProductID;
                         result[i].Quantity = new int[1];
                         result[i].Quantity[0] = entity.Product_Size_Quantity.Where(p => p.ProductID == id).Sum(p => p.Quantity);
-                        //GetProductSizeAndQuantity(result[i], id);
+                        GetProductSizeAndQuantity(result[i], id);
                         if (entity.Product_Size_Quantity.Any(p => p.ProductID == id && p.Quantity > 0))
                         {
                             result[i].SoldOut = false;   

@@ -139,11 +139,11 @@ namespace RoseFashionBE.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult UpdateProductQuantity(string status,CartModel[] items)
+        public IHttpActionResult UpdateProductQuantity(string action,CartModel[] items)
         {
             try
             {
-                bool success = UpdateQuantity(status, items);
+                bool success = UpdateQuantity(action, items);
                 if (success == false) return BadRequest("Update fail.");
                 return Ok("OK");
             }
@@ -153,7 +153,7 @@ namespace RoseFashionBE.Controllers
             }
         }
 
-        bool UpdateQuantity(string status, CartModel[] items)
+        bool UpdateQuantity(string action, CartModel[] items)
         {
             using (var entity = new RoseFashionDBEntities())
             {
@@ -162,7 +162,7 @@ namespace RoseFashionBE.Controllers
                     string pid = items[i].ProductID;
                     string size = items[i].Size;
                     var product = entity.Product_Size_Quantity.Where(p => p.ProductID == pid && p.Size == size).FirstOrDefault();
-                    if (status.Equals("cancel")) product.Quantity += items[i].Amount;
+                    if (action.Equals("add")) product.Quantity += items[i].Amount;
                     else
                     {
                         if (product.Quantity >= items[i].Amount) product.Quantity -= items[i].Amount;

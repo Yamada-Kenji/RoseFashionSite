@@ -222,6 +222,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_RemoveOldRecommendation" FunctionName="RoseFashionDBModel.Store.proc_RemoveOldRecommendation" />
     <FunctionImportMapping FunctionImportName="fn_CheckingIfProductWasPurchasedByUser" FunctionName="RoseFashionDBModel.Store.fn_CheckingIfProductWasPurchasedByUser">
       <ResultMapping>
         <ComplexTypeMapping TypeName="RoseFashionDBModel.fn_CheckingIfProductWasPurchasedByUser_Result">
@@ -231,6 +232,5 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="proc_RemoveOldRecommendation" FunctionName="RoseFashionDBModel.Store.proc_RemoveOldRecommendation" />
   </EntityContainerMapping>
 </Mapping>

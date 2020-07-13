@@ -19,8 +19,13 @@
             <p>Điện thoại: {{billinfo.ReceiverPhone}}</p>
         </div>
         <div class="col">
-            <p>Ngày nhận hàng: <input *ngIf="statuscode==3" id="dldate" type="date" [ngModel]="billinfo.DeliveryDate | date: 'yyyy-MM-dd'"
-                (ngModelChange)="billinfo.DeliveryDate=$event"></p>
+            <p *ngIf="textonly;else selectdate">Ngày nhận hàng:
+                {{billinfo.DeliveryDate | date: 'dd/MM/yyyy'}}</p>
+            <ng-template #selectdate>
+                <p>Ngày nhận hàng: <input *ngIf="statuscode==3" id="dldate" type="date"
+                        [ngModel]="billinfo.DeliveryDate | date: 'yyyy-MM-dd'"
+                        (ngModelChange)="billinfo.DeliveryDate=$event"></p>
+            </ng-template>
         </div>
     </div>
 
@@ -47,15 +52,18 @@
             <p>Địa chỉ: {{billinfo.DeliveryAddress}}</p>
         </div>
         <div class="col">
-            <p>Trạng thái:
-                <select [(ngModel)]="statuscode">
-                    <option value="0">Đang chờ xác nhận</option>
-                    <option value="1">Đã xác nhận</option>
-                    <option value="2">Đang giao hàng</option>
-                    <option value="3">Đã thanh toán</option>
-                    <option value="4">Đã hủy</option>
-                </select>
-            </p>
+            <p *ngIf="textonly;else showselect">Trạng thái: {{billinfo.Status}}</p>
+            <ng-template #showselect>
+                <p>Trạng thái:
+                    <select [(ngModel)]="statuscode" (change)="StatusChanged()">
+                        <option value="0" [disabled]="disablelist[0]">Đang chờ xác nhận</option>
+                        <option value="1" [disabled]="disablelist[1]">Đã xác nhận</option>
+                        <option value="2" [disabled]="disablelist[2]">Đang giao hàng</option>
+                        <option value="3" [disabled]="disablelist[3]">Đã thanh toán</option>
+                        <option value="4" [disabled]="disablelist[4]">Đã hủy</option>
+                    </select>
+                </p>
+            </ng-template>
         </div>
     </div>
 
@@ -105,8 +113,12 @@
     </div> -->
 
     <div class="row d-flex justify-content-end" style="background-color: whitesmoke;">
-        <button class="btn btn-dark" (click)="Save()">Lưu</button>
+
         <button class="btn btn-dark" style="margin-left: 10px;" (click)="generatePdf()">In hóa đơn</button>
+
+        <button class="btn btn-dark" (click)="Back()" style="margin-right: 5px;">Quay lại</button>
+        <button class="btn btn-dark" (click)="Save()" [disabled]="notchanged">Lưu</button>
+
         <!-- <button class="btn btn-dark" (click)="Cancel()" style="margin-left: 10px;">Hủy</button> -->
     </div>
     <!-- <div class="col">
@@ -147,8 +159,7 @@
         <div class="row" *ngFor="let item of usedcart"
             style="border-bottom: 1px solid black; background-color: whitesmoke; width: -webkit-fill-available;">
             <div class="col">
-                <img width="204px" height="240px" style="margin-bottom: 10px; margin-top: 10px;"
-                    [src]="item.Image">
+                <img width="204px" height="240px" style="margin-bottom: 10px; margin-top: 10px;" [src]="item.Image">
             </div>
             <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
                 <p>{{item.Name}} - Size: {{item.Size}}</p>
@@ -167,7 +178,7 @@
             <div class="col" style="margin-bottom: 10px; margin-top: 10px;">
                 <p *ngIf="item.OriginalPrice!=item.SalePrice" style="text-decoration: line-through;">
                     {{item.OriginalPrice | number}} VNĐ</p>
-                <p class="d-inline">{{item.SalePrice}} VNĐ</p>
+                <p class="d-inline">{{item.SalePrice | number}} VNĐ</p>
                 <p *ngIf="item.OriginalPrice!=item.SalePrice" class="d-inline" style="color: red;">
                     (-{{(item.OriginalPrice-item.SalePrice)*100/item.OriginalPrice | number}}%)</p>
             </div>

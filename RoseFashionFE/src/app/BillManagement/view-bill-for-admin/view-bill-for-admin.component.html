@@ -1,5 +1,5 @@
 <div class="container" style="width:device-width;">
-    <h1 class="d-flex justify-content-center">Danh sách hóa đơn</h1>
+    <h1 class="d-flex justify-content-center">Danh sách đơn hàng</h1>
     <!-- <button class="btn btn-dark" [routerLink]="['/add-product']" routerLinkActive="router-link-active">Thêm sản
         phẩm</button>
     <p></p> -->
@@ -7,7 +7,7 @@
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th class="col-head" (click)="ChangeSortColumn(1)">Mã hóa đơn 
+                    <th class="col-head" (click)="ChangeSortColumn(1)">Mã đơn hàng
                         <i *ngIf="sortcolumn!=1; else updown1" class="fas fa-sort"></i>
                         <ng-template #updown1>
                             <i *ngIf="asc" class="fas fa-sort-up"></i>

@@ -67,6 +67,8 @@ import { ConfirmPassComponent } from './accountmanagerment/reset-password/confir
 
 import { QuickRatingComponent } from './Others/quick-rating/quick-rating.component';
 import { ImportProductComponent } from './ProductManagement/import-product/import-product.component';
+//scroll
+import { ScrollToBottomDirective } from './chatbot/scroll-to-bottom.directive';
 
 
 export function socialConfigs() {  
@@ -117,9 +119,8 @@ export function socialConfigs() {
     
 
     QuickRatingComponent,
-    
-
-    ImportProductComponent
+    ImportProductComponent,
+    ScrollToBottomDirective
 
   ],
   imports: [

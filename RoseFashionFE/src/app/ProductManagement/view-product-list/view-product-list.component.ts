@@ -53,7 +53,7 @@ export class ViewProductListComponent implements OnInit {
   async DeleteMultipleProduct() {
     if (confirm('Bạn có chắc chắn muốn thực hiện thao tác này không?')) {
       await this.productService.DeleteMultipleProducts(this.removelist)
-        .toPromise().then(r => console.log(r), err => console.log(err));
+        .toPromise().then(r => alert("Xóa sản phẩm thành công."), err => alert("Xóa sản phẩm thất bại."));
       this.GetProductList();
     }
   }

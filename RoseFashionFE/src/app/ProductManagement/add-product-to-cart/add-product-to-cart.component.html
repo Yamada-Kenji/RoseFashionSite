@@ -75,8 +75,16 @@
                         </tbody>
                     </table>
                     <p>Số lượng</p>
+                    <div class="container" style="padding-left: 0px;">
+                    <div class="row">
+                    <div class="col-sm-2">
                     <input class="form-control" style="max-width: 100px;" type="number" min="1" max="{{maxamount}}"
                         #amount [(ngModel)]="inputamount" (change)="OnAmountChange()" value="1">
+                        </div>
+                        <div class="col">
+                        <p *ngIf="selectedsize">Tối đa {{maxamount}} sản phẩm</p>
+                        </div></div>
+                    </div>
                     <p></p>
                     <p>Giá</p>
                     <h3 *ngIf="product.DiscountPercent!=0" style="text-decoration: line-through;">{{product.Price | number}} VNĐ</h3>

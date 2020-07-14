@@ -22,6 +22,7 @@ export class StatisticByYearComponent implements OnInit {
     localStorage.setItem('keyword', '');
     await this.getYear();
     // this.getsumbyyear(2016,2021);
+    this.getsumbyyear(2020,2020);
 
   }
   getYear(): void {

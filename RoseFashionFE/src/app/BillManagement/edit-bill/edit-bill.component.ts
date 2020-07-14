@@ -175,6 +175,7 @@ export class EditBillComponent implements OnInit {
                 dataRow.push(sourceRow.Size);
                 dataRow.push(sourceRow.Amount);
                 dataRow.push(sourceRow.OriginalPrice);
+                dataRow.push(sourceRow.SalePrice);
                 bodyData.push(dataRow)
               });
                             //

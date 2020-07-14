@@ -7,6 +7,7 @@ using System.Web.Http;
 using RoseFashionBE.Models;
 using System.Web.Http.Cors;
 using System.Web;
+using System.IO;
 
 namespace RoseFashionBE.Controllers
 {
@@ -27,7 +28,9 @@ namespace RoseFashionBE.Controllers
                     if (existedproduct == true) return BadRequest("This product already exists.");
 
                     newproduct.ProductID = "PR-" + (entity.Products.Count() + 1);
-                    string imagepath = serverAddress + "/images/" + newproduct.ProductID + ".png";
+                    var randomcode = Guid.NewGuid();
+                    string imagename = newproduct.ProductID + "-" + randomcode + ".png";
+                    string imagepath = serverAddress + "/images/" + imagename;
                     entity.Products.Add(new Product
                     {
                         ProductID = newproduct.ProductID,
@@ -50,7 +53,7 @@ namespace RoseFashionBE.Controllers
                         });
                         entity.SaveChanges();
                     }               
-                    return Ok(newproduct.ProductID);
+                    return Ok(imagename);
                 }
             }
             catch (Exception ex)
@@ -66,12 +69,18 @@ namespace RoseFashionBE.Controllers
             {
                 using (var entity = new RoseFashionDBEntities())
                 {
+
                     //kiểm tra sản phẩm có tồn tại hay không
                     var existedproduct = entity.Products.Where(p => p.ProductID == editedproduct.ProductID).FirstOrDefault();
                     if (existedproduct == null) return BadRequest("Product not found.");
                     //nếu có => thay đổi các thuộc tính
+
+                    //bỏ ảnh cũ thay ảnh mới
+                    if (RemoveOldImage(existedproduct.Image) == false) return BadRequest("Fail to remove image");
                     existedproduct.Name = editedproduct.Name;
-                    existedproduct.Image = serverAddress + "/images/" + editedproduct.ProductID + ".png";
+                    var randomcode = Guid.NewGuid();
+                    string imagename = editedproduct.ProductID + "-" + randomcode + ".png";
+                    existedproduct.Image = serverAddress + "/images/" + imagename;
                     existedproduct.CategoryID = editedproduct.CategoryID;
                     existedproduct.Price = editedproduct.Price;
                     existedproduct.DiscountPercent = editedproduct.DiscountPercent;
@@ -82,7 +91,7 @@ namespace RoseFashionBE.Controllers
                         currentquantity.Quantity = editedproduct.Quantity[i];
                     }
                     entity.SaveChanges();
-                    return Ok("Update product successfully.");
+                    return Ok(imagename);
                 }
             }
             catch (Exception ex)
@@ -460,15 +469,37 @@ namespace RoseFashionBE.Controllers
             try
             {
                 var httpRequest = HttpContext.Current.Request;
-                var pid = httpRequest.Params["productid"];
+                var imagename = httpRequest.Params["imagename"];
                 var image = httpRequest.Files[0];
-                var newPath = HttpContext.Current.Server.MapPath("~/images/" + pid + ".png");
+                var newPath = HttpContext.Current.Server.MapPath("~/images/" + imagename);
                 image.SaveAs(newPath);
                 return Ok();
             }
             catch (Exception ex)
             {
                 return InternalServerError(ex);
+            }
+        }
+
+        private bool RemoveOldImage(string imagepath)
+        {
+            try
+            {
+                string temp = imagepath.Replace(serverAddress, "~");
+                string serverpath = HttpContext.Current.Server.MapPath(temp);
+                if (File.Exists(serverpath))
+                {
+                    File.Delete(serverpath);
+                }
+                else
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
             }
         }
 

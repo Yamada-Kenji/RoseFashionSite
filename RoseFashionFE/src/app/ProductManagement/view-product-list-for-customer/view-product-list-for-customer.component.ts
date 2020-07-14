@@ -111,6 +111,7 @@ export class ViewProductListForCustomerComponent implements OnInit {
     if (categoryid == 'all') await this.GetProductList();
     else await this.GetProductByCategory(categoryid);
     this.pageconfig.currentPage = 1;
+    window.scrollTo(0,0);
   }
 
   GetColor(categoryid) {

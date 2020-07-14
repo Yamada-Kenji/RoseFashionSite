@@ -196,10 +196,7 @@ export class EditBillComponent implements OnInit {
                   text:'Địa chỉ: ' + this.billinfo.DeliveryAddress +', '+ this.billinfo.DistrictName + ', '+ this.billinfo.ProvinceName,
                  },
                  {
-                    /*table: {
-                      header: header,
-                    body: bodyData
-                        },*/
+                
                         table: {
                           headerRows: 1,
                           widths: [ '*', 'auto', 100, '*' ],

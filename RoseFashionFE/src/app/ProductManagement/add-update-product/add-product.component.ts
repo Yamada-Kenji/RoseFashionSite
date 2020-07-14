@@ -123,6 +123,7 @@ export class AddProductComponent implements OnInit {
     }
     if (this.addfunction == true) this.AddProduct();
     else this.UpdateProduct();
+    window.scrollTo(0, 0);
   }
 
   Cancel() {
@@ -180,9 +181,9 @@ export class AddProductComponent implements OnInit {
       .toPromise().then(r => {
         const formData = new FormData();
         formData.append('filetoupload', this.uploadForm.get('selectedfile').value);
-        formData.append('productid', r);
+        formData.append('imagename', r);
 
-        console.log(formData.get('productid'));
+        console.log(formData.get('imagename'));
         this.productService.UploadImage(formData).subscribe(
           res => {
             this.loading = false;
@@ -221,13 +222,13 @@ export class AddProductComponent implements OnInit {
   UpdateProduct() {
     this.loading = true;
     this.productService.UpdateProduct(this.product)
-      .toPromise().then(() => {
+      .toPromise().then(r => {
         if (this.filechanged) {
           const formData = new FormData();
           formData.append('filetoupload', this.uploadForm.get('selectedfile').value);
-          formData.append('productid', this.product.ProductID);
+          formData.append('imagename', r);
 
-          console.log(formData.get('productid'));
+          console.log(formData.get('imagename'));
           this.productService.UploadImage(formData).subscribe(
             res => {
               this.loading = false;

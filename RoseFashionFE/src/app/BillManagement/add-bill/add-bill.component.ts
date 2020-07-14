@@ -96,6 +96,7 @@ export class AddBillComponent implements OnInit {
       return;
     }
     this.loading = true;
+    var action = 'none';
     var items: CartModel[] = JSON.parse(localStorage.getItem('MyCart'));
     var cartid = localStorage.getItem('CartID');
     this.billinfo.CartID = cartid;
@@ -109,6 +110,7 @@ export class AddBillComponent implements OnInit {
     if (this.creditcard == true) {
       this.billinfo.PaymentMethod = "Thẻ tín dụng";
       this.billinfo.Status = 'Đã thanh toán';
+      action = 'subtract';
     }
     // var billinfo: BillModel = {
     //   BillID: '',
@@ -126,7 +128,7 @@ export class AddBillComponent implements OnInit {
     //   .then(() => {
     this.billService.AddBillForMember(this.billinfo)
       .toPromise().then(() => 
-        this.cartService.UpdateProductQuantity('subtract', items).toPromise().then(()=>
+        this.cartService.UpdateProductQuantity(action, items).toPromise().then(()=>
         this.cartService.GetLastUsedCart(this.user.UserID).toPromise()
         .then(result => {
           localStorage.setItem('CartID', result);

@@ -74,10 +74,11 @@ export class ViewProductListComponent implements OnInit {
     this.Sort(col);
   }
 
-  Search(input) {
+  Search(input: string) {
+    var lowerinput = input.toLowerCase();
     localStorage.setItem('keyword', input);
     if (input != '') {
-      this.viewlist = this.productlist.filter(p => p.Name.toLowerCase().includes(input) || p.ProductID.toLowerCase().includes(input));
+      this.viewlist = this.productlist.filter(p => p.Name.toLowerCase().includes(lowerinput) || p.ProductID.toLowerCase().includes(lowerinput));
     }
     else {
       this.viewlist = this.productlist;

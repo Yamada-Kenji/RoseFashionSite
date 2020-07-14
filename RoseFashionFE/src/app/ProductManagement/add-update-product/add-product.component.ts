@@ -90,6 +90,7 @@ export class AddProductComponent implements OnInit {
 
       reader.onload = (event) => { // called once readAsDataURL is completed
         this.currentimage = this.tempimage = reader.result.toString();
+        this.product.Image='changed';
       }
     }
     else {

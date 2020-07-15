@@ -167,17 +167,21 @@ export class EditBillComponent implements OnInit {
           .then(items => {this.usedcart = items;
               //
               var bodyData = [];
-              var header = ['Tên sản phẩm','Size','Số lượng','Giá bán'];
-              bodyData.push(header)
+
+              var header = ['Tên sản phẩm','Size','Số lượng','Giá bán (VNĐ)'];
+              
+              bodyData.push(header);
+
               this.usedcart.forEach(function(sourceRow) {
                 var dataRow = [];
-
                 dataRow.push(sourceRow.Name);
                 dataRow.push(sourceRow.Size);
                 dataRow.push(sourceRow.Amount);
-                dataRow.push(sourceRow.SalePrice);
-                bodyData.push(dataRow)
+                //dataRow.push(sourceRow.OriginalPrice);
+                dataRow.push(sourceRow.SalePrice.toLocaleString());
+                bodyData.push(dataRow);
               });
+              //console.log(bodyData);
                             //
               const documentDefinition = {  content: [
                 {
@@ -207,7 +211,7 @@ export class EditBillComponent implements OnInit {
                  },
                  
                  {
-                  text:'Tổng tiền: ' + this.billinfo.TotalPrice,
+                  text:'Tổng tiền: ' + this.billinfo.TotalPrice.toLocaleString() + ' VNĐ',
                  },
                 
                 ],

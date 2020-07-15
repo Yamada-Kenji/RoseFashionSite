@@ -75,6 +75,7 @@ export class ViewUserRatingComponent implements OnInit {
             }
           });
         this.addrating = !this.addrating;
+        window.location.reload();
       }).catch(err => alert("Gửi đánh giá thất bại"));
   }
 

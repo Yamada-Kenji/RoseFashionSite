@@ -76,11 +76,15 @@ namespace RoseFashionBE.Controllers
                     //nếu có => thay đổi các thuộc tính
 
                     //bỏ ảnh cũ thay ảnh mới
-                    if (RemoveOldImage(existedproduct.Image) == false) return BadRequest("Fail to remove image");
+                    string imagename = "";
+                    if (editedproduct.Image.Equals("changed"))
+                    {
+                        if (RemoveOldImage(existedproduct.Image) == false) return BadRequest("Fail to remove image");
+                        var randomcode = Guid.NewGuid();
+                        imagename = editedproduct.ProductID + "-" + randomcode + ".png";
+                        existedproduct.Image = serverAddress + "/images/" + imagename;
+                    }
                     existedproduct.Name = editedproduct.Name;
-                    var randomcode = Guid.NewGuid();
-                    string imagename = editedproduct.ProductID + "-" + randomcode + ".png";
-                    existedproduct.Image = serverAddress + "/images/" + imagename;
                     existedproduct.CategoryID = editedproduct.CategoryID;
                     existedproduct.Price = editedproduct.Price;
                     existedproduct.DiscountPercent = editedproduct.DiscountPercent;
@@ -470,9 +474,12 @@ namespace RoseFashionBE.Controllers
             {
                 var httpRequest = HttpContext.Current.Request;
                 var imagename = httpRequest.Params["imagename"];
-                var image = httpRequest.Files[0];
-                var newPath = HttpContext.Current.Server.MapPath("~/images/" + imagename);
-                image.SaveAs(newPath);
+                if (imagename != "")
+                {
+                    var image = httpRequest.Files[0];
+                    var newPath = HttpContext.Current.Server.MapPath("~/images/" + imagename);
+                    image.SaveAs(newPath);
+                }
                 return Ok();
             }
             catch (Exception ex)
@@ -490,10 +497,6 @@ namespace RoseFashionBE.Controllers
                 if (File.Exists(serverpath))
                 {
                     File.Delete(serverpath);
-                }
-                else
-                {
-                    return false;
                 }
                 return true;
             }

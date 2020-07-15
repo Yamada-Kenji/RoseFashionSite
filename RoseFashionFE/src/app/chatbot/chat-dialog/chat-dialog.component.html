@@ -76,6 +76,8 @@
       <div class="message" [ngClass]="{ 'from': message.sentBy === 'bot',
                                         'to':   message.sentBy === 'user' }">
         {{ message.content }}
+        <!-- <img [src]="message.imgurl" style="height: 50px; width: 30px;"> -->
+        <a [href]="message.imgurl" *ngIf="message.imgurl">đây</a>
       </div>
   
     </ng-container>

@@ -28,12 +28,14 @@ export class ChatDialogComponent implements OnInit {
 
     this.messages = this.chat.conversation.asObservable().pipe(
       scan((acc, val) => acc.concat(val) )
-    )
+    );
+    
 
   }
 
   sendMessage() {
     this.chat.converse(this.formValue);
+    console.log(this.messages);
     this.formValue = '';
   }
 

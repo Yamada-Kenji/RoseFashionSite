@@ -29,5 +29,6 @@ export class MessageModalComponent implements OnInit {
     if (this.message.BackToHome == true) {
       this.router.navigate(['/home']);
     }
+    //else window.location.reload();
   }
 }

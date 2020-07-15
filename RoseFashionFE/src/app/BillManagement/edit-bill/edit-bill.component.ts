@@ -167,7 +167,8 @@ export class EditBillComponent implements OnInit {
           .then(items => {this.usedcart = items;
               //
               var bodyData = [];
-              var header = ['Tên sản phẩm','Size','Số lượng','Giá'];
+              var header = ['Tên sản phẩm','Size','Số lượng','Giá bán'];
+              bodyData.push(header)
               this.usedcart.forEach(function(sourceRow) {
                 var dataRow = [];
 
